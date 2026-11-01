@@ -7,6 +7,7 @@ use App\Models\Feature;
 use App\Models\HelpArticle;
 use App\Models\HelpCategory;
 use App\Models\Industry;
+use App\Models\Post;
 use App\Models\PricingPlan;
 use Illuminate\Http\Response;
 
@@ -53,13 +54,16 @@ class PageController extends Controller
     public function sitemap(): Response
     {
         $locales = array_keys(config('site.locales'));
-        $paths = ['', '/features', '/industries', '/pricing', '/faq', '/about', '/security', '/help', '/contact', '/demo', '/login', '/terms', '/privacy'];
+        $paths = ['', '/features', '/industries', '/pricing', '/faq', '/about', '/security', '/help', '/blog', '/contact', '/demo', '/login', '/terms', '/privacy'];
 
         foreach (Feature::published()->get() as $feature) {
             $paths[] = '/features/'.$feature->slug;
         }
         foreach (Industry::published()->get() as $industry) {
             $paths[] = '/industries/'.$industry->slug;
+        }
+        foreach (Post::live()->get() as $post) {
+            $paths[] = '/blog/'.$post->slug;
         }
         foreach (HelpCategory::published()->get() as $category) {
             $paths[] = '/help/'.$category->slug;

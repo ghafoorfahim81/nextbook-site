@@ -39,7 +39,7 @@
         <nav class="hidden items-center gap-1 lg:flex" aria-label="Main">
             @foreach ([
                 ['features.index', 'features'], ['industries.index', 'industries'], ['pricing', 'pricing'],
-                ['help.index', 'help'], ['contact', 'contact'],
+                ['help.index', 'help'], ['blog.index', 'blog'], ['contact', 'contact'],
             ] as [$routeName, $key])
                 <a href="{{ route($routeName) }}"
                    class="rounded-lg px-3 py-2 text-sm font-medium {{ request()->routeIs(Str::before($routeName, '.').'*') ? 'bg-brand-50 text-brand-700' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900' }}">
@@ -50,8 +50,8 @@
 
         <div class="hidden items-center gap-2 lg:flex">
             @include('partials.lang-switch')
-            <a href="{{ route('login') }}" class="btn btn-outline h-10 py-0">{{ __('site.nav.login') }}</a>
-            <a href="{{ route('demo') }}" class="btn btn-primary h-10 py-0">{{ __('site.nav.demo') }}</a>
+            <a href="{{ route('login') }}" class="btn btn-sm btn-outline">{{ __('site.nav.login') }}</a>
+            <a href="{{ route('demo') }}" class="btn btn-sm btn-primary">{{ __('site.nav.demo') }}</a>
         </div>
 
         <button id="nav-toggle" type="button" class="rounded-lg p-2 text-slate-700 hover:bg-slate-100 lg:hidden"
@@ -64,7 +64,7 @@
         <div class="container-page flex flex-col gap-1 py-3">
             @foreach ([
                 ['features.index', 'features'], ['industries.index', 'industries'], ['pricing', 'pricing'],
-                ['help.index', 'help'], ['contact', 'contact'],
+                ['help.index', 'help'], ['blog.index', 'blog'], ['contact', 'contact'],
             ] as [$routeName, $key])
                 <a href="{{ route($routeName) }}" class="rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50">
                     {{ __('site.nav.'.$key) }}
@@ -72,8 +72,8 @@
             @endforeach
             <div class="mt-2 flex flex-wrap items-center gap-2">
                 @include('partials.lang-switch')
-                <a href="{{ route('login') }}" class="btn btn-outline h-10 py-0">{{ __('site.nav.login') }}</a>
-                <a href="{{ route('demo') }}" class="btn btn-primary h-10 py-0">{{ __('site.nav.demo') }}</a>
+                <a href="{{ route('login') }}" class="btn btn-sm btn-outline">{{ __('site.nav.login') }}</a>
+                <a href="{{ route('demo') }}" class="btn btn-sm btn-primary">{{ __('site.nav.demo') }}</a>
             </div>
         </div>
     </div>
@@ -102,6 +102,7 @@
             <h4 class="mb-3 text-sm">{{ __('site.footer.support') }}</h4>
             <ul class="space-y-2 text-sm text-slate-600">
                 <li><a class="hover:text-brand-600" href="{{ route('help.index') }}">{{ __('site.nav.help') }}</a></li>
+                <li><a class="hover:text-brand-600" href="{{ route('blog.index') }}">{{ __('site.nav.blog') }}</a></li>
                 <li><a class="hover:text-brand-600" href="{{ route('faq') }}">{{ __('site.footer.faq') }}</a></li>
                 <li><a class="hover:text-brand-600" href="{{ route('contact') }}">{{ __('site.nav.contact') }}</a></li>
                 <li><a class="hover:text-brand-600" href="{{ route('about') }}">{{ __('site.footer.about') }}</a></li>

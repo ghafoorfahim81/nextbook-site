@@ -8,6 +8,7 @@ use App\Models\Feature;
 use App\Models\HelpArticle;
 use App\Models\HelpCategory;
 use App\Models\Industry;
+use App\Models\Post;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -27,7 +28,7 @@ class PublicSiteTest extends TestCase
     {
         foreach (['fa', 'en'] as $locale) {
             foreach (['', '/features', '/features/inventory', '/industries', '/industries/pharmacy', '/pricing', '/faq',
-                '/about', '/security', '/help', '/contact', '/demo', '/login', '/terms', '/privacy'] as $path) {
+                '/about', '/security', '/help', '/contact', '/demo', '/login', '/terms', '/privacy', '/blog', '/blog/draft-post-reverse'] as $path) {
                 $this->get("/{$locale}{$path}")->assertOk();
             }
         }
@@ -202,6 +203,34 @@ class PublicSiteTest extends TestCase
     {
         $this->get('/fa')->assertSee('images/screenshots/dashboard-fa.webp', false);
         $this->get('/en')->assertSee('images/screenshots/dashboard-en.webp', false);
+    }
+
+    public function test_the_blog_lists_live_posts_and_hides_drafts_and_scheduled_ones(): void
+    {
+        $this->get('/en/blog')->assertOk()
+            ->assertSee('Draft, post and reverse')
+            ->assertSee('min read');
+
+        Post::where('slug', 'draft-post-reverse')->update(['is_published' => false]);
+        $this->get('/en/blog/draft-post-reverse')->assertNotFound();
+
+        Post::where('slug', 'draft-post-reverse')->update(['is_published' => true, 'published_at' => now()->addDay()]);
+        $this->get('/en/blog/draft-post-reverse')->assertNotFound();
+        $this->get('/en/blog')->assertDontSee('Draft, post and reverse');
+    }
+
+    public function test_blog_dates_follow_the_visitors_calendar(): void
+    {
+        Post::where('slug', 'first-week-with-nextbook')->update(['published_at' => '2026-11-01 09:00:00']);
+
+        // 10 Aban 1405 in Persian digits on the Dari page, and the Gregorian date on the English one.
+        $this->get('/fa/blog/first-week-with-nextbook')->assertSee('۱۰ آبان ۱۴۰۵');
+        $this->get('/en/blog/first-week-with-nextbook')->assertSee('1 November 2026');
+    }
+
+    public function test_blog_posts_are_in_the_sitemap(): void
+    {
+        $this->get('/sitemap.xml')->assertSee('/fa/blog/draft-post-reverse', false)->assertSee('/en/blog/fifo-and-landed-costs', false);
     }
 
     public function test_sign_in_sends_the_visitor_to_their_companys_subdomain(): void

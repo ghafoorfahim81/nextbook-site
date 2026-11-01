@@ -2,6 +2,7 @@
 
 @source '../../storage/framework/views/*.php';
 @source '../views/**/*.blade.php';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 /* Column counts that views pick at runtime (steps, plans), so they cannot be found by scanning. */
 @source inline("md:grid-cols-{1,2,3,4}");
 
@@ -71,6 +72,10 @@
     }
     .btn {
         @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold transition;
+    }
+    /* The header controls: compact, and all one height. */
+    .btn-sm {
+        @apply h-9 gap-1.5 rounded-lg px-4 py-0 text-[13px];
     }
     .btn-primary {
         @apply bg-brand-500 text-white shadow-sm hover:bg-brand-600;

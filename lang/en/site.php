@@ -9,6 +9,7 @@ return [
         'industries' => 'Industries',
         'pricing' => 'Pricing',
         'help' => 'Help center',
+        'blog' => 'Blog',
         'contact' => 'Contact',
         'login' => 'Sign in',
         'demo' => 'Request a demo',
@@ -99,6 +100,15 @@ return [
         'cta' => 'Request a demo',
         'empty' => 'Prices will be published on this page soon. Contact us for a quote.',
         'faq_title' => 'Frequently asked questions',
+    ],
+
+    'blog' => [
+        'title' => 'Blog',
+        'intro' => 'Short, practical articles on running stock, sales and accounts better.',
+        'latest' => 'Latest',
+        'minutes' => ':n min read',
+        'more' => 'More articles',
+        'empty' => 'No articles have been published yet.',
     ],
 
     'faq' => [

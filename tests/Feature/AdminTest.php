@@ -9,6 +9,7 @@ use App\Filament\Resources\Features\Pages\ManageFeatures;
 use App\Filament\Resources\HelpArticles\Pages\ManageHelpArticles;
 use App\Filament\Resources\HelpCategories\Pages\ManageHelpCategories;
 use App\Filament\Resources\Industries\Pages\ManageIndustries;
+use App\Filament\Resources\Posts\Pages\ManagePosts;
 use App\Filament\Resources\PricingPlans\Pages\ManagePricingPlans;
 use App\Models\DemoRequest;
 use App\Models\Feature;
@@ -41,7 +42,7 @@ class AdminTest extends TestCase
 
         foreach ([
             ManageFeatures::class, ManageIndustries::class, ManagePricingPlans::class, ManageFaqs::class,
-            ManageHelpCategories::class, ManageHelpArticles::class, ManageDemoRequests::class, ManageContactMessages::class,
+            ManageHelpCategories::class, ManageHelpArticles::class, ManageDemoRequests::class, ManageContactMessages::class, ManagePosts::class,
         ] as $page) {
             Livewire::test($page)->assertSuccessful();
         }

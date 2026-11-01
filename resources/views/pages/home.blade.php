@@ -65,7 +65,7 @@
                 ['guides', $stats['guides']], ['languages', 3],
             ] as [$key, $value])
                 <div class="bg-white px-6 py-7 text-center">
-                    <dd class="text-gradient text-4xl font-extrabold">{{ Digits::localize($value) }}</dd>
+                    <dd class="text-3xl font-bold text-brand-600">{{ Digits::localize($value) }}</dd>
                     <dt class="mt-1 text-sm text-slate-600">{{ __('site.stats.'.$key) }}</dt>
                 </div>
             @endforeach
@@ -83,16 +83,7 @@
         </div>
         <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             @foreach ($features->take(6) as $feature)
-                <a href="{{ route('features.show', $feature) }}" class="card card-hover group">
-                    <span class="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-white shadow-md shadow-brand-500/25">
-                        <x-dynamic-component :component="'lucide-'.$feature->icon" class="h-6 w-6"/>
-                    </span>
-                    <h3 class="text-lg">{{ $feature->title }}</h3>
-                    <p class="mt-2 text-sm text-slate-600">{{ $feature->summary }}</p>
-                    <span class="mt-4 inline-flex items-center gap-1 text-sm font-bold text-brand-600">
-                        {{ __('site.read_more') }}<x-lucide-arrow-right class="h-4 w-4 transition group-hover:-translate-x-1 ltr:rotate-180 ltr:group-hover:translate-x-1"/>
-                    </span>
-                </a>
+                @include('partials.card-feature', ['feature' => $feature])
             @endforeach
         </div>
         <div class="mt-10"><a href="{{ route('features.index') }}" class="btn btn-outline">{{ __('site.home.features_all') }}</a></div>

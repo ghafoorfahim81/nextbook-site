@@ -38,6 +38,10 @@ requests and contact messages arrive under **Leads**.
 - Contact details, the customers' subdomain (`acme.nextbook.af`) and the WhatsApp number are in `config/site.php`
   (`SITE_TENANT_DOMAIN`, `SITE_TENANT_SCHEME` and `SITE_WHATSAPP` in `.env`).
 
+### Blog
+
+Articles are written in `/admin` under **Content → Posts**, in Dari, English and Pashto, with a rich-text editor. A post appears when it is switched on and its date has arrived, so a future date schedules it. Dates show in the Jalali calendar on the Dari pages. Three starter articles are seeded.
+
 ### Help center
 
 `database/data/manual.json` is the ERP user manual (15 guides, Dari / English / Pashto),
