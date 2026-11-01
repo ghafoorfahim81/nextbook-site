@@ -16,6 +16,11 @@ return [
     ],
 
     'hero' => [
+        'shot_alt' => 'The NextBook dashboard: cash and bank, receivables and payables, sales and purchases, and the stock picture',
+        'title_a' => 'Run your whole business',
+        'title_b' => 'in one system',
+        'float' => ['accounting' => 'Double-entry accounting', 'languages' => 'Dari · Pashto · English', 'calendar' => 'Jalali calendar'],
+        'frame_url' => 'your-company.nextbook.af',
         'eyebrow' => 'Built for Afghanistan',
         'title' => 'Run your whole business in one system',
         'text' => 'Inventory, purchasing, sales, cash and bank, expenses, accounting and HR. You enter each piece of information once and every other part of the system uses it.',
@@ -24,7 +29,21 @@ return [
         'chips' => ['Jalali and Gregorian calendars', 'Dari · Pashto · English', 'Multi-currency', 'Multi-branch'],
     ],
 
+    'stats' => [
+        'features' => 'working modules',
+        'industries' => 'business types with a ready setup',
+        'guides' => 'help articles',
+        'languages' => 'languages',
+    ],
     'home' => [
+        'start_eyebrow' => 'Getting started',
+        'start_title' => 'From a request to your first invoice',
+        'start' => [
+            ['title' => 'Request a demo', 'text' => 'We call you and show the system set up for your type of business.'],
+            ['title' => 'Your company address', 'text' => 'Each company has its own address, such as noor.nextbook.af, and its data is kept separate.'],
+            ['title' => 'Set up with the guide', 'text' => 'Enter your items, customers and opening balances following the first-week guide, and start the daily work.'],
+        ],
+        'start_guide' => 'See the getting-started guide',
         'features_eyebrow' => 'Features',
         'features_title' => 'Everything you need to run the day',
         'features_all' => 'All features',
@@ -44,6 +63,14 @@ return [
     ],
 
     'features' => [
+        'highlights_title' => 'Key capabilities',
+        'day_title' => 'In a working day',
+        'day_text' => 'How the daily work goes with this module.',
+        'also' => 'Also included',
+        'guide' => 'The full guide to this module',
+        'guide_text' => 'Step by step, with examples and answers to common questions.',
+        'guide_btn' => 'Read the guide',
+        'used_by' => 'Industries that rely on this module',
         'title' => 'Features',
         'intro' => 'Every part of the system shares one database, so information flows between them on its own.',
         'soon' => 'Coming soon',
@@ -53,6 +80,10 @@ return [
     ],
 
     'industries' => [
+        'highlights_title' => 'What is different for this trade',
+        'day_title' => 'A day with NextBook',
+        'features_title' => 'The modules this trade uses',
+        'also' => 'Also included',
         'title' => 'Industries',
         'intro' => 'NextBook has a ready setup for each type of business. You can switch any field on or off later.',
         'how' => 'What NextBook does',
@@ -147,6 +178,7 @@ return [
         'electronics' => 'Electronics',
         'jewellery' => 'Jewellery',
         'carpet' => 'Carpets',
+        'ply_carpet' => 'Plywood and carpet (feet/metre)',
         'automobile' => 'Automobiles',
         'book' => 'Books',
         'manufacturing' => 'Manufacturing',

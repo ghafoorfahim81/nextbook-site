@@ -34,7 +34,7 @@ return [
     // Business types offered in the demo request form. Keys match the ERP's BusinessType enum.
     'business_types' => [
         'pharmacy', 'supermarket', 'grocery', 'retail', 'clothing', 'mobile', 'computer', 'electronics',
-        'jewellery', 'carpet', 'automobile', 'book', 'manufacturing', 'pharma_manufacturing', 'hotel',
+        'jewellery', 'carpet', 'ply_carpet', 'automobile', 'book', 'manufacturing', 'pharma_manufacturing', 'hotel',
         'accounting', 'other',
     ],
 ];

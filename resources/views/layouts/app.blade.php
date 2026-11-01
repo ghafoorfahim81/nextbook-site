@@ -50,8 +50,8 @@
 
         <div class="hidden items-center gap-2 lg:flex">
             @include('partials.lang-switch')
-            <a href="{{ route('login') }}" class="btn btn-outline">{{ __('site.nav.login') }}</a>
-            <a href="{{ route('demo') }}" class="btn btn-primary">{{ __('site.nav.demo') }}</a>
+            <a href="{{ route('login') }}" class="btn btn-outline h-10 py-0">{{ __('site.nav.login') }}</a>
+            <a href="{{ route('demo') }}" class="btn btn-primary h-10 py-0">{{ __('site.nav.demo') }}</a>
         </div>
 
         <button id="nav-toggle" type="button" class="rounded-lg p-2 text-slate-700 hover:bg-slate-100 lg:hidden"
@@ -72,8 +72,8 @@
             @endforeach
             <div class="mt-2 flex flex-wrap items-center gap-2">
                 @include('partials.lang-switch')
-                <a href="{{ route('login') }}" class="btn btn-outline">{{ __('site.nav.login') }}</a>
-                <a href="{{ route('demo') }}" class="btn btn-primary">{{ __('site.nav.demo') }}</a>
+                <a href="{{ route('login') }}" class="btn btn-outline h-10 py-0">{{ __('site.nav.login') }}</a>
+                <a href="{{ route('demo') }}" class="btn btn-primary h-10 py-0">{{ __('site.nav.demo') }}</a>
             </div>
         </div>
     </div>

@@ -41,12 +41,21 @@ class IndustryResource extends Resource
                 collect(config('site.business_types'))->mapWithKeys(fn ($t) => [$t => $t])->all()
             )->helperText('The business type in the ERP that this page describes. The demo form preselects it.'),
             TextInput::make('icon')->required()->default('store')->helperText('A Lucide icon name. See lucide.dev/icons'),
+            \Filament\Forms\Components\CheckboxList::make('feature_slugs')->label('Modules this trade uses')
+                ->options(fn () => \App\Models\Feature::where('status', 'available')->orderBy('sort')->get()->mapWithKeys(fn ($f) => [$f->slug => $f->getTranslation('title', 'en', true)])->all())
+                ->columns(3)->columnSpanFull(),
             TextInput::make('sort')->numeric()->default(0),
             Toggle::make('is_published')->default(true),
             Translations::tabs(fn (string $l) => [
                 TextInput::make("title.$l")->label('Title')->required($l === 'fa'),
-                Textarea::make("summary.$l")->label('Summary')->rows(2)->required($l === 'fa'),
-                Repeater::make("points.$l")->label('What NextBook does for this business')->simple(TextInput::make('point')->required())->defaultItems(0),
+                Textarea::make("summary.$l")->label('Summary (one line)')->rows(2)->required($l === 'fa'),
+                Textarea::make("overview.$l")->label('Overview')->rows(6)->helperText('Separate paragraphs with a blank line.'),
+                Repeater::make("highlights.$l")->label('What is different for this trade')->schema([
+                    TextInput::make('title')->required(),
+                    Textarea::make('text')->rows(2)->required(),
+                ])->defaultItems(0)->collapsible()->itemLabel(fn (array $state) => $state['title'] ?? null),
+                Repeater::make("steps.$l")->label('A day with NextBook')->simple(TextInput::make('step')->required())->defaultItems(0),
+                Repeater::make("points.$l")->label('Also included')->simple(TextInput::make('point')->required())->defaultItems(0),
             ]),
         ]);
     }

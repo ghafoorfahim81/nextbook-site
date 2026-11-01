@@ -16,6 +16,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             FeatureSeeder::class,
             IndustrySeeder::class,
+            FeatureContentSeeder::class,
+            IndustryContentSeeder::class,
             FaqSeeder::class,
         ]);
     }

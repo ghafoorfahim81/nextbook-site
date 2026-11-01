@@ -7,6 +7,7 @@ use App\Models\DemoRequest;
 use App\Models\Feature;
 use App\Models\HelpArticle;
 use App\Models\HelpCategory;
+use App\Models\Industry;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -143,6 +144,64 @@ class PublicSiteTest extends TestCase
 
         $this->post("/en/help/article/{$article->id}/feedback", ['helpful' => 'yes']);
         $this->assertSame(1, $article->fresh()->helpful_yes);
+    }
+
+    public function test_detail_pages_carry_real_content_not_just_a_summary(): void
+    {
+        $this->get('/fa/features/sales')
+            ->assertSee('فروش سریع با بارکد')   // a highlight
+            ->assertSee('در یک روز کاری')        // the walk through a day
+            ->assertSee(route('help.category', ['locale' => 'fa', 'category' => 'sales']), false);
+
+        $this->get('/en/industries/pharmacy')
+            ->assertSee('Near expiry')
+            ->assertSee('A day with NextBook')
+            ->assertSee(route('features.show', ['locale' => 'en', 'feature' => 'inventory']), false);
+    }
+
+    public function test_every_feature_and_industry_has_an_overview_highlights_and_steps_in_both_languages(): void
+    {
+        foreach (Feature::where('status', 'available')->get() as $feature) {
+            foreach (['fa', 'en'] as $locale) {
+                $this->assertNotEmpty($feature->getTranslation('overview', $locale, false), "{$feature->slug} overview {$locale}");
+                $this->assertGreaterThanOrEqual(4, count($feature->getTranslation('highlights', $locale, false)), "{$feature->slug} highlights {$locale}");
+                $this->assertNotEmpty($feature->getTranslation('steps', $locale, false), "{$feature->slug} steps {$locale}");
+            }
+        }
+
+        $industries = Industry::all();
+        $this->assertCount(17, $industries);
+
+        foreach ($industries as $industry) {
+            foreach (['fa', 'en'] as $locale) {
+                $this->assertNotEmpty($industry->getTranslation('overview', $locale, false), "{$industry->slug} overview {$locale}");
+                $this->assertCount(4, $industry->getTranslation('highlights', $locale, false), "{$industry->slug} highlights {$locale}");
+                $this->assertNotEmpty($industry->getTranslation('steps', $locale, false), "{$industry->slug} steps {$locale}");
+            }
+            // Every module a trade points to has to exist, or its card would silently vanish.
+            foreach ($industry->feature_slugs as $slug) {
+                $this->assertTrue(Feature::where('slug', $slug)->exists(), "{$industry->slug} points to missing feature {$slug}");
+            }
+        }
+    }
+
+    public function test_no_text_carries_stray_escape_characters(): void
+    {
+        foreach ([...Feature::all(), ...Industry::all()] as $row) {
+            foreach (['overview', 'highlights', 'steps', 'points'] as $field) {
+                // Look at the text itself: JSON-encoding would turn every real line break into "\n".
+                $translations = $row->getTranslations($field);
+                array_walk_recursive($translations, function ($text) use ($row, $field) {
+                    $this->assertStringNotContainsString('\\', (string) $text, "{$row->slug}.{$field}");
+                });
+            }
+        }
+    }
+
+    public function test_the_home_page_shows_the_product_in_the_visitors_language(): void
+    {
+        $this->get('/fa')->assertSee('images/screenshots/dashboard-fa.webp', false);
+        $this->get('/en')->assertSee('images/screenshots/dashboard-en.webp', false);
     }
 
     public function test_sign_in_sends_the_visitor_to_their_companys_subdomain(): void

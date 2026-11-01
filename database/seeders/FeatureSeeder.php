@@ -171,7 +171,7 @@ class FeatureSeeder extends Seeder
                     'summary' => 'کارمندان، حاضری، رخصتی و معاش در همان سیستم.',
                     'points' => [
                         'کارمندان، قراردادها و اسناد',
-                        'حاضری، شفت‌ها، تعطیلات و اتصال دستگاه حاضری',
+                        'حاضری، شفت‌ها، تعطیلات و وارد کردن فایل دستگاه حاضری',
                         'نوع‌های رخصتی، سهمیه و درخواست رخصتی',
                         'معاش، اجزای معاش و مالیات',
                         'قرضه کارمند و پرداخت معاش',
@@ -184,7 +184,7 @@ class FeatureSeeder extends Seeder
                     'summary' => 'Employees, attendance, leave and payroll in the same system.',
                     'points' => [
                         'Employees, contracts and documents',
-                        'Attendance, shifts, holidays and attendance device integration',
+                        'Attendance, shifts, holidays and importing the attendance device file',
                         'Leave types, allocations and leave requests',
                         'Payroll, salary components and tax',
                         'Employee loans and salary payments',

@@ -12,11 +12,17 @@ class Industry extends Model
 
     protected $guarded = [];
 
-    public array $translatable = ['title', 'summary', 'points'];
+    public array $translatable = ['title', 'summary', 'overview', 'highlights', 'steps', 'points'];
 
     protected function casts(): array
     {
-        return ['is_published' => 'boolean'];
+        return ['is_published' => 'boolean', 'feature_slugs' => 'array'];
+    }
+
+    /** The overview as paragraphs: authors separate them with a blank line. */
+    public function overviewParagraphs(): array
+    {
+        return array_values(array_filter(preg_split('/\R{2,}/', trim((string) $this->overview))));
     }
 
     public function scopePublished(Builder $query): Builder

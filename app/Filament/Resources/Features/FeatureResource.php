@@ -40,12 +40,20 @@ class FeatureResource extends Resource
             TextInput::make('icon')->required()->default('boxes')->helperText('A Lucide icon name, such as boxes, calculator, users-round. See lucide.dev/icons'),
             Select::make('status')->options(['available' => 'Available', 'soon' => 'Coming soon'])->required()->default('available')
                 ->helperText('Mark anything that is not built yet as "Coming soon".'),
+            TextInput::make('help_slug')->label('Help center guide')->datalist(fn () => \App\Models\HelpCategory::orderBy('sort')->pluck('slug')->all())
+                ->helperText('The slug of a help category; the page links to that guide. Leave empty for none.'),
             TextInput::make('sort')->numeric()->default(0),
             Toggle::make('is_published')->default(true),
             Translations::tabs(fn (string $l) => [
                 TextInput::make("title.$l")->label('Title')->required($l === 'fa'),
-                Textarea::make("summary.$l")->label('Summary')->rows(2)->required($l === 'fa'),
-                Repeater::make("points.$l")->label('Points')->simple(TextInput::make('point')->required())->defaultItems(0),
+                Textarea::make("summary.$l")->label('Summary (one line)')->rows(2)->required($l === 'fa'),
+                Textarea::make("overview.$l")->label('Overview')->rows(6)->helperText('Separate paragraphs with a blank line.'),
+                Repeater::make("highlights.$l")->label('Key capabilities')->schema([
+                    TextInput::make('title')->required(),
+                    Textarea::make('text')->rows(2)->required(),
+                ])->defaultItems(0)->collapsible()->itemLabel(fn (array $state) => $state['title'] ?? null),
+                Repeater::make("steps.$l")->label('In a working day')->simple(TextInput::make('step')->required())->defaultItems(0),
+                Repeater::make("points.$l")->label('Also included')->simple(TextInput::make('point')->required())->defaultItems(0),
             ]),
         ]);
     }

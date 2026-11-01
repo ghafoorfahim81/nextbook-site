@@ -18,6 +18,12 @@ class PageController extends Controller
             'features' => Feature::published()->where('status', 'available')->get(),
             'industries' => Industry::published()->get(),
             'faqs' => Faq::published()->limit(5)->get(),
+            // Real figures from the content itself, so they cannot drift from the site.
+            'stats' => [
+                'features' => Feature::published()->where('status', 'available')->count(),
+                'industries' => Industry::published()->count(),
+                'guides' => HelpArticle::published()->count(),
+            ],
         ]);
     }
 
