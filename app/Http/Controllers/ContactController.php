@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ContactMessage;
 use App\Models\DemoRequest;
+use App\Models\PricingPlan;
 use Illuminate\Http\Request;
 
 class ContactController extends Controller
@@ -15,7 +16,13 @@ class ContactController extends Controller
 
     public function demo(Request $request)
     {
-        return view('pages.demo', ['selectedType' => $request->query('type')]);
+        // /demo?plan=professional (from the pricing page) opens the form with the plan already mentioned.
+        $plan = PricingPlan::published()->where('slug', (string) $request->query('plan'))->first();
+
+        return view('pages.demo', [
+            'selectedType' => $request->query('type'),
+            'prefill' => $plan ? __('site.pricing.interested', ['plan' => $plan->name]) : null,
+        ]);
     }
 
     public function storeMessage(Request $request)

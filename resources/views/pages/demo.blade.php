@@ -52,7 +52,7 @@
                     </div>
                     <div>
                         <label class="label" for="message">{{ __('site.form.message') }} <span class="text-slate-400">({{ __('site.form.optional') }})</span></label>
-                        <textarea class="input" id="message" name="message" rows="4">{{ old('message') }}</textarea>
+                        <textarea class="input" id="message" name="message" rows="4">{{ old('message', $prefill) }}</textarea>
                     </div>
                     <button class="btn btn-primary w-full sm:w-auto sm:justify-self-start">{{ __('site.demo.send') }}</button>
                 </form>

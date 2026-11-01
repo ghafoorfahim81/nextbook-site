@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             IndustrySeeder::class,
             FeatureContentSeeder::class,
             IndustryContentSeeder::class,
+            PricingSeeder::class,
             FaqSeeder::class,
             PostSeeder::class,
         ]);

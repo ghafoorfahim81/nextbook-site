@@ -36,16 +36,22 @@ class PricingPlanResource extends Resource
     {
         return $schema->components([
             TextInput::make('slug')->required()->unique(ignoreRecord: true),
+            TextInput::make('monthly')->label('Monthly price (US dollars)')->numeric()->minValue(0)->prefix('$')
+                ->helperText('Leave both prices empty for a plan without a fixed price: the page then shows the text under "Price text".'),
+            TextInput::make('yearly')->label('Yearly price (US dollars)')->numeric()->minValue(0)->prefix('$')
+                ->helperText('The page works out the monthly equivalent and what the year saves.'),
             TextInput::make('sort')->numeric()->default(0),
             Toggle::make('is_featured')->helperText('Highlights the plan with a "Recommended" label.'),
             Toggle::make('is_published')->default(true),
             Translations::tabs(fn (string $l) => [
                 TextInput::make("name.$l")->label('Plan name')->required($l === 'fa'),
-                Textarea::make("description.$l")->label('Short description')->rows(2),
-                TextInput::make("price_label.$l")->label('Price')->required($l === 'fa')
-                    ->helperText('Free text: a figure such as "$20", or "Contact us".'),
-                TextInput::make("period.$l")->label('Period')->helperText('For example "per month". Leave empty if it does not apply.'),
-                Repeater::make("points.$l")->label('Included')->simple(TextInput::make('point')->required())->defaultItems(0),
+                TextInput::make("audience.$l")->label('Who it is for'),
+                TextInput::make("includes.$l")->label('Lead-in line')->helperText('For example "Everything in Starter, plus:". Leave empty for the first plan.'),
+                TextInput::make("price_label.$l")->label('Price text')->helperText('Only shown when the plan has no fixed price, for example "Contact us".'),
+                Repeater::make("points.$l")->label('What is included')->schema([
+                    TextInput::make('text')->required(),
+                    Toggle::make('soon')->label('Not built yet: show "Coming soon"'),
+                ])->defaultItems(0)->collapsible()->itemLabel(fn (array $state) => $state['text'] ?? null),
             ]),
         ]);
     }
@@ -56,18 +62,35 @@ class PricingPlanResource extends Resource
             ->columns([
                 TextColumn::make('sort')->sortable(),
                 TextColumn::make('name'),
-                TextColumn::make('price_label')->label('Price'),
+                TextColumn::make('monthly')->prefix('$')->label('Monthly'),
+                TextColumn::make('yearly')->prefix('$')->label('Yearly'),
                 IconColumn::make('is_featured')->boolean(),
                 IconColumn::make('is_published')->boolean(),
             ])
             ->defaultSort('sort')
             ->recordActions([
-                EditAction::make()->mutateRecordDataUsing(fn (array $data, Model $record) => Translations::fill($record, $data)),
+                EditAction::make()->slideOver()->modalWidth('4xl')
+                    ->mutateRecordDataUsing(fn (array $data, Model $record) => self::fill($record, $data)),
                 DeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([DeleteBulkAction::make()]),
             ]);
+    }
+
+    /** All languages, with every included item as {text, soon} (older rows held plain strings). */
+    private static function fill(Model $record, array $data): array
+    {
+        $data = Translations::fill($record, $data);
+
+        foreach ($data['points'] as $locale => $points) {
+            $data['points'][$locale] = array_map(
+                fn ($point) => is_array($point) ? $point + ['soon' => false] : ['text' => (string) $point, 'soon' => false],
+                (array) $points,
+            );
+        }
+
+        return $data;
     }
 
     public static function getPages(): array

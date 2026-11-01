@@ -41,6 +41,20 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (ev
     } catch (e) { /* ignore */ }
 });
 
+// --- Pricing: monthly / yearly ---------------------------------------------------------------
+const pricing = document.getElementById('pricing');
+
+if (pricing) {
+    const buttons = pricing.querySelectorAll('[data-billing-set]');
+
+    buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+            pricing.dataset.billing = button.dataset.billingSet;
+            buttons.forEach((other) => other.setAttribute('aria-pressed', String(other === button)));
+        });
+    });
+}
+
 // --- Search --------------------------------------------------------------------------------
 const dialog = document.getElementById('search-dialog');
 

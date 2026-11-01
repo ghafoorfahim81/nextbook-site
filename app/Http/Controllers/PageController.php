@@ -8,6 +8,7 @@ use App\Models\HelpArticle;
 use App\Models\HelpCategory;
 use App\Models\Industry;
 use App\Models\Post;
+use App\Models\PricingAddon;
 use App\Models\PricingPlan;
 use Illuminate\Http\Response;
 
@@ -32,6 +33,7 @@ class PageController extends Controller
     {
         return view('pages.pricing', [
             'plans' => PricingPlan::published()->get(),
+            'addons' => PricingAddon::published()->get(),
             'faqs' => Faq::published()->get(),
         ]);
     }
