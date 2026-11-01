@@ -72,11 +72,11 @@
 
 <header class="sticky top-0 z-40 border-b border-slate-200 bg-surface/90 backdrop-blur">
     <div class="container-page flex h-16 items-center justify-between gap-4">
-        <a href="{{ route('home') }}" class="flex items-center gap-2" aria-label="{{ config('site.name') }}">
-            <img src="{{ asset('images/logo.png') }}" alt="" class="h-10 w-auto">
+        <a href="{{ route('home') }}" class="flex shrink-0 items-center gap-2" aria-label="{{ config('site.name') }}">
+            <img src="{{ asset('images/logo.png') }}" alt="" width="56" height="40" class="h-10 w-auto shrink-0">
         </a>
 
-        <nav class="hidden items-center gap-1 lg:flex" aria-label="Main">
+        <nav class="hidden min-w-0 items-center gap-0.5 xl:flex 2xl:gap-1" aria-label="Main">
             @foreach ([
                 ['features.index', 'features'], ['industries.index', 'industries'], ['pricing', 'pricing'],
                 ['help.index', 'help'], ['blog.index', 'blog'], ['contact', 'contact'],
@@ -88,14 +88,14 @@
             @endforeach
         </nav>
 
-        <div class="hidden items-center gap-2 lg:flex">
+        <div class="hidden shrink-0 items-center gap-2 xl:flex">
             @include('partials.header-tools')
             @include('partials.lang-switch')
             <a href="{{ route('login') }}" class="btn btn-sm btn-outline">{{ __('site.nav.login') }}</a>
             <a href="{{ route('demo') }}" class="btn btn-sm btn-primary">{{ __('site.nav.demo') }}</a>
         </div>
 
-        <div class="flex items-center gap-1 lg:hidden">
+        <div class="flex items-center gap-1 xl:hidden">
             @include('partials.header-tools')
             <button id="nav-toggle" type="button" class="rounded-lg p-2 text-slate-700 hover:bg-slate-100"
                     aria-expanded="false" aria-controls="nav-menu" aria-label="{{ __('site.nav.menu') }}">
@@ -104,7 +104,7 @@
         </div>
     </div>
 
-    <div id="nav-menu" class="hidden border-t border-slate-200 bg-surface lg:hidden">
+    <div id="nav-menu" class="hidden border-t border-slate-200 bg-surface xl:hidden">
         <div class="container-page flex flex-col gap-1 py-3">
             @foreach ([
                 ['features.index', 'features'], ['industries.index', 'industries'], ['pricing', 'pricing'],

@@ -11,7 +11,7 @@
  *   php scripts/build-release.php          build everything
  *   php scripts/build-release.php --no-sql skip the database dump
  *
- * Needs: composer, the built assets (npm run build), and for the dump a local PostgreSQL with
+ * Needs: composer (only to rebuild the autoloader), the built assets (npm run build), and for the dump a local PostgreSQL with
  * pg_dump (PG_BIN, default C:/Program Files/PostgreSQL/16/bin) and the DB_* settings of the local .env.
  */
 
@@ -72,6 +72,7 @@ function removeTree(string $path): void
     }
 
     if (is_file($path) || is_link($path)) {
+        @chmod($path, 0666); // read-only files (from archives) cannot be deleted on Windows otherwise
         @unlink($path);
 
         return;
@@ -81,6 +82,7 @@ function removeTree(string $path): void
         removeTree($item->getPathname());
     }
 
+    @chmod($path, 0777);
     @rmdir($path);
 }
 
@@ -167,17 +169,45 @@ $skipApp = function (string $path, bool $isDir): bool {
 $files = copyTree($root, $work.'/nextbook-site', $skipApp);
 say("  $files files");
 
+// Laravel writes into these folders, so they must exist after unzipping. A zip keeps files, not
+// empty folders, so each one gets a placeholder file (the same .gitignore Laravel ships).
 foreach (['storage/logs', 'storage/framework/cache/data', 'storage/framework/sessions', 'storage/framework/views', 'storage/app/public', 'bootstrap/cache'] as $dir) {
     @mkdir($work.'/nextbook-site/'.$dir, 0777, true);
+    file_put_contents($work.'/nextbook-site/'.$dir.'/.gitignore', "*\n!.gitignore\n");
 }
 
-// 2. Production vendor folder.
-say('Installing the production dependencies (composer, no dev) ...');
-[$code, $output] = run([...composerCommand(), 'install', '--no-dev', '--optimize-autoloader', '--no-scripts', '--no-interaction', '--no-progress'], $work.'/nextbook-site');
+// 2. The production vendor folder: the installed one without the dev packages. (Downloading again
+//    with "composer install --no-dev" works too, but extracting thousands of files twice is slow on
+//    Windows, and this copies exactly what the tests ran against.)
+say('Building the production vendor folder ...');
+$lock = json_decode(file_get_contents($root.'/composer.lock'), true, flags: JSON_THROW_ON_ERROR);
+$devPackages = array_column($lock['packages-dev'], 'name');
+$vendorFiles = copyTree($root.'/vendor', $work.'/nextbook-site/vendor', function (string $path) use ($devPackages): bool {
+    if ($path === 'bin' || str_starts_with($path, 'bin/')) {
+        return true; // launchers for dev tools
+    }
+    foreach ($devPackages as $name) {
+        if ($path === $name || str_starts_with($path, $name.'/')) {
+            return true;
+        }
+    }
+
+    return false;
+});
+say("  $vendorFiles files, ".count($devPackages).' dev packages left out');
+
+// Composer's record of what is installed must say the same, or Laravel would look for the missing packages.
+$installedFile = $work.'/nextbook-site/vendor/composer/installed.json';
+$installed = json_decode(file_get_contents($installedFile), true, flags: JSON_THROW_ON_ERROR);
+$installed['packages'] = array_values(array_filter($installed['packages'], fn (array $package) => ! in_array($package['name'], $devPackages, true)));
+$installed['dev'] = false;
+$installed['dev-package-names'] = [];
+file_put_contents($installedFile, json_encode($installed, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+
+[$code, $output] = run([...composerCommand(), 'dump-autoload', '--no-dev', '--optimize', '--no-scripts', '--no-interaction'], $work.'/nextbook-site');
 if ($code !== 0) {
-    fail("composer install failed:\n$output");
+    fail("composer dump-autoload failed:\n$output");
 }
-
 $key = 'base64:'.base64_encode(random_bytes(32));
 [$code, $output] = run([PHP_BINARY, 'artisan', 'package:discover', '--ansi'], $work.'/nextbook-site', ['APP_KEY' => $key, 'APP_ENV' => 'production']);
 if ($code !== 0) {
