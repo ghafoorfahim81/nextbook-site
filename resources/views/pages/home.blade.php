@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-@php($appUrl = rtrim(config('site.app_url'), '/'))
-
 {{-- Hero --}}
 <section class="relative overflow-hidden bg-gradient-to-b from-brand-50 via-white to-white">
     <div class="container-page grid items-center gap-10 py-14 sm:py-20 lg:grid-cols-2">

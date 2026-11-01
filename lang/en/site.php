@@ -11,7 +11,6 @@ return [
         'help' => 'Help center',
         'contact' => 'Contact',
         'login' => 'Sign in',
-        'trial' => 'Start free trial',
         'demo' => 'Request a demo',
         'menu' => 'Menu',
     ],
@@ -184,8 +183,27 @@ return [
     ],
 
     'cta' => [
-        'trial' => 'Start free trial',
         'contact' => 'Contact us',
+    ],
+
+    'login' => [
+        'title' => 'Sign in to NextBook',
+        'intro' => 'Every company has its own address. Enter your company name to go to its sign-in page.',
+        'label' => 'Company name in the address',
+        'placeholder' => 'name',
+        'go' => 'Continue',
+        'hint' => 'For example, if your address is :address, type just :name.',
+        'invalid' => 'That name is not valid. Use only English letters, numbers and hyphens, like "noor".',
+        'no_address' => 'Do not know your address?',
+        'no_address_text' => 'Contact us and we will tell you your company address.',
+        'new_customer' => 'New to NextBook?',
+        'new_customer_text' => 'Request a demo to see the system, or to get your company address.',
+    ],
+
+    'legal' => [
+        'effective' => 'Effective',
+        'effective_date' => '8 September 2026',
+        'not_translated' => 'This document has not been translated into this language yet and is shown in English.',
     ],
 
     'footer' => [

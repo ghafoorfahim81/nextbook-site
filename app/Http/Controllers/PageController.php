@@ -47,7 +47,7 @@ class PageController extends Controller
     public function sitemap(): Response
     {
         $locales = array_keys(config('site.locales'));
-        $paths = ['', '/features', '/industries', '/pricing', '/faq', '/about', '/security', '/help', '/contact', '/demo'];
+        $paths = ['', '/features', '/industries', '/pricing', '/faq', '/about', '/security', '/help', '/contact', '/demo', '/login', '/terms', '/privacy'];
 
         foreach (Feature::published()->get() as $feature) {
             $paths[] = '/features/'.$feature->slug;

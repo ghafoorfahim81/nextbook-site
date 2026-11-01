@@ -8,7 +8,6 @@
     $phones = config('site.phones');
     $emails = config('site.emails');
     $whatsapp = config('site.whatsapp');
-    $appUrl = rtrim(config('site.app_url'), '/');
 @endphp
 <!DOCTYPE html>
 <html lang="{{ $locale }}" dir="{{ $dir }}">
@@ -51,7 +50,7 @@
 
         <div class="hidden items-center gap-2 lg:flex">
             @include('partials.lang-switch')
-            <a href="{{ $appUrl }}/login" class="btn btn-outline">{{ __('site.nav.login') }}</a>
+            <a href="{{ route('login') }}" class="btn btn-outline">{{ __('site.nav.login') }}</a>
             <a href="{{ route('demo') }}" class="btn btn-primary">{{ __('site.nav.demo') }}</a>
         </div>
 
@@ -73,7 +72,7 @@
             @endforeach
             <div class="mt-2 flex flex-wrap items-center gap-2">
                 @include('partials.lang-switch')
-                <a href="{{ $appUrl }}/login" class="btn btn-outline">{{ __('site.nav.login') }}</a>
+                <a href="{{ route('login') }}" class="btn btn-outline">{{ __('site.nav.login') }}</a>
                 <a href="{{ route('demo') }}" class="btn btn-primary">{{ __('site.nav.demo') }}</a>
             </div>
         </div>
@@ -121,6 +120,10 @@
         </div>
     </div>
     <div class="border-t border-slate-200 py-4 text-center text-xs text-slate-500">
+        <a class="hover:text-brand-600" href="{{ route('legal.terms') }}">{{ __('site.footer.terms') }}</a>
+        <span class="mx-2">·</span>
+        <a class="hover:text-brand-600" href="{{ route('legal.privacy') }}">{{ __('site.footer.privacy') }}</a>
+        <span class="mx-2">·</span>
         © {{ date('Y') }} {{ config('site.name') }}. {{ __('site.footer.rights') }}
     </div>
 </footer>

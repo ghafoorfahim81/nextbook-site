@@ -35,8 +35,8 @@ requests and contact messages arrive under **Leads**.
 - **Prices** are never invented: with no plan published, the pricing page says to
   contact sales. Add plans in the admin when the prices are decided.
 - **"Coming soon"** features (POS, CRM ...) are marked as such and kept off the home page.
-- Contact details, the ERP address and the WhatsApp number are in `config/site.php`
-  (`SITE_APP_URL` and `SITE_WHATSAPP` in `.env`).
+- Contact details, the customers' subdomain (`acme.nextbook.af`) and the WhatsApp number are in `config/site.php`
+  (`SITE_TENANT_DOMAIN`, `SITE_TENANT_SCHEME` and `SITE_WHATSAPP` in `.env`).
 
 ### Help center
 

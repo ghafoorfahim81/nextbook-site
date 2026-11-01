@@ -26,7 +26,7 @@ class PublicSiteTest extends TestCase
     {
         foreach (['fa', 'en'] as $locale) {
             foreach (['', '/features', '/features/inventory', '/industries', '/industries/pharmacy', '/pricing', '/faq',
-                '/about', '/security', '/help', '/contact', '/demo'] as $path) {
+                '/about', '/security', '/help', '/contact', '/demo', '/login', '/terms', '/privacy'] as $path) {
                 $this->get("/{$locale}{$path}")->assertOk();
             }
         }
@@ -143,6 +143,35 @@ class PublicSiteTest extends TestCase
 
         $this->post("/en/help/article/{$article->id}/feedback", ['helpful' => 'yes']);
         $this->assertSame(1, $article->fresh()->helpful_yes);
+    }
+
+    public function test_sign_in_sends_the_visitor_to_their_companys_subdomain(): void
+    {
+        foreach (['noor', 'Noor', ' noor ', 'noor.nextbook.af', 'https://noor.nextbook.af/login', 'noor-trading'] as $input) {
+            $expected = str_contains($input, '-') ? 'noor-trading' : 'noor';
+
+            $this->post('/fa/login', ['workspace' => $input])->assertRedirect("https://{$expected}.nextbook.af/login");
+        }
+    }
+
+    public function test_sign_in_never_leaves_our_own_domain(): void
+    {
+        foreach (['evil.com', 'a.b', '../x', 'noor@evil.com', 'https://evil.com/noor', '-bad', 'bad-', '', 'x y', str_repeat('a', 64)] as $input) {
+            $this->from('/fa/login')->post('/fa/login', ['workspace' => $input])
+                ->assertRedirect('/fa/login')->assertSessionHasErrors('workspace');
+        }
+    }
+
+    public function test_terms_and_privacy_come_from_the_erp_in_the_visitors_language(): void
+    {
+        $this->get('/en/terms')->assertOk()->assertSee('Terms of Service')->assertDontSee(__('site.legal.not_translated', [], 'en'));
+        $this->get('/fa/terms')->assertOk()->assertSee('شرایط استفاده از خدمات')->assertDontSee(__('site.legal.not_translated', [], 'fa'));
+        $this->get('/en/privacy')->assertOk()->assertSee('Privacy');
+    }
+
+    public function test_the_footer_links_to_the_legal_pages_and_there_is_no_self_service_trial(): void
+    {
+        $this->get('/en')->assertSee('/en/terms', false)->assertSee('/en/privacy', false)->assertDontSee('/register', false);
     }
 
     public function test_sitemap_lists_every_language(): void

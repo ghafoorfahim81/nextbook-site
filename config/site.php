@@ -4,8 +4,10 @@ return [
 
     'name' => 'NextBook',
 
-    // The ERP the buttons "Sign in" and "Start free trial" point to.
-    'app_url' => env('SITE_APP_URL', 'https://app.nextbook.af'),
+    // Every customer has their own subdomain of this domain (acme.nextbook.af) and signs
+    // in there. The "Sign in" page asks for the name and sends them on.
+    'tenant_domain' => env('SITE_TENANT_DOMAIN', 'nextbook.af'),
+    'tenant_scheme' => env('SITE_TENANT_SCHEME', 'https'),
 
     'phones' => [
         '+93 72 850 7537',
