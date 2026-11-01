@@ -2,8 +2,9 @@ import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import tailwindcss from '@tailwindcss/vite';
 
-// Fonts are served from /public/fonts, with no external font service:
-// the site has to load on slow connections without extra requests.
+// Fonts live in resources/fonts and are bundled by Vite (laravel-vite-plugin turns off the
+// public directory, so fonts under /public would not load while `npm run dev` is running).
+// There is no external font service: the site has to load on slow connections.
 export default defineConfig({
     plugins: [
         laravel({

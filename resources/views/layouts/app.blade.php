@@ -25,7 +25,7 @@
         <link rel="alternate" hreflang="{{ $code }}" href="{{ url('/'.$code.$rest) }}">
     @endforeach
     <link rel="icon" href="{{ asset('images/logo.png') }}">
-    <link rel="preload" href="{{ asset($locale === 'fa' ? 'fonts/iransans-regular.ttf' : 'fonts/poppins-regular.ttf') }}" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="{{ Vite::asset($locale === 'fa' ? 'resources/fonts/iransans-regular.ttf' : 'resources/fonts/poppins-regular.ttf') }}" as="font" type="font/ttf" crossorigin>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="flex min-h-screen flex-col">

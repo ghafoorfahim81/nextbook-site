@@ -13,31 +13,31 @@
    bold weights; its face covers 600-900, which keeps the browser from faking a bold. */
 @font-face {
     font-family: 'IRANSans';
-    src: url('/fonts/iransans-regular.ttf') format('truetype');
+    src: url('../fonts/iransans-regular.ttf') format('truetype');
     font-weight: 400;
     font-display: swap;
     unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+200C-200D;
 }
 @font-face {
     font-family: 'IRANSans';
-    src: url('/fonts/iransans-medium.ttf') format('truetype');
+    src: url('../fonts/iransans-medium.ttf') format('truetype');
     font-weight: 500;
     font-display: swap;
     unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+200C-200D;
 }
 @font-face {
     font-family: 'IRANSans';
-    src: url('/fonts/iransans-medium.ttf') format('truetype');
+    src: url('../fonts/iransans-medium.ttf') format('truetype');
     font-weight: 600 900;
     font-display: swap;
     unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+200C-200D;
 }
 
-@font-face { font-family: 'Poppins'; src: url('/fonts/poppins-regular.ttf') format('truetype'); font-weight: 400; font-display: swap; }
-@font-face { font-family: 'Poppins'; src: url('/fonts/poppins-medium.ttf') format('truetype'); font-weight: 500; font-display: swap; }
-@font-face { font-family: 'Poppins'; src: url('/fonts/poppins-semibold.ttf') format('truetype'); font-weight: 600; font-display: swap; }
-@font-face { font-family: 'Poppins'; src: url('/fonts/poppins-bold.ttf') format('truetype'); font-weight: 700; font-display: swap; }
-@font-face { font-family: 'Poppins'; src: url('/fonts/poppins-extrabold.ttf') format('truetype'); font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Poppins'; src: url('../fonts/poppins-regular.ttf') format('truetype'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Poppins'; src: url('../fonts/poppins-medium.ttf') format('truetype'); font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Poppins'; src: url('../fonts/poppins-semibold.ttf') format('truetype'); font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Poppins'; src: url('../fonts/poppins-bold.ttf') format('truetype'); font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Poppins'; src: url('../fonts/poppins-extrabold.ttf') format('truetype'); font-weight: 800; font-display: swap; }
 
 @theme {
     --font-sans: 'Poppins', 'IRANSans', ui-sans-serif, system-ui, 'Segoe UI', Tahoma, sans-serif;
