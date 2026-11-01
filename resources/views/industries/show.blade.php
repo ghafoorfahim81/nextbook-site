@@ -109,7 +109,7 @@
         <h2 class="mb-5 text-xl">{{ __('site.industries.other') }}</h2>
         <div class="flex flex-wrap gap-2">
             @foreach ($others as $other)
-                <a href="{{ route('industries.show', $other) }}" class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 hover:border-brand-300 hover:text-brand-700">
+                <a href="{{ route('industries.show', $other) }}" class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-surface px-4 py-2.5 text-sm font-medium text-slate-700 hover:border-brand-300 hover:text-brand-700">
                     <x-dynamic-component :component="'lucide-'.$other->icon" class="h-4 w-4 text-brand-500"/>{{ $other->title }}
                 </a>
             @endforeach

@@ -26,11 +26,23 @@
     @endforeach
     <link rel="icon" href="{{ asset('images/logo.png') }}">
     <link rel="preload" href="{{ Vite::asset($locale === 'fa' ? 'resources/fonts/iransans-regular.ttf' : 'resources/fonts/poppins-regular.ttf') }}" as="font" type="font/ttf" crossorigin>
+    <meta name="color-scheme" content="light dark">
+    {{-- Applies the saved (or the system) theme before the first paint, so a dark page never flashes white. --}}
+    <script>
+        (function () {
+            try {
+                var saved = localStorage.getItem('theme');
+                if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    document.documentElement.classList.add('dark');
+                }
+            } catch (e) { /* storage blocked: the page stays light */ }
+        })();
+    </script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="flex min-h-screen flex-col">
 
-<header class="sticky top-0 z-40 border-b border-slate-200 bg-white/90 backdrop-blur">
+<header class="sticky top-0 z-40 border-b border-slate-200 bg-surface/90 backdrop-blur">
     <div class="container-page flex h-16 items-center justify-between gap-4">
         <a href="{{ route('home') }}" class="flex items-center gap-2" aria-label="{{ config('site.name') }}">
             <img src="{{ asset('images/logo.png') }}" alt="" class="h-10 w-auto">
@@ -42,25 +54,29 @@
                 ['help.index', 'help'], ['blog.index', 'blog'], ['contact', 'contact'],
             ] as [$routeName, $key])
                 <a href="{{ route($routeName) }}"
-                   class="rounded-lg px-3 py-2 text-sm font-medium {{ request()->routeIs(Str::before($routeName, '.').'*') ? 'bg-brand-50 text-brand-700' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900' }}">
+                   class="whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium {{ request()->routeIs(Str::before($routeName, '.').'*') ? 'bg-brand-50 text-brand-700' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900' }}">
                     {{ __('site.nav.'.$key) }}
                 </a>
             @endforeach
         </nav>
 
         <div class="hidden items-center gap-2 lg:flex">
+            @include('partials.header-tools')
             @include('partials.lang-switch')
             <a href="{{ route('login') }}" class="btn btn-sm btn-outline">{{ __('site.nav.login') }}</a>
             <a href="{{ route('demo') }}" class="btn btn-sm btn-primary">{{ __('site.nav.demo') }}</a>
         </div>
 
-        <button id="nav-toggle" type="button" class="rounded-lg p-2 text-slate-700 hover:bg-slate-100 lg:hidden"
-                aria-expanded="false" aria-controls="nav-menu" aria-label="{{ __('site.nav.menu') }}">
-            <x-lucide-menu class="h-6 w-6"/>
-        </button>
+        <div class="flex items-center gap-1 lg:hidden">
+            @include('partials.header-tools')
+            <button id="nav-toggle" type="button" class="rounded-lg p-2 text-slate-700 hover:bg-slate-100"
+                    aria-expanded="false" aria-controls="nav-menu" aria-label="{{ __('site.nav.menu') }}">
+                <x-lucide-menu class="h-6 w-6"/>
+            </button>
+        </div>
     </div>
 
-    <div id="nav-menu" class="hidden border-t border-slate-200 bg-white lg:hidden">
+    <div id="nav-menu" class="hidden border-t border-slate-200 bg-surface lg:hidden">
         <div class="container-page flex flex-col gap-1 py-3">
             @foreach ([
                 ['features.index', 'features'], ['industries.index', 'industries'], ['pricing', 'pricing'],
@@ -136,6 +152,8 @@
         <x-lucide-message-circle class="h-7 w-7"/>
     </a>
 @endif
+
+@include('partials.search-dialog')
 
 </body>
 </html>

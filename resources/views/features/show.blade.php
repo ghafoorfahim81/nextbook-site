@@ -95,7 +95,7 @@
 <section class="pb-4">
     <div class="container-page grid gap-6 lg:grid-cols-2">
         @if ($feature->help_slug)
-            <div class="card bg-gradient-to-br from-brand-50 to-white">
+            <div class="card bg-gradient-to-br from-brand-50 to-surface">
                 <x-lucide-book-open class="mb-3 h-8 w-8 text-brand-500"/>
                 <h2 class="text-lg">{{ __('site.features.guide') }}</h2>
                 <p class="mt-1 text-sm text-slate-600">{{ __('site.features.guide_text') }}</p>
@@ -124,7 +124,7 @@
         <h2 class="mb-5 text-xl">{{ __('site.features.other') }}</h2>
         <div class="flex flex-wrap gap-2">
             @foreach ($others as $other)
-                <a href="{{ route('features.show', $other) }}" class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 hover:border-brand-300 hover:text-brand-700">
+                <a href="{{ route('features.show', $other) }}" class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-surface px-4 py-2.5 text-sm font-medium text-slate-700 hover:border-brand-300 hover:text-brand-700">
                     <x-dynamic-component :component="'lucide-'.$other->icon" class="h-4 w-4 text-brand-500"/>{{ $other->title }}
                 </a>
             @endforeach

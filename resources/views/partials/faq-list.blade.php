@@ -1,6 +1,6 @@
-<div class="divide-y divide-slate-200 rounded-2xl border border-slate-200 bg-white">
+<div class="divide-y divide-slate-200 rounded-2xl border border-slate-200 bg-surface">
     @foreach ($faqs as $faq)
-        <details class="group p-5" @if ($loop->first && ($open ?? false)) open @endif>
+        <details id="faq-{{ $faq->id }}" class="group scroll-mt-24 p-5" @if ($loop->first && ($open ?? false)) open @endif>
             <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-bold text-slate-900">
                 {{ $faq->question }}
                 <x-lucide-chevron-down class="h-5 w-5 shrink-0 text-brand-500 transition group-open:rotate-180"/>

@@ -1,7 +1,7 @@
 @extends('layouts.app', ['title' => __('site.help.search')])
 
 @section('content')
-<div class="border-b border-slate-200 bg-gradient-to-b from-brand-50 to-white">
+<div class="border-b border-slate-200 bg-gradient-to-b from-brand-50 to-surface">
     <div class="container-page py-10 text-center">
         <h1 class="text-2xl sm:text-3xl">{{ __('site.help.search') }}</h1>
         @include('help.search-form', ['q' => $q])

@@ -1,4 +1,4 @@
-<div class="relative isolate border-b border-slate-200 bg-gradient-to-b from-brand-50/70 to-white">
+<div class="relative isolate border-b border-slate-200 bg-gradient-to-b from-brand-50/70 to-surface">
     @include('partials.backdrop')
     <div class="container-page py-12 sm:py-16">
         @isset($crumb)

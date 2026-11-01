@@ -7,6 +7,7 @@ use App\Http\Controllers\HelpController;
 use App\Http\Controllers\IndustryController;
 use App\Http\Controllers\LegalController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\WorkspaceController;
 use App\Http\Middleware\SetLocale;
 use Illuminate\Support\Facades\Route;
@@ -40,6 +41,8 @@ Route::prefix('{locale}')->middleware(SetLocale::class)->group(function () {
     Route::get('/help/{category:slug}', [HelpController::class, 'category'])->name('help.category');
     Route::get('/help/{category:slug}/{article:slug}', [HelpController::class, 'article'])->name('help.article');
     Route::post('/help/article/{article}/feedback', [HelpController::class, 'feedback'])->name('help.feedback')->middleware('throttle:10,1');
+
+    Route::get('/search', [SearchController::class, 'index'])->name('search')->middleware('throttle:60,1');
 
     Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
     Route::get('/blog/{post:slug}', [BlogController::class, 'show'])->name('blog.show');

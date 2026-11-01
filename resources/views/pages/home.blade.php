@@ -13,7 +13,7 @@
     @include('partials.backdrop')
 
     <div class="container-page pt-14 text-center sm:pt-20">
-        <span class="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-white/80 px-4 py-1.5 text-sm font-bold text-brand-700 shadow-sm backdrop-blur">
+        <span class="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-surface/80 px-4 py-1.5 text-sm font-bold text-brand-700 shadow-sm backdrop-blur">
             <span class="h-2 w-2 rounded-full bg-accent-500"></span>{{ __('site.hero.eyebrow') }}
         </span>
 
@@ -42,7 +42,7 @@
                 <span class="h-3 w-3 rounded-full bg-red-400"></span>
                 <span class="h-3 w-3 rounded-full bg-amber-400"></span>
                 <span class="h-3 w-3 rounded-full bg-green-400"></span>
-                <span class="mx-auto flex items-center gap-1.5 rounded-md bg-white px-3 py-1 text-xs text-slate-500 ring-1 ring-slate-200">
+                <span class="mx-auto flex items-center gap-1.5 rounded-md bg-surface px-3 py-1 text-xs text-slate-500 ring-1 ring-slate-200">
                     <x-lucide-shield-check class="h-3.5 w-3.5 text-green-600"/>your-company.nextbook.af
                 </span>
                 <span class="w-12"></span>
@@ -52,7 +52,7 @@
         </div>
 
         {{-- The bottom of the screenshot melts into the page. --}}
-        <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-white to-transparent"></div>
+        <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-surface to-transparent"></div>
     </div>
 </section>
 
@@ -64,7 +64,7 @@
                 ['features', $stats['features']], ['industries', $stats['industries']],
                 ['guides', $stats['guides']], ['languages', 3],
             ] as [$key, $value])
-                <div class="bg-white px-6 py-7 text-center">
+                <div class="bg-surface px-6 py-7 text-center">
                     <dd class="text-3xl font-bold text-brand-600">{{ Digits::localize($value) }}</dd>
                     <dt class="mt-1 text-sm text-slate-600">{{ __('site.stats.'.$key) }}</dt>
                 </div>

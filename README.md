@@ -6,7 +6,7 @@ center and demo/contact forms. It is a separate project from the ERP
 accounting system.
 
 - **Laravel 13**, PostgreSQL, server-rendered Blade, Tailwind 4, Vite
-- **Fonts:** Poppins for Latin text, IRANSans for Dari and Pashto, bundled from `resources/fonts` with no external font service. The IRANSans files we have stop at Medium (no Bold), so Medium also serves the bold weights; add an IRANSans Bold file to `resources/fonts` and a matching `@font-face` in `resources/css/app.css` if you get one
+- **Fonts:** Poppins for Latin text, IRANSans for Dari and Pashto, bundled from `resources/fonts` with no external font service. IRANSans Regular, Medium and Bold are bundled; the Bold file covers Dari but not the extra Pashto letters, so bold Pashto text will need another face when Pashto goes live (see the note in `resources/css/app.css`)
 - **Filament** admin panel at `/admin` for the team (content, leads)
 - Languages: Dari (`/fa`, default, RTL) and English (`/en`). Pashto content can
   already be entered in the admin; `ps` joins `config/site.php` `locales` once the
@@ -38,6 +38,12 @@ requests and contact messages arrive under **Leads**.
 - **"Coming soon"** features (POS, CRM ...) are marked as such and kept off the home page.
 - Contact details, the customers' subdomain (`acme.nextbook.af`) and the WhatsApp number are in `config/site.php`
   (`SITE_TENANT_DOMAIN`, `SITE_TENANT_SCHEME` and `SITE_WHATSAPP` in `.env`).
+
+### Search and dark mode
+
+The search box (Ctrl/Cmd+K, or "/", or the magnifier in the header) searches features, industries, help articles, blog posts and FAQ answers as the visitor types, in their own language with Dari as the fallback. `/{locale}/search` is the same search as a page, which also works without JavaScript. The code is in `app/Support/SiteSearch.php`.
+
+Dark mode is the `dark` class on `<html>`: it follows the system until the visitor uses the switch, then remembers their choice. The neutral colours are swapped in `resources/css/app.css` (the section at the end), so templates do not carry separate dark classes. Use `bg-surface`, not `bg-white`, for cards and page backgrounds.
 
 ### Blog
 

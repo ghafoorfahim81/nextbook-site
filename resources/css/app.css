@@ -1,5 +1,8 @@
 @import 'tailwindcss';
 
+/* Dark mode is the .dark class on <html>, set by the toggle (or the system setting) before first paint. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @source '../../storage/framework/views/*.php';
 @source '../views/**/*.blade.php';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
@@ -9,8 +12,9 @@
 /* Latin text is set in Poppins and Arabic-script text (Dari, Pashto) in IRANSans.
    Each Arabic-script face is limited to its own unicode ranges, so a Latin word or an
    address inside a Dari sentence still renders in Poppins.
-   The IRANSans files we have stop at Medium (there is no Bold), so Medium also serves the
-   bold weights; its face covers 600-900, which keeps the browser from faking a bold. */
+   IRANSans has no semibold, so 600 and above use the Bold file. That file covers every
+   Dari letter, digit and punctuation mark but not the extra Pashto letters (ټ ډ ړ ږ ښ ڼ ې ۍ
+   ګ څ ځ): when Pashto goes live, bold Pashto text needs a bold face that has them. */
 @font-face {
     font-family: 'IRANSans';
     src: url('../fonts/iransans-regular.ttf') format('truetype');
@@ -27,12 +31,11 @@
 }
 @font-face {
     font-family: 'IRANSans';
-    src: url('../fonts/iransans-medium.ttf') format('truetype');
+    src: url('../fonts/iransans-bold.ttf') format('truetype');
     font-weight: 600 900;
     font-display: swap;
     unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+200C-200D;
 }
-
 @font-face { font-family: 'Poppins'; src: url('../fonts/poppins-regular.ttf') format('truetype'); font-weight: 400; font-display: swap; }
 @font-face { font-family: 'Poppins'; src: url('../fonts/poppins-medium.ttf') format('truetype'); font-weight: 500; font-display: swap; }
 @font-face { font-family: 'Poppins'; src: url('../fonts/poppins-semibold.ttf') format('truetype'); font-weight: 600; font-display: swap; }
@@ -53,6 +56,8 @@
     --color-brand-700: #6628a1;
     --color-brand-800: #522183;
     --color-brand-900: #3d1a63;
+    /* The colour of cards and the page. Dark mode swaps it; plain white is left alone for text on bands. */
+    --color-surface: #ffffff;
     --color-accent-400: #fbbf24;
     --color-accent-500: #f59e0b;
 }
@@ -62,7 +67,7 @@
         scroll-behavior: smooth;
     }
     body {
-        @apply bg-white text-slate-700 antialiased;
+        @apply bg-surface text-slate-700 antialiased;
         line-height: 1.8;
     }
     h1, h2, h3, h4 {
@@ -79,7 +84,7 @@
         @apply mx-auto w-full max-w-6xl px-4 sm:px-6;
     }
     .btn {
-        @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold transition;
+        @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl px-5 py-2.5 text-sm font-bold transition;
     }
     /* The header controls: compact, and all one height. */
     .btn-sm {
@@ -89,13 +94,13 @@
         @apply bg-brand-500 text-white shadow-sm hover:bg-brand-600;
     }
     .btn-outline {
-        @apply border border-brand-200 bg-white text-brand-700 hover:bg-brand-50;
+        @apply border border-brand-200 bg-surface text-brand-700 hover:bg-brand-50;
     }
     .btn-light {
         @apply bg-white text-brand-700 hover:bg-brand-50;
     }
     .card {
-        @apply rounded-2xl border border-slate-200 bg-white p-6 shadow-sm;
+        @apply rounded-2xl border border-slate-200 bg-surface p-6 shadow-sm;
     }
     .section {
         @apply py-14 sm:py-20;
@@ -104,7 +109,7 @@
         @apply mb-2 text-sm font-bold text-brand-600;
     }
     .input {
-        @apply w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-800 outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-200;
+        @apply w-full rounded-xl border border-slate-300 bg-surface px-4 py-2.5 text-sm text-slate-800 outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-200;
     }
     .label {
         @apply mb-1 block text-sm font-medium text-slate-700;
@@ -146,7 +151,7 @@
 
 /* The product shown in a browser window, tilted back a little and lit from below. */
 .browser {
-    @apply overflow-hidden rounded-2xl border border-brand-200/70 bg-white;
+    @apply overflow-hidden rounded-2xl border border-brand-200/70 bg-surface;
     box-shadow:
         0 40px 90px -30px rgb(92 40 161 / 0.45),
         0 0 0 8px rgb(255 255 255 / 0.55);
@@ -164,7 +169,7 @@
 }
 
 .float-card {
-    @apply absolute z-10 hidden items-center gap-2.5 rounded-2xl border border-brand-100 bg-white/95 px-4 py-3 text-sm font-bold text-slate-800 shadow-xl backdrop-blur md:flex;
+    @apply absolute z-10 hidden items-center gap-2.5 rounded-2xl border border-brand-100 bg-surface/95 px-4 py-3 text-sm font-bold text-slate-800 shadow-xl backdrop-blur md:flex;
     animation: float-y 6s ease-in-out infinite;
 }
 @keyframes float-y {
@@ -249,3 +254,78 @@
 .prose-help figcaption {
     @apply mt-2 text-center text-sm text-slate-500;
 }
+
+
+/* ---------------------------------------------------------------------------------------
+   Dark mode. The neutral scale (slate) and the soft tints (amber, green) are swapped at the
+   variable level, so every template follows without changing its classes. The brand tints are
+   redefined by class because the same brand colours also paint the gradient bands, which stay
+   as they are in both modes.
+   --------------------------------------------------------------------------------------- */
+:root { color-scheme: light; }
+
+.dark {
+    color-scheme: dark;
+
+    --color-surface: #171127;
+    --color-slate-50: #110c1f;
+    --color-slate-100: #1d1731;
+    --color-slate-200: #2d2549;
+    --color-slate-300: #3d3562;
+    --color-slate-400: #837ca6;
+    --color-slate-500: #9d97bd;
+    --color-slate-600: #b6b0d2;
+    --color-slate-700: #cec9e5;
+    --color-slate-800: #e5e2f2;
+    --color-slate-900: #f5f3fc;
+
+    --color-amber-50: #2a2010;
+    --color-amber-100: #3b2b12;
+    --color-amber-800: #fcd34d;
+    --color-amber-900: #fde68a;
+    --color-green-50: #0e2619;
+    --color-green-700: #86efac;
+    --color-green-800: #bbf7d0;
+}
+
+.dark .text-brand-600,
+.dark .text-brand-700,
+.dark .text-brand-800,
+.dark .eyebrow,
+.dark .hover\:text-brand-600:hover,
+.dark .hover\:text-brand-700:hover { color: var(--color-brand-300); }
+
+.dark .bg-brand-50,
+.dark .bg-brand-50\/60 { background-color: #231a3f; }
+.dark .bg-brand-100,
+.dark .hover\:bg-brand-50:hover,
+.dark .hover\:bg-brand-100:hover { background-color: #2d2150; }
+.dark .bg-brand-200 { background-color: #43307a; }
+.dark .border-brand-100,
+.dark .border-brand-200,
+.dark .border-brand-200\/70 { border-color: #3a2c66; }
+.dark .hover\:border-brand-300:hover { border-color: var(--color-brand-500); }
+.dark .from-brand-50,
+.dark .from-brand-50\/70 { --tw-gradient-from: #1f1738; }
+
+.dark .btn-outline { background-color: var(--color-surface); border-color: #43307a; color: var(--color-brand-300); }
+.dark .btn-outline:hover { background-color: #231a3f; }
+/* On the gradient bands the light button stays light. */
+.dark .btn-light { background-color: #f5f3ff; color: #522183; }
+
+.dark .text-gradient {
+    background-image: linear-gradient(95deg, var(--color-brand-300), var(--color-brand-400) 50%, var(--color-accent-400));
+}
+.dark .bg-grid {
+    background-image:
+        linear-gradient(to right, rgb(167 139 250 / 0.09) 1px, transparent 1px),
+        linear-gradient(to bottom, rgb(167 139 250 / 0.09) 1px, transparent 1px);
+}
+.dark .browser { box-shadow: 0 40px 90px -30px rgb(0 0 0 / 0.7), 0 0 0 8px rgb(255 255 255 / 0.05); }
+.dark .prose-help th { background-color: #231a3f; color: var(--color-brand-200); }
+.dark .prose-help .callout { background-color: #231a3f; }
+.dark .prose-help .callout-tip { background-color: var(--color-green-50); }
+.dark .prose-help .callout-warn { background-color: var(--color-amber-50); }
+.dark .prose-help .flow-step { background-color: #231a3f; border-color: #43307a; color: var(--color-brand-200); }
+.dark .prose-help .formula { background-color: var(--color-slate-100); }
+.dark .prose-help figure img { opacity: 0.95; }

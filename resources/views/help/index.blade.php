@@ -1,7 +1,7 @@
 @extends('layouts.app', ['title' => __('site.help.title')])
 
 @section('content')
-<div class="border-b border-slate-200 bg-gradient-to-b from-brand-50 to-white">
+<div class="border-b border-slate-200 bg-gradient-to-b from-brand-50 to-surface">
     <div class="container-page py-12 text-center sm:py-16">
         <h1 class="text-3xl sm:text-4xl">{{ __('site.help.title') }}</h1>
         <p class="mt-3 text-lg text-slate-600">{{ __('site.help.intro') }}</p>

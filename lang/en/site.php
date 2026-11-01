@@ -111,6 +111,35 @@ return [
         'empty' => 'No articles have been published yet.',
     ],
 
+    'search' => [
+        'title' => 'Search the site',
+        'open' => 'Search',
+        'close' => 'Close',
+        'placeholder' => 'Search features, help, blog...',
+        'quick' => 'Go to',
+        'go' => 'Search',
+        'all' => 'See all results',
+        'hint' => 'Type a word, for example "invoice", "expiry" or "payroll".',
+        'too_short' => 'Type at least two characters.',
+        'none' => 'Nothing found for ":q". Try another phrase or contact us.',
+        'error' => 'Search is not available right now. Please try again.',
+        'results_for' => 'Results for',
+        'keys_move' => 'move',
+        'keys_open' => 'open',
+        'keys_close' => 'close',
+        'groups' => [
+            'features' => 'Features',
+            'industries' => 'Industries',
+            'help' => 'Help center',
+            'blog' => 'Blog',
+            'faq' => 'FAQ',
+        ],
+    ],
+
+    'theme' => [
+        'toggle' => 'Switch between light and dark',
+    ],
+
     'faq' => [
         'title' => 'Frequently asked questions',
         'intro' => 'Answers to common questions. If you do not find yours, get in touch.',
