@@ -36,6 +36,38 @@ class AdminTest extends TestCase
         $this->get('/admin')->assertRedirect('/admin/login');
     }
 
+    public function test_the_profile_page_offers_the_authenticator_app(): void
+    {
+        $this->actingAs(User::factory()->create());
+
+        $this->get('/admin/profile')->assertOk();
+
+        // The authenticator app is registered as an option, and is not forced on anyone.
+        $panel = \Filament\Facades\Filament::getPanel('admin');
+        $this->assertArrayHasKey('app', $panel->getMultiFactorAuthenticationProviders());
+        $this->assertFalse($panel->isMultiFactorAuthenticationRequired());
+    }
+
+    public function test_the_authenticator_secret_and_recovery_codes_are_stored_encrypted(): void
+    {
+        $user = User::factory()->create();
+
+        $user->saveAppAuthenticationSecret('JBSWY3DPEHPK3PXP');
+        $user->saveAppAuthenticationRecoveryCodes(['aaaa-bbbb', 'cccc-dddd']);
+
+        $raw = \Illuminate\Support\Facades\DB::table('users')->where('id', $user->id)->first();
+        $this->assertStringNotContainsString('JBSWY3DPEHPK3PXP', $raw->app_authentication_secret);
+        $this->assertStringNotContainsString('aaaa-bbbb', $raw->app_authentication_recovery_codes);
+
+        $fresh = User::find($user->id);
+        $this->assertSame('JBSWY3DPEHPK3PXP', $fresh->getAppAuthenticationSecret());
+        $this->assertSame(['aaaa-bbbb', 'cccc-dddd'], $fresh->getAppAuthenticationRecoveryCodes());
+        $this->assertSame($user->email, $fresh->getAppAuthenticationHolderName());
+
+        // Neither is ever included when the user is turned into an array or JSON.
+        $this->assertArrayNotHasKey('app_authentication_secret', $fresh->toArray());
+    }
+
     public function test_the_team_can_open_every_content_page(): void
     {
         $this->actingAs(User::factory()->create());
