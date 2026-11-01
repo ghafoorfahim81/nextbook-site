@@ -12,8 +12,8 @@
 /* Latin text is set in Poppins and Arabic-script text (Dari, Pashto) in IRANSans.
    Each Arabic-script face is limited to its own unicode ranges, so a Latin word or an
    address inside a Dari sentence still renders in Poppins.
-   IRANSans has no semibold, so 600 and above use the Bold file. That file covers every
-   Dari letter, digit and punctuation mark but not the extra Pashto letters (ټ ډ ړ ږ ښ ڼ ې ۍ
+   IRANSans has no semibold, so 600 and above use the Bold file (IRANSansWeb Bold). It covers every
+   Dari letter, digit and punctuation mark but not most of the extra Pashto letters (ډ ړ ږ ښ ڼ ې ۍ
    ګ څ ځ): when Pashto goes live, bold Pashto text needs a bold face that has them. */
 @font-face {
     font-family: 'IRANSans';
