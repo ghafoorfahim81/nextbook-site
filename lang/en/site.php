@@ -1,0 +1,209 @@
+<?php
+
+return [
+    'tagline' => 'Business management software for Afghan companies',
+    'meta_description' => 'NextBook: inventory, purchasing, sales, accounting, expenses and HR in one system. In Dari, Pashto and English, with the Jalali calendar.',
+
+    'nav' => [
+        'features' => 'Features',
+        'industries' => 'Industries',
+        'pricing' => 'Pricing',
+        'help' => 'Help center',
+        'contact' => 'Contact',
+        'login' => 'Sign in',
+        'trial' => 'Start free trial',
+        'demo' => 'Request a demo',
+        'menu' => 'Menu',
+    ],
+
+    'hero' => [
+        'eyebrow' => 'Built for Afghanistan',
+        'title' => 'Run your whole business in one system',
+        'text' => 'Inventory, purchasing, sales, cash and bank, expenses, accounting and HR. You enter each piece of information once and every other part of the system uses it.',
+        'cta_demo' => 'Request a demo',
+        'cta_features' => 'See the features',
+        'chips' => ['Jalali and Gregorian calendars', 'Dari · Pashto · English', 'Multi-currency', 'Multi-branch'],
+    ],
+
+    'home' => [
+        'features_eyebrow' => 'Features',
+        'features_title' => 'Everything you need to run the day',
+        'features_all' => 'All features',
+        'industries_eyebrow' => 'Industries',
+        'industries_title' => 'Set up for your kind of business',
+        'industries_text' => 'Every business type has a ready profile: the item form, batch and expiry tracking, serial numbers and variants follow how you actually work.',
+        'industries_all' => 'All industries',
+        'trust_title' => 'Correct books, safe data',
+        'trust' => [
+            ['icon' => 'calculator', 'title' => 'Double-entry accounting', 'text' => 'Every transaction posts to the ledger on its own, with no re-entry.'],
+            ['icon' => 'shield-check', 'title' => 'Each company\'s data is separate', 'text' => 'The separation is enforced in the database itself, not only in the application.'],
+            ['icon' => 'history', 'title' => 'Every change is recorded', 'text' => 'The activity log shows who changed what and when. Deleted records can be restored.'],
+        ],
+        'faq_title' => 'Frequently asked questions',
+        'cta_title' => 'Want to see it on your own business?',
+        'cta_text' => 'Ask for a free demo. We will call you and show the system set up for your type of business.',
+    ],
+
+    'features' => [
+        'title' => 'Features',
+        'intro' => 'Every part of the system shares one database, so information flows between them on its own.',
+        'soon' => 'Coming soon',
+        'soon_note' => 'This module is being built and is not in the system yet.',
+        'points' => 'What it does',
+        'other' => 'More features',
+    ],
+
+    'industries' => [
+        'title' => 'Industries',
+        'intro' => 'NextBook has a ready setup for each type of business. You can switch any field on or off later.',
+        'how' => 'What NextBook does',
+        'other' => 'Other industries',
+        'not_listed' => 'Your business is not listed?',
+        'not_listed_text' => 'Get in touch. Most businesses work with the existing settings.',
+    ],
+
+    'pricing' => [
+        'title' => 'Pricing',
+        'intro' => 'Pick the plan that fits the size of your business.',
+        'featured' => 'Recommended',
+        'cta' => 'Request a demo',
+        'empty' => 'Prices will be published on this page soon. Contact us for a quote.',
+        'faq_title' => 'Frequently asked questions',
+    ],
+
+    'faq' => [
+        'title' => 'Frequently asked questions',
+        'intro' => 'Answers to common questions. If you do not find yours, get in touch.',
+    ],
+
+    'help' => [
+        'title' => 'Help center',
+        'intro' => 'Step-by-step guides for every part of the system.',
+        'search' => 'Search the help center',
+        'search_placeholder' => 'For example: record a sales invoice',
+        'search_btn' => 'Search',
+        'results_for' => 'Results for',
+        'no_results' => 'Nothing found. Try another phrase or contact us.',
+        'articles' => 'articles',
+        'empty' => 'There are no articles in this section yet.',
+        'in_category' => 'In this section',
+        'was_helpful' => 'Was this article helpful?',
+        'yes' => 'Yes',
+        'no' => 'No',
+        'thanks' => 'Thanks for your feedback.',
+        'still_stuck' => 'Still need help?',
+        'still_stuck_text' => 'Our support team is ready to help.',
+        'all' => 'All guides',
+        'not_translated' => 'This article has not been translated into this language yet.',
+    ],
+
+    'contact' => [
+        'title' => 'Contact us',
+        'intro' => 'Have a question, or want to see the system? Write to us or call.',
+        'phone' => 'Phone',
+        'email' => 'Email',
+        'sales' => 'Sales',
+        'general' => 'General',
+        'whatsapp' => 'WhatsApp',
+        'write_us' => 'Write to us',
+        'send' => 'Send message',
+        'sent' => 'We received your message and will get back to you soon.',
+    ],
+
+    'demo' => [
+        'title' => 'Request a demo',
+        'intro' => 'Fill in the form. We will call you and show the system set up for your type of business.',
+        'send' => 'Send request',
+        'sent' => 'We received your request and will call you soon.',
+        'steps_title' => 'What happens next?',
+        'steps' => [
+            'We call you and ask about your business.',
+            'We agree a time to show you the system.',
+            'You see the system with your business type and your own examples.',
+        ],
+    ],
+
+    'form' => [
+        'name' => 'Name',
+        'phone' => 'Phone number',
+        'email' => 'Email',
+        'company' => 'Company or shop name',
+        'business_type' => 'Type of business',
+        'choose' => 'Choose',
+        'branches' => 'Number of branches',
+        'message' => 'Message',
+        'subject' => 'Subject',
+        'optional' => 'optional',
+        'need_contact' => 'Give a phone number or an email so we can reply.',
+    ],
+
+    'business_types' => [
+        'pharmacy' => 'Pharmacy',
+        'supermarket' => 'Supermarket',
+        'grocery' => 'Grocery',
+        'retail' => 'Retail shop',
+        'clothing' => 'Clothing',
+        'mobile' => 'Mobile phones',
+        'computer' => 'Computers',
+        'electronics' => 'Electronics',
+        'jewellery' => 'Jewellery',
+        'carpet' => 'Carpets',
+        'automobile' => 'Automobiles',
+        'book' => 'Books',
+        'manufacturing' => 'Manufacturing',
+        'pharma_manufacturing' => 'Pharmaceutical manufacturing',
+        'hotel' => 'Hotel',
+        'accounting' => 'Accounting office',
+        'other' => 'Other',
+    ],
+
+    'about' => [
+        'title' => 'About NextBook',
+        'text' => [
+            'NextBook is business management software for companies and shops in Afghanistan. It keeps inventory, purchasing, sales, cash and bank, expenses, accounting and HR in one place.',
+            'It was built for Afghanistan from the start: Dari and Pashto, the Jalali calendar, multiple currencies with exchange rates, and a ready setup for different types of business.',
+        ],
+        'principles_title' => 'What the system is built on',
+        'principles' => [
+            ['icon' => 'layers', 'title' => 'Enter it once', 'text' => 'Each piece of information is entered one time and used by every other part.'],
+            ['icon' => 'globe', 'title' => 'Your language and calendar', 'text' => 'Dari, Pashto and English, with Jalali and Gregorian calendars.'],
+            ['icon' => 'building-2', 'title' => 'One shop to many branches', 'text' => 'Companies, branches and several warehouses, with defined access for each user.'],
+        ],
+    ],
+
+    'security' => [
+        'title' => 'Security and trust',
+        'intro' => 'Your financial data has to be correct and protected. These are things the system actually does.',
+        'items' => [
+            ['icon' => 'shield-check', 'title' => 'Companies are kept apart', 'text' => 'One company\'s data is separate from another\'s, and the separation is also enforced in the database (Row Level Security).'],
+            ['icon' => 'users', 'title' => 'Roles and permissions', 'text' => 'You decide what each user can see and what they can change.'],
+            ['icon' => 'history', 'title' => 'Activity log', 'text' => 'It records who created, changed or deleted what, and when.'],
+            ['icon' => 'package', 'title' => 'Deleted records can be restored', 'text' => 'Deleting is soft in most places, and records come back from the "deleted records" page.'],
+            ['icon' => 'calculator', 'title' => 'Double-entry accounting', 'text' => 'Every financial event posts debits and credits to the ledger, so the books agree with the transactions.'],
+        ],
+    ],
+
+    'cta' => [
+        'trial' => 'Start free trial',
+        'contact' => 'Contact us',
+    ],
+
+    'footer' => [
+        'product' => 'Product',
+        'company' => 'Company',
+        'support' => 'Support',
+        'rights' => 'All rights reserved.',
+        'terms' => 'Terms of use',
+        'privacy' => 'Privacy',
+        'about' => 'About us',
+        'security' => 'Security',
+        'faq' => 'FAQ',
+    ],
+
+    'lang' => 'Language',
+    'back' => 'Back',
+    'read_more' => 'More',
+    'not_found' => 'Page not found',
+    'not_found_text' => 'The page you are looking for does not exist or has moved.',
+    'go_home' => 'Go to the home page',
+];
