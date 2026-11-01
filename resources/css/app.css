@@ -6,33 +6,41 @@
 /* Column counts that views pick at runtime (steps, plans), so they cannot be found by scanning. */
 @source inline("md:grid-cols-{1,2,3,4}");
 
+/* Latin text is set in Poppins and Arabic-script text (Dari, Pashto) in IRANSans.
+   Each Arabic-script face is limited to its own unicode ranges, so a Latin word or an
+   address inside a Dari sentence still renders in Poppins.
+   The IRANSans files we have stop at Medium (there is no Bold), so Medium also serves the
+   bold weights; its face covers 600-900, which keeps the browser from faking a bold. */
 @font-face {
-    font-family: 'IranYekan';
-    src: url('/fonts/iranyekan-regular.ttf') format('truetype');
+    font-family: 'IRANSans';
+    src: url('/fonts/iransans-regular.ttf') format('truetype');
     font-weight: 400;
     font-display: swap;
+    unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+200C-200D;
 }
 @font-face {
-    font-family: 'IranYekan';
-    src: url('/fonts/iranyekan-medium.ttf') format('truetype');
+    font-family: 'IRANSans';
+    src: url('/fonts/iransans-medium.ttf') format('truetype');
     font-weight: 500;
     font-display: swap;
+    unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+200C-200D;
 }
 @font-face {
-    font-family: 'IranYekan';
-    src: url('/fonts/iranyekan-bold.ttf') format('truetype');
-    font-weight: 700;
+    font-family: 'IRANSans';
+    src: url('/fonts/iransans-medium.ttf') format('truetype');
+    font-weight: 600 900;
     font-display: swap;
-}
-@font-face {
-    font-family: 'IranYekan';
-    src: url('/fonts/iranyekan-extrabold.ttf') format('truetype');
-    font-weight: 800;
-    font-display: swap;
+    unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+200C-200D;
 }
 
+@font-face { font-family: 'Poppins'; src: url('/fonts/poppins-regular.ttf') format('truetype'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Poppins'; src: url('/fonts/poppins-medium.ttf') format('truetype'); font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Poppins'; src: url('/fonts/poppins-semibold.ttf') format('truetype'); font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Poppins'; src: url('/fonts/poppins-bold.ttf') format('truetype'); font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Poppins'; src: url('/fonts/poppins-extrabold.ttf') format('truetype'); font-weight: 800; font-display: swap; }
+
 @theme {
-    --font-sans: 'IranYekan', ui-sans-serif, system-ui, 'Segoe UI', Tahoma, sans-serif;
+    --font-sans: 'Poppins', 'IRANSans', ui-sans-serif, system-ui, 'Segoe UI', Tahoma, sans-serif;
 
     /* NextBook purple, sampled from the logo. Yellow is the accent. */
     --color-brand-50: #f6effe;

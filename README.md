@@ -6,6 +6,7 @@ center and demo/contact forms. It is a separate project from the ERP
 accounting system.
 
 - **Laravel 13**, PostgreSQL, server-rendered Blade, Tailwind 4, Vite
+- **Fonts:** Poppins for Latin text, IRANSans for Dari and Pashto, served from `public/fonts` with no external font service. The IRANSans files we have stop at Medium (no Bold), so Medium also serves the bold weights; add an IRANSans Bold file and a matching `@font-face` in `resources/css/app.css` if you get one
 - **Filament** admin panel at `/admin` for the team (content, leads)
 - Languages: Dari (`/fa`, default, RTL) and English (`/en`). Pashto content can
   already be entered in the admin; `ps` joins `config/site.php` `locales` once the
