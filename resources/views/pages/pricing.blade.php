@@ -1,5 +1,21 @@
 @extends('layouts.app', ['title' => __('site.pricing.title'), 'description' => __('site.pricing.intro')])
 
+@push('jsonld')
+    @include('partials.jsonld-faq', ['faqs' => $faqs])
+    {{-- The plans as offers of a software product, so search engines can show the prices. --}}
+    <script type="application/ld+json">{!! json_encode([
+        '@context' => 'https://schema.org',
+        '@type' => 'SoftwareApplication',
+        'name' => config('site.name'),
+        'applicationCategory' => 'BusinessApplication',
+        'operatingSystem' => 'Web',
+        'offers' => $plans->filter->hasFixedPrice()->flatMap(fn ($plan) => [
+            ['@type' => 'Offer', 'name' => $plan->name.' ('.__('site.pricing.billing_monthly').')', 'price' => $plan->monthly, 'priceCurrency' => 'USD', 'url' => url()->current()],
+            ['@type' => 'Offer', 'name' => $plan->name.' ('.__('site.pricing.billing_yearly').')', 'price' => $plan->yearly, 'priceCurrency' => 'USD', 'url' => url()->current()],
+        ])->values()->all(),
+    ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) !!}</script>
+@endpush
+
 @section('content')
 @php
     use App\Support\Digits;

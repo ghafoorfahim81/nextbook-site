@@ -39,6 +39,17 @@ requests and contact messages arrive under **Leads**.
 - Contact details, the customers' subdomain (`acme.nextbook.af`) and the WhatsApp number are in `config/site.php`
   (`SITE_TENANT_DOMAIN`, `SITE_TENANT_SCHEME` and `SITE_WHATSAPP` in `.env`).
 
+### Lead emails
+
+A demo request or a contact message is saved (see **Leads** in `/admin`) and also emailed to the people in `SITE_LEADS_TO` (comma-separated), from `MAIL_FROM_ADDRESS`. Replying to that email answers the visitor when they gave an address. The email is sent after the visitor already has their answer and without a queue worker, so a slow or broken mail server never hangs the form and never loses the request; a failure is only logged. For real delivery set `MAIL_MAILER=smtp` and the host, port, username and password of the mailbox (on cPanel hosting: the SMTP details of `info@nextbook.af`).
+
+### Search engines and sharing
+
+`/robots.txt` and `/sitemap.xml` are generated. Every page has Open Graph and Twitter tags (the preview image is `public/images/og.png`, 1200x630), icons for browsers and phones, and JSON-LD: the organisation everywhere, FAQ rich results, prices as offers on the pricing page, and articles for blog posts. Search results and the sign-in page are marked `noindex`. Visitor statistics are off until `SITE_ANALYTICS_SRC` (for example Plausible's script) is set.
+
+### Database
+
+PostgreSQL or MySQL/MariaDB. Nothing in the code is specific to one of them (the JSON search uses Laravel's own JSON paths), and the whole test suite passes on PostgreSQL and on MySQL 8. Run it against MySQL with `DB_CONNECTION=mysql php artisan test` and the usual `DB_*` variables.
 ### Search and dark mode
 
 The search box (Ctrl/Cmd+K, or "/", or the magnifier in the header) searches features, industries, help articles, blog posts and FAQ answers as the visitor types, in their own language with Dari as the fallback. `/{locale}/search` is the same search as a page, which also works without JavaScript. The code is in `app/Support/SiteSearch.php`.

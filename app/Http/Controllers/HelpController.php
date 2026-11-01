@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\HelpArticle;
 use App\Models\HelpCategory;
+use App\Support\SiteSearch;
 use Illuminate\Http\Request;
 
 class HelpController extends Controller
@@ -21,23 +22,8 @@ class HelpController extends Controller
         $results = collect();
 
         if (mb_strlen($q) >= 2) {
-            $locale = app()->getLocale();
-            $like = '%'.str_replace(['%', '_'], ['\%', '\_'], mb_strtolower($q)).'%';
-
-            // The translatable columns are JSON keyed by locale; search the visitor's language.
-            $results = HelpArticle::published()
-                ->with('category')
-                ->where(function ($query) use ($locale, $like) {
-                    $query->whereRaw('lower(title->>?) like ?', [$locale, $like])
-                        ->orWhereRaw('lower(summary->>?) like ?', [$locale, $like])
-                        ->orWhereRaw('lower(content->>?) like ?', [$locale, $like]);
-                })
-                // Articles whose title matches come before those that only mention the phrase.
-                ->orderByRaw('(lower(title->>?) like ?) desc', [$locale, $like])
-                ->limit(30)
-                ->get();
+            $results = app(SiteSearch::class)->helpArticles($q);
         }
-
         return view('help.search', ['q' => $q, 'results' => $results]);
     }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ContactMessage;
 use App\Models\DemoRequest;
 use App\Models\PricingPlan;
+use App\Support\LeadNotifier;
 use Illuminate\Http\Request;
 
 class ContactController extends Controller
@@ -44,7 +45,8 @@ class ContactController extends Controller
             return back()->withInput()->withErrors(['phone' => __('site.form.need_contact')]);
         }
 
-        ContactMessage::create($data + ['ip' => $request->ip()]);
+        $message = ContactMessage::create($data + ['ip' => $request->ip()]);
+        LeadNotifier::send($message);
 
         return back()->with('sent', true);
     }
@@ -65,10 +67,11 @@ class ContactController extends Controller
             'message' => 'nullable|string|max:4000',
         ]);
 
-        DemoRequest::create($data + [
+        $demo = DemoRequest::create($data + [
             'locale' => app()->getLocale(),
             'ip' => $request->ip(),
         ]);
+        LeadNotifier::send($demo);
 
         return back()->with('sent', true);
     }

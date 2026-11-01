@@ -19,6 +19,17 @@ return [
         'sales' => 'sales@nextbook.af',
     ],
 
+    // Who is told when a visitor sends a demo request or a message (comma-separated in .env).
+    // The sender is MAIL_FROM_ADDRESS. A failure to send never loses the request: it is in the admin anyway.
+    'leads_to' => array_values(array_filter(array_map('trim', explode(',', (string) env('SITE_LEADS_TO', 'sales@nextbook.af'))))),
+
+    // Visitor statistics. Empty means none. For Plausible: SITE_ANALYTICS_SRC=https://plausible.io/js/script.js
+    // and SITE_ANALYTICS_DOMAIN=nextbook.af
+    'analytics' => [
+        'src' => env('SITE_ANALYTICS_SRC'),
+        'domain' => env('SITE_ANALYTICS_DOMAIN', 'nextbook.af'),
+    ],
+
     // Digits only, country code first. Leave empty to hide the WhatsApp button.
     'whatsapp' => env('SITE_WHATSAPP', '93728507537'),
 

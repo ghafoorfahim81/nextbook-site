@@ -16,16 +16,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $title }}</title>
     <meta name="description" content="{{ $description }}">
+    @isset($robots)<meta name="robots" content="{{ $robots }}">@endisset
+    <meta name="theme-color" content="#9142e0">
+    {{-- How a link looks when it is shared in WhatsApp, Facebook, Telegram and so on. --}}
+    <meta property="og:site_name" content="{{ config('site.name') }}">
     <meta property="og:title" content="{{ $title }}">
     <meta property="og:description" content="{{ $description }}">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="{{ asset('images/logo.png') }}">
-    <link rel="canonical" href="{{ url($path) }}">
-    @foreach (config('site.locales') as $code => $meta)
+    <meta property="og:type" content="{{ $ogType ?? 'website' }}">
+    <meta property="og:url" content="{{ url($path) }}">
+    <meta property="og:locale" content="{{ $locale === 'fa' ? 'fa_AF' : 'en_US' }}">
+    @foreach (array_keys(config('site.locales')) as $code)
+        @if ($code !== $locale)<meta property="og:locale:alternate" content="{{ $code === 'fa' ? 'fa_AF' : 'en_US' }}">@endif
+    @endforeach
+    <meta property="og:image" content="{{ asset('images/og.png') }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="canonical" href="{{ url($path) }}">    @foreach (config('site.locales') as $code => $meta)
         <link rel="alternate" hreflang="{{ $code }}" href="{{ url('/'.$code.$rest) }}">
     @endforeach
-    <link rel="icon" href="{{ asset('images/logo.png') }}">
-    <link rel="preload" href="{{ Vite::asset($locale === 'fa' ? 'resources/fonts/iransans-regular.ttf' : 'resources/fonts/poppins-regular.ttf') }}" as="font" type="font/ttf" crossorigin>
+    <link rel="icon" href="{{ asset('favicon.ico') }}" sizes="32x32">
+    <link rel="icon" type="image/png" href="{{ asset('icon-192.png') }}" sizes="192x192">
+    <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
+    <script type="application/ld+json">{!! json_encode([
+        '@context' => 'https://schema.org',
+        '@type' => 'Organization',
+        'name' => config('site.name'),
+        'url' => url('/'),
+        'logo' => asset('icon-512.png'),
+        'email' => config('site.emails.general'),
+        'contactPoint' => array_map(fn ($phone) => [
+            '@type' => 'ContactPoint', 'contactType' => 'sales', 'telephone' => preg_replace('/\s+/', '', $phone),
+        ], config('site.phones')),
+    ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) !!}</script>
+    @stack('jsonld')    <link rel="preload" href="{{ Vite::asset($locale === 'fa' ? 'resources/fonts/iransans-regular.ttf' : 'resources/fonts/poppins-regular.ttf') }}" as="font" type="font/ttf" crossorigin>
     <meta name="color-scheme" content="light dark">
     {{-- Applies the saved (or the system) theme before the first paint, so a dark page never flashes white. --}}
     <script>
@@ -39,6 +63,10 @@
         })();
     </script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @if (config('site.analytics.src'))
+        {{-- Privacy-friendly visitor statistics (Plausible or similar): no cookies. Off unless set in .env. --}}
+        <script defer data-domain="{{ config('site.analytics.domain') }}" src="{{ config('site.analytics.src') }}"></script>
+    @endif
 </head>
 <body class="flex min-h-screen flex-col">
 

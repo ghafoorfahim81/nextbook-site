@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@push('jsonld')
+    @include('partials.jsonld-faq', ['faqs' => $faqs])
+@endpush
+
 @section('content')
 @php
     use App\Support\Digits;

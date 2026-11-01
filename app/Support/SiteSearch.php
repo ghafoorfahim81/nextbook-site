@@ -104,23 +104,39 @@ class SiteSearch
     private function query(Builder $builder, array $columns, string $q, int $limit)
     {
         $locale = app()->getLocale();
-        $like = '%'.str_replace(['\\', '%', '_'], ['\\\\', '\%', '\_'], $q).'%';
+        $like = '%'.addcslashes($q, '\\%_').'%'; // the characters LIKE treats specially are matched literally
 
-        // The visitor's language where it exists, otherwise Dari.
-        $text = fn (string $column) => "lower(coalesce(nullif({$column}->>?, ''), {$column}->>'fa'))";
-
-        $builder->where(function (Builder $where) use ($columns, $text, $locale, $like) {
+        // Written with Laravel's JSON paths ("title->en") and whereLike, which each database
+        // driver compiles in its own way, so the same code runs on PostgreSQL and on MySQL or
+        // MariaDB (the usual shared-hosting database). The visitor's language is searched, and
+        // Dari too, since that is what a page shows where a translation is missing.
+        $builder->where(function (Builder $where) use ($columns, $locale, $like) {
             foreach ($columns as $column) {
-                $where->orWhereRaw($text($column).' like ?', [$locale, $like]);
+                foreach (array_unique([$locale, 'fa']) as $language) {
+                    $where->orWhereLike("{$column}->{$language}", $like, caseSensitive: false);
+                }
             }
         });
 
-        return $builder
-            ->orderByRaw('('.$text($columns[0]).' like ?) desc', [$locale, $like])
-            ->limit($limit)
-            ->get();
+        // The ordering is done here instead of in SQL for the same reason: a title that
+        // contains the query comes before a row that only mentions it. The content is small.
+        return $builder->limit(60)->get()
+            ->sortBy(fn ($row) => mb_stripos((string) $row->{$columns[0]}, $q) === false ? 1 : 0)
+            ->take($limit)
+            ->values();
     }
 
+    /** Help articles for the help center's own search page. */
+    public function helpArticles(string $query, int $limit = 30)
+    {
+        $query = self::normalize($query);
+
+        if (mb_strlen($query) < self::MIN_LENGTH) {
+            return collect();
+        }
+
+        return $this->query(HelpArticle::published()->with('category'), ['title', 'summary', 'content'], $query, $limit);
+    }
     /** @param list<?string> $sources text to take the snippet from, best first */
     private function item(string $title, ?string $summary, string $q, array $sources, string $url, string $meta = ''): array
     {

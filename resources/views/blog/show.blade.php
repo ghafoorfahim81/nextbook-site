@@ -1,4 +1,20 @@
-@extends('layouts.app', ['title' => $post->title, 'description' => $post->excerpt])
+@extends('layouts.app', ['title' => $post->title, 'description' => $post->excerpt, 'ogType' => 'article'])
+
+@push('jsonld')
+    <script type="application/ld+json">{!! json_encode([
+        '@context' => 'https://schema.org',
+        '@type' => 'Article',
+        'headline' => $post->title,
+        'description' => $post->excerpt,
+        'datePublished' => $post->published_at->toIso8601String(),
+        'dateModified' => $post->updated_at->toIso8601String(),
+        'inLanguage' => app()->getLocale(),
+        'image' => asset('images/og.png'),
+        'mainEntityOfPage' => url()->current(),
+        'author' => ['@type' => 'Organization', 'name' => config('site.name')],
+        'publisher' => ['@type' => 'Organization', 'name' => config('site.name'), 'logo' => ['@type' => 'ImageObject', 'url' => asset('icon-512.png')]],
+    ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) !!}</script>
+@endpush
 
 @section('content')
 @php

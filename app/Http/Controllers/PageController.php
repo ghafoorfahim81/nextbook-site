@@ -53,6 +53,14 @@ class PageController extends Controller
         return view('pages.security');
     }
 
+    public function robots(): Response
+    {
+        // Search results and the sign-in form are no use in a search engine; the admin is private.
+        $lines = ['User-agent: *', 'Disallow: /admin', 'Disallow: /*/search', 'Disallow: /*/login', '', 'Sitemap: '.url('/sitemap.xml'), ''];
+
+        return response(implode("\n", $lines), 200, ['Content-Type' => 'text/plain; charset=UTF-8']);
+    }
+
     public function sitemap(): Response
     {
         $locales = array_keys(config('site.locales'));

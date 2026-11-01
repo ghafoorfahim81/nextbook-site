@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => __('site.login.title')])
+@extends('layouts.app', ['title' => __('site.login.title'), 'robots' => 'noindex, follow'])
 
 @section('content')
 <section class="section">

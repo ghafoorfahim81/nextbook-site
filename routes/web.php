@@ -22,6 +22,7 @@ Route::get('/', function () {
 });
 
 Route::get('/sitemap.xml', [PageController::class, 'sitemap'])->name('sitemap');
+Route::get('/robots.txt', [PageController::class, 'robots'])->name('robots');
 
 Route::prefix('{locale}')->middleware(SetLocale::class)->group(function () {
     Route::get('/', [PageController::class, 'home'])->name('home');

@@ -1,5 +1,9 @@
 @extends('layouts.app', ['title' => __('site.faq.title')])
 
+@push('jsonld')
+    @include('partials.jsonld-faq', ['faqs' => $faqs])
+@endpush
+
 @section('content')
 @include('partials.page-head', ['heading' => __('site.faq.title'), 'intro' => __('site.faq.intro')])
 

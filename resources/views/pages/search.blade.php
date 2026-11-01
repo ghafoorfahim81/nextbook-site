@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => __('site.search.title')])
+@extends('layouts.app', ['title' => __('site.search.title'), 'robots' => 'noindex, follow'])
 
 @section('content')
 <div class="relative isolate border-b border-slate-200 bg-gradient-to-b from-brand-50/70 to-surface">
