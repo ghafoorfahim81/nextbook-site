@@ -32,6 +32,8 @@ class HelpController extends Controller
                         ->orWhereRaw('lower(summary->>?) like ?', [$locale, $like])
                         ->orWhereRaw('lower(content->>?) like ?', [$locale, $like]);
                 })
+                // Articles whose title matches come before those that only mention the phrase.
+                ->orderByRaw('(lower(title->>?) like ?) desc', [$locale, $like])
                 ->limit(30)
                 ->get();
         }

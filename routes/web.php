@@ -9,7 +9,10 @@ use App\Http\Middleware\SetLocale;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    $preferred = request()->getPreferredLanguage(array_keys(config('site.locales')));
+    // Dari unless the browser explicitly asks for another language we offer.
+    $preferred = request()->hasHeader('Accept-Language')
+        ? request()->getPreferredLanguage(array_keys(config('site.locales')))
+        : null;
 
     return redirect()->route('home', ['locale' => $preferred ?: config('site.default_locale')]);
 });

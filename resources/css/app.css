@@ -128,5 +128,38 @@
     @apply border border-slate-200 px-3 py-2 align-top;
 }
 .prose-help .callout {
-    @apply my-4 rounded-xl border-s-4 border-accent-500 bg-amber-50 px-4 py-3;
+    @apply my-4 rounded-xl border-s-4 border-brand-400 bg-brand-50 px-4 py-3;
+}
+.prose-help .callout-tip {
+    @apply border-green-500 bg-green-50;
+}
+.prose-help .callout-warn {
+    @apply border-accent-500 bg-amber-50;
+}
+.prose-help .table-wrap {
+    @apply my-4 overflow-x-auto;
+}
+.prose-help .table-wrap table {
+    @apply my-0;
+}
+.prose-help .flow {
+    @apply my-4 flex flex-wrap items-center gap-2;
+}
+.prose-help .flow-step {
+    @apply rounded-lg border border-brand-200 bg-brand-50 px-3 py-1.5 text-sm font-bold text-brand-800;
+}
+.prose-help .flow-arrow {
+    @apply text-brand-400 rtl:rotate-180;
+}
+.prose-help .formula {
+    @apply my-4 rounded-xl bg-slate-100 px-4 py-3 text-center font-bold text-slate-800;
+}
+.prose-help figure {
+    @apply my-6;
+}
+.prose-help figure img {
+    @apply w-full rounded-xl border border-slate-200;
+}
+.prose-help figcaption {
+    @apply mt-2 text-center text-sm text-slate-500;
 }

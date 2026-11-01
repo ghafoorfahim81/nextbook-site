@@ -282,13 +282,11 @@ class FeatureSeeder extends Seeder
         ];
 
         foreach ($features as $i => $row) {
-            $feature = new Feature(['slug' => $row['slug'], 'icon' => $row['icon'], 'status' => $row['status'], 'sort' => $i + 1]);
-            foreach (['fa', 'en'] as $locale) {
-                foreach (['title', 'summary', 'points'] as $field) {
-                    $feature->setTranslation($field, $locale, $row[$locale][$field]);
-                }
+            $attributes = ['icon' => $row['icon'], 'status' => $row['status'], 'sort' => $i + 1];
+            foreach (['title', 'summary', 'points'] as $field) {
+                $attributes[$field] = ['fa' => $row['fa'][$field], 'en' => $row['en'][$field]];
             }
-            Feature::updateOrCreate(['slug' => $row['slug']], $feature->getAttributes());
+            Feature::updateOrCreate(['slug' => $row['slug']], $attributes);
         }
     }
 }

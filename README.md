@@ -1,58 +1,61 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# nextbook.af
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+The public website of NextBook: product pages, industries, pricing, FAQ, a help
+center and demo/contact forms. It is a separate project from the ERP
+(`nextbook`) on purpose, so site traffic and site changes never touch the
+accounting system.
 
-## About Laravel
+- **Laravel 13**, PostgreSQL, server-rendered Blade, Tailwind 4, Vite
+- **Filament** admin panel at `/admin` for the team (content, leads)
+- Languages: Dari (`/fa`, default, RTL) and English (`/en`). Pashto content can
+  already be entered in the admin; `ps` joins `config/site.php` `locales` once the
+  interface texts in `lang/ps` exist.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
-
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## Run it
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+composer install
+cp .env.example .env        # then set DB_PASSWORD
+php artisan key:generate
+php artisan migrate --seed  # creates the tables and the public content
+php artisan help:import     # builds the help center from the ERP user manual
+php artisan make:filament-user
+npm install
+composer dev                # server + Vite  ->  http://127.0.0.1:8000
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+The database named in `.env` (`nextbook_site`) must exist. Admin: `/admin`.
 
-## Contributing
+## Content
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Everything on the public pages comes from the database and is edited in `/admin`:
+features, industries, pricing plans, FAQ, help categories and articles. Demo
+requests and contact messages arrive under **Leads**.
 
-## Code of Conduct
+- **Prices** are never invented: with no plan published, the pricing page says to
+  contact sales. Add plans in the admin when the prices are decided.
+- **"Coming soon"** features (POS, CRM ...) are marked as such and kept off the home page.
+- Contact details, the ERP address and the WhatsApp number are in `config/site.php`
+  (`SITE_APP_URL` and `SITE_WHATSAPP` in `.env`).
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Help center
 
-## Security Vulnerabilities
+`database/data/manual.json` is the ERP user manual (15 guides, Dari / English / Pashto),
+exported once from the ERP's `resources/js/Pages/UserManual/content`:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+node scripts/export-manual.mjs ../nextbook   # regenerate the JSON from the ERP
+php artisan help:import                      # load it (overwrites imported articles)
+```
 
-## License
+Screenshots live in `public/images/user-manual/`. A figure whose image file is missing
+is left out of the article instead of showing a broken image.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Tests
+
+```bash
+composer test
+```
+
+Tests run against a separate PostgreSQL database, `nextbook_site_test` (see
+`phpunit.xml`), so the site's own data is never touched.

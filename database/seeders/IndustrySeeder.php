@@ -67,13 +67,13 @@ class IndustrySeeder extends Seeder
         ];
 
         foreach ($industries as $i => [$slug, $type, $icon, $fa, $en]) {
-            $industry = new Industry(['slug' => $slug, 'business_type' => $type, 'icon' => $icon, 'sort' => $i + 1]);
+            $attributes = ['business_type' => $type, 'icon' => $icon, 'sort' => $i + 1];
             foreach (['fa' => $fa, 'en' => $en] as $locale => [$title, $summary, $points]) {
-                $industry->setTranslation('title', $locale, $title);
-                $industry->setTranslation('summary', $locale, $summary);
-                $industry->setTranslation('points', $locale, array_merge($points, $common[$locale]));
+                $attributes['title'][$locale] = $title;
+                $attributes['summary'][$locale] = $summary;
+                $attributes['points'][$locale] = array_merge($points, $common[$locale]);
             }
-            Industry::updateOrCreate(['slug' => $slug], $industry->getAttributes());
+            Industry::updateOrCreate(['slug' => $slug], $attributes);
         }
     }
 }
