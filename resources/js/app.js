@@ -102,6 +102,8 @@ const sale = document.getElementById('sale-demo');
 if (sale) {
     const d = sale.dataset;
     const fmt = new Intl.NumberFormat(d.locale);
+    // A right-to-left mark keeps the plus sign on the starting side of the number in Dari.
+    const RLM = d.locale === 'fa' ? '‏' : '';
     const price = Number(d.price);
     const cost = Number(d.cost);
     const stock = Number(d.stock);
@@ -168,15 +170,15 @@ if (sale) {
 
         const ledger = out('ledger');
         ledger.className = 'text-slate-900';
-        const rows = [[d.cash, '+' + money(paid)]];
-        if (debt) rows.push([d.receivable, '+' + money(debt)]);
+        const rows = [[d.cash, RLM + '+' + money(paid)]];
+        if (debt) rows.push([d.receivable, RLM + '+' + money(debt)]);
         rows.push([d.sales, money(total)]);
         ledger.replaceChildren(...rows.map(([label, value], i) => line(label, value, 0.2 + i * 0.12)));
 
         const profit = out('profit');
         profit.className = 'pop text-slate-900';
         profit.style.setProperty('--d', '.3s');
-        profit.replaceChildren(node('p', 'text-2xl font-bold text-brand-600', '+' + money(qty * (price - cost))));
+        profit.replaceChildren(node('p', 'text-2xl font-bold text-brand-600', RLM + '+' + money(qty * (price - cost))));
 
         stamp.classList.remove('hidden');
         stamp.style.animation = 'none';
