@@ -79,7 +79,7 @@
 
         <div class="day" data-day data-mode="after">
             <div class="reveal mb-10 inline-flex rounded-full border border-brand-200 bg-surface p-1 shadow-sm" role="group">
-                <button type="button" data-day-set="before" aria-pressed="false" class="rounded-full px-5 py-2 text-sm font-bold text-slate-600 transition aria-pressed:bg-slate-800 aria-pressed:text-white">{{ $s['day']['before'] }}</button>
+                <button type="button" data-day-set="before" aria-pressed="false" class="rounded-full px-5 py-2 text-sm font-bold text-slate-600 transition aria-pressed:bg-brand-900 aria-pressed:text-white">{{ $s['day']['before'] }}</button>
                 <button type="button" data-day-set="after" aria-pressed="true" class="rounded-full px-5 py-2 text-sm font-bold text-slate-600 transition aria-pressed:bg-brand-500 aria-pressed:text-white">{{ $s['day']['after'] }}</button>
             </div>
 
