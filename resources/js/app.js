@@ -55,6 +55,157 @@ if (pricing) {
     });
 }
 
+// --- Scroll reveal -----------------------------------------------------------------------------
+const revealed = document.querySelectorAll('.reveal');
+
+if ('IntersectionObserver' in window) {
+    const watcher = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add('is-in');
+            watcher.unobserve(entry.target);
+        });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    revealed.forEach((node) => watcher.observe(node));
+} else {
+    revealed.forEach((node) => node.classList.add('is-in'));
+}
+
+// --- Home: a day, before and after -------------------------------------------------------------
+document.querySelectorAll('[data-day]').forEach((day) => {
+    const buttons = day.querySelectorAll('[data-day-set]');
+    buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+            day.dataset.mode = button.dataset.daySet;
+            buttons.forEach((other) => other.setAttribute('aria-pressed', String(other === button)));
+        });
+    });
+});
+
+// --- Home: the questions asked every night -------------------------------------------------------
+const ask = document.getElementById('ask');
+
+if (ask) {
+    const tabs = ask.querySelectorAll('[data-ask]');
+    const panels = ask.querySelectorAll('[data-ask-panel]');
+    tabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+            tabs.forEach((other) => other.setAttribute('aria-selected', String(other === tab)));
+            panels.forEach((panel) => { panel.hidden = panel.dataset.askPanel !== tab.dataset.ask; });
+        });
+    });
+}
+
+// --- Home: record a sale and watch the book write itself ---------------------------------------------
+const sale = document.getElementById('sale-demo');
+
+if (sale) {
+    const d = sale.dataset;
+    const fmt = new Intl.NumberFormat(d.locale);
+    // A right-to-left mark keeps the plus sign on the starting side of the number in Dari.
+    const RLM = d.locale === 'fa' ? '‏' : '';
+    const price = Number(d.price);
+    const cost = Number(d.cost);
+    const stock = Number(d.stock);
+    const out = (key) => sale.querySelector('[data-out="' + key + '"]');
+    const qtyOut = sale.querySelector('[data-qty-out]');
+    const totalOut = sale.querySelector('[data-total]');
+    const stamp = sale.querySelector('[data-stamp]');
+    const submit = sale.querySelector('[data-submit]');
+    let qty = 20;
+    let pay = 'cash';
+    let done = false;
+
+    const node = (tag, className, text) => {
+        const el = document.createElement(tag);
+        if (className) el.className = className;
+        if (text !== undefined) el.textContent = text;
+        return el;
+    };
+
+    function reset() {
+        done = false;
+        stamp.classList.add('hidden');
+        submit.textContent = d.submitLabel;
+        ['stock', 'debt', 'ledger', 'profit'].forEach((key) => {
+            out(key).className = 'min-h-14 text-slate-400';
+            out(key).textContent = d.waiting;
+        });
+    }
+
+    function refresh() {
+        qtyOut.textContent = fmt.format(qty);
+        totalOut.textContent = fmt.format(qty * price);
+        if (done) reset();
+    }
+
+    function line(label, value, delay) {
+        const row = node('div', 'pop flex items-center justify-between gap-4 border-b border-dashed border-slate-200 py-1.5 text-sm last:border-0');
+        row.style.setProperty('--d', delay + 's');
+        row.append(node('span', 'text-slate-600', label), node('span', 'font-bold text-slate-900', value));
+        return row;
+    }
+
+    function record() {
+        const total = qty * price;
+        const paid = pay === 'cash' ? total : Math.round(total / 2 / 50) * 50;
+        const debt = total - paid;
+        const money = (n) => fmt.format(n) + ' ' + d.money;
+        done = true;
+
+        const stockBox = out('stock');
+        stockBox.className = 'pop text-slate-900';
+        stockBox.replaceChildren(
+            node('p', 'text-3xl font-bold', fmt.format(stock) + ' ← ' + fmt.format(stock - qty)),
+            node('p', 'mt-1 text-sm text-slate-500', d.stockUnit),
+        );
+
+        const debtBox = out('debt');
+        debtBox.className = 'pop text-slate-900';
+        debtBox.style.setProperty('--d', '.1s');
+        debtBox.replaceChildren(
+            node('p', 'text-xl font-bold', debt ? money(debt) : '0'),
+            node('p', 'mt-1 text-sm text-slate-500', debt ? d.debtHas : d.debtZero),
+        );
+
+        const ledger = out('ledger');
+        ledger.className = 'text-slate-900';
+        const rows = [[d.cash, RLM + '+' + money(paid)]];
+        if (debt) rows.push([d.receivable, RLM + '+' + money(debt)]);
+        rows.push([d.sales, money(total)]);
+        ledger.replaceChildren(...rows.map(([label, value], i) => line(label, value, 0.2 + i * 0.12)));
+
+        const profit = out('profit');
+        profit.className = 'pop text-slate-900';
+        profit.style.setProperty('--d', '.3s');
+        profit.replaceChildren(node('p', 'text-2xl font-bold text-brand-600', RLM + '+' + money(qty * (price - cost))));
+
+        stamp.classList.remove('hidden');
+        stamp.style.animation = 'none';
+        void stamp.offsetWidth;
+        stamp.style.animation = '';
+        submit.textContent = d.again;
+    }
+
+    sale.querySelectorAll('[data-qty]').forEach((button) => {
+        button.addEventListener('click', () => {
+            qty = Math.min(40, Math.max(5, qty + Number(button.dataset.qty)));
+            refresh();
+        });
+    });
+
+    const payButtons = sale.querySelectorAll('[data-pay]');
+    payButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            pay = button.dataset.pay;
+            payButtons.forEach((other) => other.setAttribute('aria-pressed', String(other === button)));
+            if (done) reset();
+        });
+    });
+
+    submit.addEventListener('click', () => (done ? reset() : record()));
+}
+
 // --- Search --------------------------------------------------------------------------------
 const dialog = document.getElementById('search-dialog');
 

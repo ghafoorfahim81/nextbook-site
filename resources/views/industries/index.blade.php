@@ -4,7 +4,7 @@
 @include('partials.page-head', ['heading' => __('site.industries.title'), 'intro' => __('site.industries.intro')])
 
 <section class="section">
-    <div class="container-page grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="container-page note-grid grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         @foreach ($industries as $industry)
             @include('partials.card-industry', ['industry' => $industry])
         @endforeach

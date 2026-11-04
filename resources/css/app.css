@@ -84,14 +84,14 @@
         @apply mx-auto w-full max-w-6xl px-4 sm:px-6;
     }
     .btn {
-        @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl px-5 py-2.5 text-sm font-bold transition;
+        @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full px-6 py-2.5 text-sm font-bold transition active:translate-y-px;
     }
     /* The header controls: compact, and all one height. */
     .btn-sm {
-        @apply h-9 gap-1.5 rounded-lg px-4 py-0 text-[13px];
+        @apply h-9 gap-1.5 rounded-full px-4 py-0 text-[13px];
     }
     .btn-primary {
-        @apply bg-brand-500 text-white shadow-sm hover:bg-brand-600;
+        @apply bg-brand-500 text-white shadow-sm shadow-brand-500/30 hover:bg-brand-600 hover:shadow-md hover:shadow-brand-500/40;
     }
     .btn-outline {
         @apply border border-brand-200 bg-surface text-brand-700 hover:bg-brand-50;
@@ -100,13 +100,17 @@
         @apply bg-white text-brand-700 hover:bg-brand-50;
     }
     .card {
-        @apply rounded-2xl border border-slate-200 bg-surface p-6 shadow-sm;
+        @apply relative rounded-2xl border border-slate-200 bg-surface p-6 shadow-sm;
     }
     .section {
         @apply py-14 sm:py-20;
     }
     .eyebrow {
-        @apply mb-2 text-sm font-bold text-brand-600;
+        @apply mb-3 inline-flex items-center gap-2 text-sm font-bold text-brand-600;
+    }
+    .eyebrow::before {
+        content: '';
+        @apply h-px w-8 bg-accent-500;
     }
     .input {
         @apply w-full rounded-xl border border-slate-300 bg-surface px-4 py-2.5 text-sm text-slate-800 outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-200;
@@ -185,6 +189,175 @@
 /* A lit card: lifts and takes the brand colour on hover. */
 .card-hover {
     @apply transition duration-200 hover:-translate-y-1 hover:border-brand-300 hover:shadow-lg;
+}
+
+/* =======================================================================================
+   Version 2: "the next chapter of the ledger".
+   The site is the notebook every trader already keeps, turned over to a clean page:
+   ruled paper, a margin line, sticky notes, a highlighter pen and a bookmark ribbon.
+   Built only from the brand purple and the yellow accent, so dark mode follows through
+   the same variables.
+   ======================================================================================= */
+
+/* Ruled paper: a line every 2rem and a margin line on the starting side. */
+.paper {
+    position: relative;
+    background-color: var(--color-surface);
+    background-image: repeating-linear-gradient(
+        to bottom, transparent 0 calc(2rem - 1px),
+        color-mix(in oklab, var(--color-brand-500) 13%, transparent) calc(2rem - 1px) 2rem
+    );
+    background-position: 0 1.1rem;
+    border: 1px solid var(--color-slate-200);
+    border-radius: 1.25rem;
+    box-shadow: 0 1px 0 rgb(0 0 0 / 0.03), 0 24px 50px -28px rgb(92 40 161 / 0.35);
+}
+.paper::before {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 2.75rem;
+    width: 1px;
+    background: color-mix(in oklab, var(--color-accent-500) 55%, transparent);
+    pointer-events: none;
+}
+
+/* Highlighter pen over a word. */
+.mark {
+    background-image: linear-gradient(to top, color-mix(in oklab, var(--color-accent-400) 70%, transparent) 0 42%, transparent 42%);
+    padding-inline: 0.15em;
+    border-radius: 0.2em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+}
+/* A hand-drawn wavy underline. */
+.scribble {
+    text-decoration: underline wavy var(--color-accent-500);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.3em;
+}
+/* Struck out by hand: the old way of writing it down. */
+.strike {
+    text-decoration: line-through;
+    text-decoration-color: var(--color-brand-500);
+    text-decoration-thickness: 2px;
+    opacity: 0.7;
+}
+
+/* A note, held by a strip of tape. */
+.note {
+    @apply relative rounded-sm bg-amber-100 px-4 py-3 text-sm font-medium text-amber-900;
+    box-shadow: 0 10px 18px -10px rgb(120 80 0 / 0.45);
+}
+.note::before {
+    content: '';
+    position: absolute;
+    top: -0.55rem;
+    inset-inline-start: 50%;
+    width: 3.2rem;
+    height: 1.1rem;
+    translate: -50% 0;
+    background: color-mix(in oklab, var(--color-brand-300) 55%, transparent);
+    transform: rotate(-3deg);
+}
+.tilt-l { transform: rotate(-2.2deg); }
+.tilt-r { transform: rotate(1.8deg); }
+
+/* Big chapter numerals, drawn as an outline. */
+.chapter-no {
+    font-weight: 800;
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1.5px color-mix(in oklab, var(--color-brand-500) 55%, transparent);
+}
+
+/* The top of an inner page: a fresh ruled page that fades out downward. */
+.page-top {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    border-bottom: 1px solid var(--color-slate-200);
+    background-color: color-mix(in oklab, var(--color-brand-50) 60%, var(--color-surface));
+}
+.page-top::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image: repeating-linear-gradient(
+        to bottom, transparent 0 calc(2rem - 1px),
+        color-mix(in oklab, var(--color-brand-500) 11%, transparent) calc(2rem - 1px) 2rem
+    );
+    -webkit-mask-image: linear-gradient(to bottom, #000 30%, transparent);
+    mask-image: linear-gradient(to bottom, #000 30%, transparent);
+}
+/* A bookmark ribbon hanging from the top. */
+.ribbon {
+    position: absolute;
+    top: 0;
+    width: 2.1rem;
+    height: 3.6rem;
+    background: var(--color-accent-500);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 78%, 0 100%);
+    filter: drop-shadow(0 4px 4px rgb(0 0 0 / 0.18));
+}
+
+/* Folded top corner on the feature and industry cards. */
+.card-fold { overflow: hidden; }
+.card-fold::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    inset-inline-end: 0;
+    width: 1.6rem;
+    height: 1.6rem;
+    background: linear-gradient(to bottom left, var(--color-surface) 50%, var(--color-brand-100) 50%);
+    transition: width 0.2s ease, height 0.2s ease;
+}
+[dir='rtl'] .card-fold::after {
+    background: linear-gradient(to bottom right, var(--color-surface) 50%, var(--color-brand-100) 50%);
+}
+.card-fold:hover::after { width: 2.4rem; height: 2.4rem; }
+
+/* Scroll reveal. Only hides things when JavaScript is there to show them again. */
+.js .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+    transition-delay: var(--d, 0s);
+}
+.js .reveal.is-in { opacity: 1; transform: none; }
+
+/* The day, before and after. */
+.day[data-mode='after'] [data-when='before'],
+.day[data-mode='before'] [data-when='after'] { display: none; }
+.day-line {
+    background: linear-gradient(to bottom, var(--color-brand-300), var(--color-brand-500) 60%, var(--color-accent-500));
+}
+
+/* The sale demo: a fresh value pops into place, then the book is stamped. */
+@keyframes pop-in {
+    0% { opacity: 0; transform: translateY(8px) scale(0.96); }
+    100% { opacity: 1; transform: none; }
+}
+.pop { animation: pop-in 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: var(--d, 0s); }
+@keyframes stamp {
+    0% { opacity: 0; transform: scale(2.2) rotate(-14deg); }
+    60% { opacity: 1; transform: scale(0.94) rotate(-8deg); }
+    100% { opacity: 1; transform: scale(1) rotate(-8deg); }
+}
+.stamp {
+    border: 3px solid var(--color-accent-500);
+    color: var(--color-accent-500);
+    border-radius: 0.6rem;
+    padding: 0.1rem 0.8rem;
+    font-weight: 800;
+    transform: rotate(-8deg);
+    animation: stamp 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+    .js .reveal { opacity: 1; transform: none; transition: none; }
+    .pop, .stamp { animation: none; }
 }
 
 /* Help article body, rendered from stored HTML. */
@@ -329,3 +502,67 @@
 .dark .prose-help .flow-step { background-color: #231a3f; border-color: #43307a; color: var(--color-brand-200); }
 .dark .prose-help .formula { background-color: var(--color-slate-100); }
 .dark .prose-help figure img { opacity: 0.95; }
+.dark .ribbon { filter: drop-shadow(0 4px 4px rgb(0 0 0 / 0.5)); }
+.dark .note { box-shadow: 0 10px 18px -10px rgb(0 0 0 / 0.6); }
+.dark .paper { box-shadow: 0 24px 50px -28px rgb(0 0 0 / 0.7); }
+.dark .card-fold::after { background: linear-gradient(to bottom left, var(--color-surface) 50%, #2d2150 50%); }
+.dark[dir='rtl'] .card-fold::after { background: linear-gradient(to bottom right, var(--color-surface) 50%, #2d2150 50%); }
+
+/* ---------------------------------------------------------------------------------------
+   Notes: feature, industry and blog cards as paper notes pinned to a board. Each one takes the
+   next paper colour (yellow, lilac, white) and a slight tilt that straightens on hover.
+   --------------------------------------------------------------------------------------- */
+.note-grid > :nth-child(3n+1) { --r: -1.1deg; --note: var(--color-amber-100); }
+.note-grid > :nth-child(3n+2) { --r: 0.9deg; --note: var(--color-brand-100); }
+.note-grid > :nth-child(3n) { --r: -0.5deg; --note: var(--color-surface); }
+.note-card {
+    position: relative;
+    display: block;
+    border-radius: 0.4rem 0.4rem 0.9rem 0.4rem;
+    padding: 1.75rem 1.5rem 1.5rem;
+    background-color: var(--note, var(--color-surface));
+    background-image: repeating-linear-gradient(
+        to bottom, transparent 0 calc(2rem - 1px),
+        color-mix(in oklab, var(--color-slate-500) 12%, transparent) calc(2rem - 1px) 2rem
+    );
+    background-position: 0 1.6rem;
+    box-shadow: 0 16px 26px -16px rgb(60 30 110 / 0.45), 0 1px 0 rgb(0 0 0 / 0.04);
+    transform: rotate(var(--r, 0deg));
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.note-card:hover {
+    transform: rotate(0deg) translateY(-6px);
+    box-shadow: 0 26px 34px -18px rgb(60 30 110 / 0.5);
+}
+/* The strip of tape that holds it. */
+.note-card::before {
+    content: '';
+    position: absolute;
+    top: -0.6rem;
+    inset-inline-start: 50%;
+    width: 4rem;
+    height: 1.2rem;
+    translate: -50% 0;
+    background: color-mix(in oklab, var(--color-brand-400) 45%, transparent);
+    transform: rotate(-2deg);
+}
+.note-card:nth-child(even)::before { transform: rotate(2.5deg); }
+.dark .note-grid > :nth-child(3n+2) { --note: #2d2150; }
+.dark .note-grid > :nth-child(3n) { --note: #1f1738; }
+.dark .note-card { box-shadow: 0 16px 26px -16px rgb(0 0 0 / 0.7); }
+@media (prefers-reduced-motion: reduce) {
+    .note-card, .note-card:hover { transform: none; transition: none; }
+}
+
+/* FAQ answers: the open one lifts and takes a tint (and has its own dark tint). */
+.faq-item[open] { border-color: var(--color-brand-300); background-color: color-mix(in oklab, var(--color-brand-100) 55%, var(--color-surface)); box-shadow: 0 1px 2px rgb(0 0 0 / 0.05); }
+.dark .faq-item[open] { background-color: #231a3f; border-color: var(--color-brand-500); }
+
+/* Dark: the top of an inner page is the same deep violet as the page, not a washed-out tint. */
+.dark .page-top { background-color: #1a1230; border-color: var(--color-slate-200); }
+.dark .page-top::before {
+    background-image: repeating-linear-gradient(
+        to bottom, transparent 0 calc(2rem - 1px),
+        rgb(167 139 250 / 0.12) calc(2rem - 1px) 2rem
+    );
+}
