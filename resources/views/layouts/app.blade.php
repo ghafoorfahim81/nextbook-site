@@ -55,6 +55,7 @@
     <script>
         (function () {
             try {
+                document.documentElement.classList.add('js');
                 var saved = localStorage.getItem('theme');
                 if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                     document.documentElement.classList.add('dark');
@@ -70,7 +71,7 @@
 </head>
 <body class="flex min-h-screen flex-col">
 
-<header class="sticky top-0 z-40 border-b border-slate-200 bg-surface/90 backdrop-blur">
+<header class="sticky top-0 z-40 border-b border-brand-100 bg-surface/85 backdrop-blur-md">
     <div class="container-page flex h-16 items-center justify-between gap-4">
         <a href="{{ route('home') }}" class="flex shrink-0 items-center gap-2" aria-label="{{ config('site.name') }}">
             <img src="{{ asset('images/logo.png') }}" alt="" width="56" height="40" class="h-10 w-auto shrink-0">
@@ -82,7 +83,7 @@
                 ['help.index', 'help'], ['blog.index', 'blog'], ['contact', 'contact'],
             ] as [$routeName, $key])
                 <a href="{{ route($routeName) }}"
-                   class="whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium {{ request()->routeIs(Str::before($routeName, '.').'*') ? 'bg-brand-50 text-brand-700' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900' }}">
+                   class="whitespace-nowrap rounded-full px-3.5 py-2 text-sm font-medium {{ request()->routeIs(Str::before($routeName, '.').'*') ? 'bg-brand-50 text-brand-700 ring-1 ring-brand-200' : 'text-slate-600 hover:bg-brand-50 hover:text-brand-700' }}">
                     {{ __('site.nav.'.$key) }}
                 </a>
             @endforeach
@@ -127,49 +128,56 @@
     @yield('content')
 </main>
 
-<footer class="mt-16 border-t border-slate-200 bg-slate-50">
-    <div class="container-page grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-4">
-        <div>
-            <img src="{{ asset('images/logo.png') }}" alt="{{ config('site.name') }}" class="h-12 w-auto">
-            <p class="mt-3 text-sm text-slate-600">{{ __('site.tagline') }}</p>
+<footer class="relative mt-16 overflow-hidden bg-brand-900 text-brand-100">
+    <div aria-hidden="true" class="bg-grid-light fade-edges absolute inset-0 opacity-60"></div>
+    <div class="container-page relative pt-16">
+        <div class="max-w-3xl">
+            <span class="mb-5 block h-1 w-16 rounded-full bg-accent-500"></span>
+            <p class="text-2xl font-bold leading-relaxed text-white sm:text-4xl">{{ __('site.story.footer_line') }}</p>
         </div>
-        <div>
-            <h4 class="mb-3 text-sm">{{ __('site.footer.product') }}</h4>
-            <ul class="space-y-2 text-sm text-slate-600">
-                <li><a class="hover:text-brand-600" href="{{ route('features.index') }}">{{ __('site.nav.features') }}</a></li>
-                <li><a class="hover:text-brand-600" href="{{ route('industries.index') }}">{{ __('site.nav.industries') }}</a></li>
-                <li><a class="hover:text-brand-600" href="{{ route('pricing') }}">{{ __('site.nav.pricing') }}</a></li>
-                <li><a class="hover:text-brand-600" href="{{ route('security') }}">{{ __('site.footer.security') }}</a></li>
-            </ul>
+        <div class="mt-12 grid gap-10 border-t border-white/15 py-12 sm:grid-cols-2 lg:grid-cols-4">
+            <div>
+                <img src="{{ asset('images/logo.png') }}" alt="{{ config('site.name') }}" class="h-12 w-auto rounded-lg bg-white/95 p-1.5">
+                <p class="mt-4 text-sm text-brand-200">{{ __('site.tagline') }}</p>
+            </div>
+            <div>
+                <h4 class="mb-3 text-sm text-white">{{ __('site.footer.product') }}</h4>
+                <ul class="space-y-2 text-sm text-brand-200">
+                    <li><a class="hover:text-accent-400" href="{{ route('features.index') }}">{{ __('site.nav.features') }}</a></li>
+                    <li><a class="hover:text-accent-400" href="{{ route('industries.index') }}">{{ __('site.nav.industries') }}</a></li>
+                    <li><a class="hover:text-accent-400" href="{{ route('pricing') }}">{{ __('site.nav.pricing') }}</a></li>
+                    <li><a class="hover:text-accent-400" href="{{ route('security') }}">{{ __('site.footer.security') }}</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="mb-3 text-sm text-white">{{ __('site.footer.support') }}</h4>
+                <ul class="space-y-2 text-sm text-brand-200">
+                    <li><a class="hover:text-accent-400" href="{{ route('help.index') }}">{{ __('site.nav.help') }}</a></li>
+                    <li><a class="hover:text-accent-400" href="{{ route('blog.index') }}">{{ __('site.nav.blog') }}</a></li>
+                    <li><a class="hover:text-accent-400" href="{{ route('faq') }}">{{ __('site.footer.faq') }}</a></li>
+                    <li><a class="hover:text-accent-400" href="{{ route('contact') }}">{{ __('site.nav.contact') }}</a></li>
+                    <li><a class="hover:text-accent-400" href="{{ route('about') }}">{{ __('site.footer.about') }}</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="mb-3 text-sm text-white">{{ __('site.contact.title') }}</h4>
+                <ul class="space-y-2 text-sm text-brand-200">
+                    @foreach ($phones as $phone)
+                        <li><a dir="ltr" class="inline-flex items-center gap-2 hover:text-accent-400" href="tel:{{ preg_replace('/\s+/', '', $phone) }}"><x-lucide-phone class="h-4 w-4"/>{{ $phone }}</a></li>
+                    @endforeach
+                    @foreach ($emails as $email)
+                        <li><a dir="ltr" class="inline-flex items-center gap-2 hover:text-accent-400" href="mailto:{{ $email }}"><x-lucide-mail class="h-4 w-4"/>{{ $email }}</a></li>
+                    @endforeach
+                </ul>
+            </div>
         </div>
-        <div>
-            <h4 class="mb-3 text-sm">{{ __('site.footer.support') }}</h4>
-            <ul class="space-y-2 text-sm text-slate-600">
-                <li><a class="hover:text-brand-600" href="{{ route('help.index') }}">{{ __('site.nav.help') }}</a></li>
-                <li><a class="hover:text-brand-600" href="{{ route('blog.index') }}">{{ __('site.nav.blog') }}</a></li>
-                <li><a class="hover:text-brand-600" href="{{ route('faq') }}">{{ __('site.footer.faq') }}</a></li>
-                <li><a class="hover:text-brand-600" href="{{ route('contact') }}">{{ __('site.nav.contact') }}</a></li>
-                <li><a class="hover:text-brand-600" href="{{ route('about') }}">{{ __('site.footer.about') }}</a></li>
-            </ul>
+        <div class="border-t border-white/15 py-5 text-center text-xs text-brand-300">
+            <a class="hover:text-accent-400" href="{{ route('legal.terms') }}">{{ __('site.footer.terms') }}</a>
+            <span class="mx-2">·</span>
+            <a class="hover:text-accent-400" href="{{ route('legal.privacy') }}">{{ __('site.footer.privacy') }}</a>
+            <span class="mx-2">·</span>
+            © {{ date('Y') }} {{ config('site.name') }}. {{ __('site.footer.rights') }}
         </div>
-        <div>
-            <h4 class="mb-3 text-sm">{{ __('site.contact.title') }}</h4>
-            <ul class="space-y-2 text-sm text-slate-600">
-                @foreach ($phones as $phone)
-                    <li><a dir="ltr" class="inline-flex items-center gap-2 hover:text-brand-600" href="tel:{{ preg_replace('/\s+/', '', $phone) }}"><x-lucide-phone class="h-4 w-4"/>{{ $phone }}</a></li>
-                @endforeach
-                @foreach ($emails as $email)
-                    <li><a dir="ltr" class="inline-flex items-center gap-2 hover:text-brand-600" href="mailto:{{ $email }}"><x-lucide-mail class="h-4 w-4"/>{{ $email }}</a></li>
-                @endforeach
-            </ul>
-        </div>
-    </div>
-    <div class="border-t border-slate-200 py-4 text-center text-xs text-slate-500">
-        <a class="hover:text-brand-600" href="{{ route('legal.terms') }}">{{ __('site.footer.terms') }}</a>
-        <span class="mx-2">·</span>
-        <a class="hover:text-brand-600" href="{{ route('legal.privacy') }}">{{ __('site.footer.privacy') }}</a>
-        <span class="mx-2">·</span>
-        © {{ date('Y') }} {{ config('site.name') }}. {{ __('site.footer.rights') }}
     </div>
 </footer>
 

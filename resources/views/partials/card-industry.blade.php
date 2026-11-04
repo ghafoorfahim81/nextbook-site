@@ -1,8 +1,8 @@
 {{-- An industry card: icon, title, summary, what is different for this trade, and a way in. --}}
 @php($highlights = array_slice((array) $industry->highlights, 0, 3))
-<a href="{{ route('industries.show', $industry) }}" class="card card-hover group flex h-full flex-col">
+<a href="{{ route('industries.show', $industry) }}" class="card card-hover card-fold group flex h-full flex-col">
     <div class="flex items-center gap-4">
-        <span class="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-white shadow-md shadow-brand-500/25">
+        <span class="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500 to-brand-700 text-white shadow-md shadow-brand-500/25">
             <x-dynamic-component :component="'lucide-'.$industry->icon" class="h-6 w-6"/>
         </span>
         <h3 class="text-lg">{{ $industry->title }}</h3>
