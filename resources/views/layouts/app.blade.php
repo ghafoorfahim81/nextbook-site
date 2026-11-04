@@ -130,13 +130,13 @@
 
 <footer class="relative mt-16 overflow-hidden bg-brand-900 text-brand-100">
     <div aria-hidden="true" class="bg-grid-light fade-edges absolute inset-0 opacity-60"></div>
-    <div class="container-page relative pt-16">
+    <div class="container-page relative pt-12 sm:pt-16">
         <div class="max-w-3xl">
             <span class="mb-5 block h-1 w-16 rounded-full bg-accent-500"></span>
-            <p class="text-2xl font-bold leading-relaxed text-white sm:text-4xl">{{ __('site.story.footer_line') }}</p>
+            <p class="text-xl font-bold leading-relaxed text-white sm:text-4xl">{{ __('site.story.footer_line') }}</p>
         </div>
-        <div class="mt-12 grid gap-10 border-t border-white/15 py-12 sm:grid-cols-2 lg:grid-cols-4">
-            <div>
+        <div class="mt-12 grid grid-cols-2 gap-x-6 gap-y-10 border-t border-white/15 py-12 lg:grid-cols-4">
+            <div class="col-span-2 lg:col-span-1">
                 <img src="{{ asset('images/logo.png') }}" alt="{{ config('site.name') }}" class="h-12 w-auto rounded-lg bg-white/95 p-1.5">
                 <p class="mt-4 text-sm text-brand-200">{{ __('site.tagline') }}</p>
             </div>
@@ -159,7 +159,7 @@
                     <li><a class="hover:text-accent-400" href="{{ route('about') }}">{{ __('site.footer.about') }}</a></li>
                 </ul>
             </div>
-            <div>
+            <div class="col-span-2 border-t border-white/10 pt-8 lg:col-span-1 lg:border-0 lg:pt-0">
                 <h4 class="mb-3 text-sm text-white">{{ __('site.contact.title') }}</h4>
                 <ul class="space-y-2 text-sm text-brand-200">
                     @foreach ($phones as $phone)
@@ -171,7 +171,7 @@
                 </ul>
             </div>
         </div>
-        <div class="border-t border-white/15 py-5 text-center text-xs text-brand-300">
+        <div class="border-t border-white/15 pb-24 pt-5 text-center text-xs text-brand-300 sm:pb-5">
             <a class="hover:text-accent-400" href="{{ route('legal.terms') }}">{{ __('site.footer.terms') }}</a>
             <span class="mx-2">·</span>
             <a class="hover:text-accent-400" href="{{ route('legal.privacy') }}">{{ __('site.footer.privacy') }}</a>

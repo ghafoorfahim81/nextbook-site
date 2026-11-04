@@ -190,12 +190,31 @@
     <div aria-hidden="true" class="bg-dots fade-edges absolute inset-x-0 top-0 -z-10 h-96 opacity-60"></div>
     <div class="container-page">
         @include('partials.chapter', ['no' => 3, 'eyebrow' => $s['features']['eyebrow'], 'title' => $s['features']['title'], 'text' => $s['features']['text']])
-        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="note-grid grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             @foreach ($features->take(6) as $feature)
                 <div class="reveal" style="--d: {{ $loop->index * 0.06 }}s">@include('partials.card-feature', ['feature' => $feature])</div>
             @endforeach
         </div>
         <div class="mt-10"><a href="{{ route('features.index') }}" class="btn btn-outline">{{ $s['features']['all'] }}</a></div>
+
+        {{-- The details of real trade that make a notebook hard to replace. --}}
+        <div class="mt-24">
+            @include('partials.chapter', ['eyebrow' => $s['details']['eyebrow'], 'title' => $s['details']['title'], 'text' => $s['details']['text']])
+            <div class="note-grid grid gap-8 lg:grid-cols-6">
+                @foreach ($s['details']['items'] as $item)
+                    <div class="reveal {{ $loop->index < 3 ? 'lg:col-span-2' : 'lg:col-span-3' }}" style="--d: {{ $loop->index * 0.06 }}s">
+                        <div class="note-card h-full">
+                            <span class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500 to-brand-700 text-white shadow-md shadow-brand-500/25">
+                                <x-dynamic-component :component="'lucide-'.$item['icon']" class="h-6 w-6"/>
+                            </span>
+                            <h3 class="text-lg">{{ $item['title'] }}</h3>
+                            <p class="mt-2 text-sm text-slate-600">{{ $item['text'] }}</p>
+                            <p class="mt-4 inline-block rounded-full border border-dashed border-brand-400 px-3 py-1 text-xs font-bold text-brand-700">{{ $item['example'] }}</p>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
     </div>
 </section>
 

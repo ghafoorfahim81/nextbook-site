@@ -49,7 +49,7 @@
     <div aria-hidden="true" class="bg-dots fade-edges absolute inset-0 -z-10 opacity-50"></div>
     <div class="container-page">
         <h2 class="mb-8 text-2xl">{{ __('site.blog.more') }}</h2>
-        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="note-grid grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             @foreach ($related as $other)
                 @include('blog.card', ['post' => $other])
             @endforeach

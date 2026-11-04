@@ -507,3 +507,62 @@
 .dark .paper { box-shadow: 0 24px 50px -28px rgb(0 0 0 / 0.7); }
 .dark .card-fold::after { background: linear-gradient(to bottom left, var(--color-surface) 50%, #2d2150 50%); }
 .dark[dir='rtl'] .card-fold::after { background: linear-gradient(to bottom right, var(--color-surface) 50%, #2d2150 50%); }
+
+/* ---------------------------------------------------------------------------------------
+   Notes: feature, industry and blog cards as paper notes pinned to a board. Each one takes the
+   next paper colour (yellow, lilac, white) and a slight tilt that straightens on hover.
+   --------------------------------------------------------------------------------------- */
+.note-grid > :nth-child(3n+1) { --r: -1.1deg; --note: var(--color-amber-100); }
+.note-grid > :nth-child(3n+2) { --r: 0.9deg; --note: var(--color-brand-100); }
+.note-grid > :nth-child(3n) { --r: -0.5deg; --note: var(--color-surface); }
+.note-card {
+    position: relative;
+    display: block;
+    border-radius: 0.4rem 0.4rem 0.9rem 0.4rem;
+    padding: 1.75rem 1.5rem 1.5rem;
+    background-color: var(--note, var(--color-surface));
+    background-image: repeating-linear-gradient(
+        to bottom, transparent 0 calc(2rem - 1px),
+        color-mix(in oklab, var(--color-slate-500) 12%, transparent) calc(2rem - 1px) 2rem
+    );
+    background-position: 0 1.6rem;
+    box-shadow: 0 16px 26px -16px rgb(60 30 110 / 0.45), 0 1px 0 rgb(0 0 0 / 0.04);
+    transform: rotate(var(--r, 0deg));
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.note-card:hover {
+    transform: rotate(0deg) translateY(-6px);
+    box-shadow: 0 26px 34px -18px rgb(60 30 110 / 0.5);
+}
+/* The strip of tape that holds it. */
+.note-card::before {
+    content: '';
+    position: absolute;
+    top: -0.6rem;
+    inset-inline-start: 50%;
+    width: 4rem;
+    height: 1.2rem;
+    translate: -50% 0;
+    background: color-mix(in oklab, var(--color-brand-400) 45%, transparent);
+    transform: rotate(-2deg);
+}
+.note-card:nth-child(even)::before { transform: rotate(2.5deg); }
+.dark .note-grid > :nth-child(3n+2) { --note: #2d2150; }
+.dark .note-grid > :nth-child(3n) { --note: #1f1738; }
+.dark .note-card { box-shadow: 0 16px 26px -16px rgb(0 0 0 / 0.7); }
+@media (prefers-reduced-motion: reduce) {
+    .note-card, .note-card:hover { transform: none; transition: none; }
+}
+
+/* FAQ answers: the open one lifts and takes a tint (and has its own dark tint). */
+.faq-item[open] { border-color: var(--color-brand-300); background-color: color-mix(in oklab, var(--color-brand-100) 55%, var(--color-surface)); box-shadow: 0 1px 2px rgb(0 0 0 / 0.05); }
+.dark .faq-item[open] { background-color: #231a3f; border-color: var(--color-brand-500); }
+
+/* Dark: the top of an inner page is the same deep violet as the page, not a washed-out tint. */
+.dark .page-top { background-color: #1a1230; border-color: var(--color-slate-200); }
+.dark .page-top::before {
+    background-image: repeating-linear-gradient(
+        to bottom, transparent 0 calc(2rem - 1px),
+        rgb(167 139 250 / 0.12) calc(2rem - 1px) 2rem
+    );
+}

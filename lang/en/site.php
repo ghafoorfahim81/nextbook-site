@@ -235,6 +235,18 @@ return [
             'text' => 'A pharmacy needs expiry dates, a phone shop serial numbers, a carpet seller metres and feet. NextBook is set up for each.',
             'all' => 'All industries',
         ],
+        'details' => [
+            'eyebrow' => 'The details only a trader knows',
+            'title' => 'Real market work, the way it actually happens',
+            'text' => 'Buy one way, sell another; costs that arrive after the purchase; several companies and branches. NextBook was built with all of it in mind.',
+            'items' => [
+                ['icon' => 'scale', 'title' => 'Buy by the sack, sell by the kilo', 'text' => 'Every item has several units. The system converts them and stock always stays right.', 'example' => '1 sack = 50 kg'],
+                ['icon' => 'receipt-text', 'title' => 'Costs added after the purchase', 'text' => 'Freight, customs and loading that arrive after you buy are added to that item\'s real cost.', 'example' => 'The real cost of each item'],
+                ['icon' => 'arrow-left-right', 'title' => 'Transfers between companies', 'text' => 'Move stock or money from one of your companies to another and it is recorded in both books.', 'example' => 'Company A → Company B'],
+                ['icon' => 'building-2', 'title' => 'Transfers between branches', 'text' => 'Send stock from one branch or warehouse to another. Both stock levels are right the same moment.', 'example' => 'Warehouse 1 → West branch'],
+                ['icon' => 'users', 'title' => 'Customer portal', 'text' => 'Your customers see their own account and invoices, without a call or a message.', 'example' => 'Each customer\'s account'],
+            ],
+        ],
         'ask' => [
             'eyebrow' => 'Every day you ask',
             'title' => 'The night-time questions, one tap from an answer',
