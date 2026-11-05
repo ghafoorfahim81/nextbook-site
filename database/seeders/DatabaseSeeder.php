@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             PricingSeeder::class,
             FaqSeeder::class,
             PostSeeder::class,
+            BlogArticlesSeeder::class,
         ]);
     }
 }
