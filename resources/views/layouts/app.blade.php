@@ -8,6 +8,7 @@
     $phones = config('site.phones');
     $emails = config('site.emails');
     $whatsapp = config('site.whatsapp');
+    $ogLocales = ['fa' => 'fa_AF', 'ps' => 'ps_AF', 'en' => 'en_US'];
 @endphp
 <!DOCTYPE html>
 <html lang="{{ $locale }}" dir="{{ $dir }}">
@@ -24,9 +25,9 @@
     <meta property="og:description" content="{{ $description }}">
     <meta property="og:type" content="{{ $ogType ?? 'website' }}">
     <meta property="og:url" content="{{ url($path) }}">
-    <meta property="og:locale" content="{{ $locale === 'fa' ? 'fa_AF' : 'en_US' }}">
+    <meta property="og:locale" content="{{ $ogLocales[$locale] ?? 'en_US' }}">
     @foreach (array_keys(config('site.locales')) as $code)
-        @if ($code !== $locale)<meta property="og:locale:alternate" content="{{ $code === 'fa' ? 'fa_AF' : 'en_US' }}">@endif
+        @if ($code !== $locale)<meta property="og:locale:alternate" content="{{ $ogLocales[$code] ?? 'en_US' }}">@endif
     @endforeach
     <meta property="og:image" content="{{ asset('images/og.png') }}">
     <meta property="og:image:width" content="1200">
@@ -49,7 +50,7 @@
             '@type' => 'ContactPoint', 'contactType' => 'sales', 'telephone' => preg_replace('/\s+/', '', $phone),
         ], config('site.phones')),
     ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) !!}</script>
-    @stack('jsonld')    <link rel="preload" href="{{ Vite::asset($locale === 'fa' ? 'resources/fonts/iransans-regular.ttf' : 'resources/fonts/poppins-regular.ttf') }}" as="font" type="font/ttf" crossorigin>
+    @stack('jsonld')    <link rel="preload" href="{{ Vite::asset($dir === 'rtl' ? 'resources/fonts/iransans-regular.ttf' : 'resources/fonts/poppins-regular.ttf') }}" as="font" type="font/ttf" crossorigin>
     <meta name="color-scheme" content="light dark">
     {{-- Applies the saved (or the system) theme before the first paint, so a dark page never flashes white. --}}
     <script>

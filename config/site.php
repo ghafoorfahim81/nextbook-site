@@ -33,10 +33,10 @@ return [
     // Digits only, country code first. Leave empty to hide the WhatsApp button.
     'whatsapp' => env('SITE_WHATSAPP', '93728507537'),
 
-    // Languages the visitor can switch between. 'ps' is ready in the schema and
-    // joins this list once its interface texts and content are translated.
+    // Languages the visitor can switch between.
     'locales' => [
         'fa' => ['name' => 'دری', 'dir' => 'rtl'],
+        'ps' => ['name' => 'پښتو', 'dir' => 'rtl'],
         'en' => ['name' => 'English', 'dir' => 'ltr'],
     ],
 

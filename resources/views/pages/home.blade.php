@@ -9,8 +9,10 @@
     use App\Support\Digits;
     $s = __('site.story');
     $locale = app()->getLocale();
-    $shot = file_exists(public_path("images/screenshots/dashboard-{$locale}.webp")) ? "dashboard-{$locale}" : 'dashboard-en';
-    [$shotW, $shotH] = $locale === 'fa' ? [1085, 799] : [1089, 810];
+    // Pashto readers use the Dari screenshot: same right-to-left layout.
+    $shotLocale = $locale === 'ps' ? 'fa' : $locale;
+    $shot = file_exists(public_path("images/screenshots/dashboard-{$shotLocale}.webp")) ? "dashboard-{$shotLocale}" : 'dashboard-en';
+    [$shotW, $shotH] = $shotLocale === 'fa' ? [1085, 799] : [1089, 810];
     $money = $s['sale']['money'];
 @endphp
 
@@ -111,7 +113,7 @@
         @include('partials.chapter', ['no' => 2, 'eyebrow' => $s['sale']['eyebrow'], 'title' => $s['sale']['title'], 'text' => $s['sale']['text']])
 
         <div id="sale-demo" class="grid gap-6 lg:grid-cols-[1fr_1.1fr]"
-             data-locale="{{ $locale === 'fa' ? 'fa' : 'en-US' }}" data-price="1850" data-cost="1600" data-stock="140"
+             data-locale="{{ in_array($locale, ['fa', 'ps'], true) ? 'fa' : 'en-US' }}" data-price="1850" data-cost="1600" data-stock="140"
              data-money="{{ $money }}" data-debt-zero="{{ $s['sale']['debt_zero'] }}" data-debt-has="{{ $s['sale']['debt_has'] }}"
              data-cash="{{ $s['sale']['ledger_cash'] }}" data-receivable="{{ $s['sale']['ledger_receivable'] }}" data-sales="{{ $s['sale']['ledger_sales'] }}"
              data-stock-unit="{{ $s['sale']['stock_unit'] }}" data-again="{{ $s['sale']['again'] }}" data-submit-label="{{ $s['sale']['submit'] }}"

@@ -11,7 +11,13 @@ class Digits
     {
         $text = rtrim(rtrim(number_format($value, $decimals, '.', ''), '0'), '.');
 
-        return app()->getLocale() === 'fa' ? self::localize(str_replace('.', '٫', $text)) : $text;
+        return self::usesEasternDigits() ? self::localize(str_replace('.', '٫', $text)) : $text;
+    }
+
+    /** Dari and Pashto both read Eastern Arabic (Persian) digits. */
+    private static function usesEasternDigits(): bool
+    {
+        return in_array(app()->getLocale(), ['fa', 'ps'], true);
     }
 
     /** Numbers read in the visitor's own digits: Persian digits on the Dari pages, Latin elsewhere. */
@@ -19,6 +25,6 @@ class Digits
     {
         $value = (string) $value;
 
-        return app()->getLocale() === 'fa' ? strtr($value, array_combine(range(0, 9), self::EASTERN)) : $value;
+        return self::usesEasternDigits() ? strtr($value, array_combine(range(0, 9), self::EASTERN)) : $value;
     }
 }
