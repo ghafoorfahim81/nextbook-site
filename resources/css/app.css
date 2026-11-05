@@ -572,6 +572,19 @@
     transform: rotate(-2deg);
 }
 .note-card:nth-child(even)::before { transform: rotate(2.5deg); }
+/* Pinned notes: a push-pin instead of tape. */
+.note-card::before { display: none; }
+.note-pin {
+    position: absolute;
+    top: -0.9rem;
+    inset-inline-start: 50%;
+    translate: -50% 0;
+    color: var(--color-brand-600);
+    filter: drop-shadow(0 4px 3px rgb(60 30 110 / 0.35));
+    transform: rotate(18deg);
+}
+.note-pin svg { fill: color-mix(in oklab, var(--color-brand-500) 35%, transparent); }
+.dark .note-pin { color: var(--color-brand-300); }
 .dark .note-grid > :nth-child(4n+2) { --note: #2d2150; }
 .dark .note-grid > :nth-child(4n+3) { --note: #3a2c66; }
 .dark .note-grid > :nth-child(4n) { --note: #1f1738; }
