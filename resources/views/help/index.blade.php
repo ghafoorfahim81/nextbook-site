@@ -1,7 +1,7 @@
 @extends('layouts.app', ['title' => __('site.help.title')])
 
 @section('content')
-@php($searchForm = view('help.search-form', ['q' => '', 'class' => 'w-full max-w-xl'])->render())
+@php($searchForm = view('help.search-form', ['q' => '', 'class' => 'w-full max-w-2xl'])->render())
 @include('partials.page-head', ['heading' => __('site.help.title'), 'intro' => __('site.help.intro'), 'actions' => $searchForm])
 
 <section class="section">
