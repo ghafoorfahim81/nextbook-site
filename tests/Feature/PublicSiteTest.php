@@ -224,7 +224,7 @@ class PublicSiteTest extends TestCase
         Post::where('slug', 'first-week-with-nextbook')->update(['published_at' => '2026-11-01 09:00:00']);
 
         // 10 Aban 1405 in Persian digits on the Dari page, and the Gregorian date on the English one.
-        $this->get('/fa/blog/first-week-with-nextbook')->assertSee('۱۰ آبان ۱۴۰۵');
+        $this->get('/fa/blog/first-week-with-nextbook')->assertSee('۱۰ عقرب ۱۴۰۵');
         $this->get('/en/blog/first-week-with-nextbook')->assertSee('1 November 2026');
     }
 
