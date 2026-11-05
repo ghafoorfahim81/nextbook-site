@@ -48,6 +48,10 @@ return [
 
     'default_locale' => 'fa',
 
+    // Customer testimonials are entered in the admin but kept off the public site for now.
+    // Set SITE_SHOW_TESTIMONIALS=true in .env to show them on the home page.
+    'show_testimonials' => (bool) env('SITE_SHOW_TESTIMONIALS', false),
+
     // Business types offered in the demo request form. Keys match the ERP's BusinessType enum.
     'business_types' => [
         'pharmacy', 'supermarket', 'grocery', 'retail', 'clothing', 'mobile', 'computer', 'electronics',

@@ -1,6 +1,14 @@
 <?php
 
 return [
+    'testimonials' => [
+        'eyebrow' => 'Customer views', 'title' => 'What our customers say about NextBook',
+        'share' => 'Share your experience', 'share_text' => 'Use NextBook? Tell us and other traders what it was like.',
+        'form_title' => 'Share your experience with NextBook', 'form_intro' => 'Write a few lines about how NextBook works for you. You can add a photo, a video or a voice note. We read every message and publish it once we have checked it.',
+        'name' => 'Your name', 'role' => 'Your shop, job or city', 'quote' => 'Your experience', 'contact' => 'Phone or email (not published)',
+        'files' => 'Photos, video or voice note', 'files_hint' => 'Up to 3 files, 20 MB each: JPG, PNG, WebP, MP4, WebM, MP3, M4A, WAV.',
+        'send' => 'Send', 'sent' => 'Thank you! We received your message and will publish it after we check it.',
+    ],
     'tagline' => 'Business management software for Afghan companies',
     // The title of the home page, written with the words a trader searches for.
     'home_title' => 'Accounting, inventory and business management software for Afghanistan',
@@ -260,6 +268,24 @@ return [
                 ['q' => 'Who still owes us?', 'tag' => 'Receivables', 'value' => '186,500 AFN', 'sub' => '11 customers still have a balance.', 'rows' => [['Salimi Wholesale', '72,000'], ['Bahar Trading', '45,500'], ['Nasir Khan', '25,000']]],
                 ['q' => 'What is running out?', 'tag' => 'Stock', 'value' => '3 items', 'sub' => 'Below their reorder level.', 'rows' => [['Cooking oil', '12 cartons'], ['Rice, 25 kg', '8 bags'], ['Sugar', '15 bags']]],
                 ['q' => 'Did we profit this month?', 'tag' => 'Profit and loss', 'value' => '+358,200 AFN', 'sub' => 'Net profit this month, after all expenses.', 'rows' => [['Sales', '1,240,000'], ['Cost of goods', '731,000'], ['Expenses', '150,800']]],
+            ],
+        ],
+        'shots' => [
+            'eyebrow' => 'NextBook screens',
+            'title' => 'See the real system before you buy',
+            'text' => 'These are screens from NextBook itself, in your language. Pick a screen to see what it does.',
+            'prev' => 'Previous screen',
+            'zoom' => 'Tap to enlarge',
+            'close' => 'Close',
+            'next' => 'Next screen',
+            'items' => [
+                ['file' => 'dashboard', 'tab' => 'Dashboard', 'title' => 'The whole business on one page', 'text' => 'Open NextBook in the morning and see cash, receivables, payables, today\'s sales and the stock picture, without calling anyone.', 'points' => ['Cash and bank balance, receivables and payables', 'Today\'s sales, purchases and net profit', 'Low stock, out of stock and expiring batches', 'Top customers, selling items and suppliers']],
+                ['file' => 'sale', 'tab' => 'Sales invoice', 'title' => 'A sale in a few lines', 'text' => 'Choose the customer and the warehouse, search or scan the item, and the invoice is ready. Stock, the customer\'s balance and the books update by themselves.', 'points' => ['Search an item or scan its barcode', 'Discount on a line or on the whole invoice', 'Cash or credit, in any currency with its rate', 'Save and print in one step']],
+                ['file' => 'item', 'tab' => 'Items', 'title' => 'Every item with its own details', 'text' => 'Register an item once, with its units, variants and prices, and use it in every sale, purchase and report.', 'points' => ['Variants such as size or colour, each with its own barcode and price', 'Batch and expiry tracking for medicines and food', 'Reorder quantity and a default warehouse', 'A photo and a fast-search name for each item']],
+                ['file' => 'item-expense-or-landed-cost', 'tab' => 'Landed costs', 'title' => 'The real cost of every item', 'text' => 'Freight, customs and loading that arrive after the purchase are added to the cost of the goods, so your profit is the true profit.', 'points' => ['Costs by category: transport, agent, storage, currency', 'Shared across the items by value or by weight', 'The landed cost of each unit is worked out for you', 'Attach the receipts to the record']],
+                ['file' => 'chart-of-accounts', 'tab' => 'Chart of accounts', 'title' => 'A ready chart of accounts', 'text' => 'The accounts are grouped into assets, liabilities, equity, income and expenses, with the balance of each one in front of you.', 'points' => ['A ready set of accounts, add your own when needed', 'A check that shows the books are balanced', 'Last activity and balance of every account', 'Search and export']],
+                ['file' => 'reports', 'tab' => 'Reports', 'title' => 'The reports a trader asks for', 'text' => 'A catalog of ready reports for the owner and the accountant. Pick one, set the dates and read it.', 'points' => ['Trial balance, balance sheet, profit and loss', 'Customer and supplier statements, aged receivables and payables', 'Sales, purchases and expenses', 'Stock, stock movement and low stock']],
+                ['file' => 'module-list', 'tab' => 'Modules', 'title' => 'Pick the area you work in', 'text' => 'Accounting, inventory, sales, purchase, expenses, HR and more. The menu then shows only the pages of that area, so nobody gets lost.', 'points' => ['Each area has its own short list of pages', 'Switch off the modules you do not need', 'Modules still on the way are marked "coming soon"']],
             ],
         ],
         'trust' => [

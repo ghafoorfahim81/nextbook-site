@@ -8,6 +8,7 @@ use App\Http\Controllers\IndustryController;
 use App\Http\Controllers\LegalController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\WorkspaceController;
 use App\Http\Middleware\SetLocale;
 use Illuminate\Support\Facades\Route;
@@ -56,6 +57,8 @@ Route::prefix('{locale}')->middleware(SetLocale::class)->group(function () {
 
     Route::get('/contact', [ContactController::class, 'show'])->name('contact');
     Route::get('/demo', [ContactController::class, 'demo'])->name('demo');
+    Route::get('/testimonials/new', [TestimonialController::class, 'create'])->name('testimonials.create');
+    Route::post('/testimonials', [TestimonialController::class, 'store'])->name('testimonials.store')->middleware('throttle:3,10');
     Route::post('/contact', [ContactController::class, 'storeMessage'])->name('contact.store')->middleware('throttle:5,1');
     Route::post('/demo', [ContactController::class, 'storeDemo'])->name('demo.store')->middleware('throttle:5,1');
 });

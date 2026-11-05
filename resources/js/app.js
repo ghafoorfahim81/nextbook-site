@@ -96,6 +96,84 @@ if (ask) {
     });
 }
 
+// --- Pictures that open in place and can be zoomed ----------------------------------------------------
+// Any button with data-zoom that holds an <img> opens it large in a dialog. A tap or click zooms in
+// (and back out); the +/- buttons step through the sizes, and a zoomed picture can be dragged or scrolled.
+(() => {
+    const triggers = document.querySelectorAll('[data-zoom]');
+    if (!triggers.length) return;
+
+    const STEPS = [1, 1.75, 2.5, 4];
+    let dialog;
+    let stage;
+    let image;
+    let level = 0;
+
+    const build = (closeLabel) => {
+        dialog = document.createElement('dialog');
+        dialog.className = 'lightbox';
+        dialog.innerHTML = '<div class="lightbox-bar" dir="ltr">'
+            + '<button type="button" data-lb="out" aria-label="-">−</button>'
+            + '<button type="button" data-lb="in" aria-label="+">+</button>'
+            + '<button type="button" data-lb="close"></button></div>'
+            + '<div class="lightbox-stage"><img alt=""></div>';
+        dialog.querySelector('[data-lb="close"]').textContent = '×';
+        dialog.querySelector('[data-lb="close"]').setAttribute('aria-label', closeLabel || 'Close');
+        document.body.appendChild(dialog);
+        stage = dialog.querySelector('.lightbox-stage');
+        image = stage.querySelector('img');
+
+        dialog.querySelector('[data-lb="close"]').addEventListener('click', () => dialog.close());
+        dialog.querySelector('[data-lb="in"]').addEventListener('click', () => zoom(level + 1));
+        dialog.querySelector('[data-lb="out"]').addEventListener('click', () => zoom(level - 1));
+        // A click on the dark area closes it; a click on the picture zooms it.
+        dialog.addEventListener('click', (event) => { if (event.target === dialog || event.target === stage) dialog.close(); });
+        image.addEventListener('click', () => zoom(level === 0 ? 1 : 0));
+        dialog.addEventListener('close', () => { document.documentElement.classList.remove('lightbox-open'); });
+    };
+
+    const zoom = (next) => {
+        level = Math.max(0, Math.min(STEPS.length - 1, next));
+        image.style.width = (STEPS[level] * 100) + '%';
+        image.style.maxWidth = level === 0 ? '100%' : 'none';
+        image.style.maxHeight = level === 0 ? '100%' : 'none';
+        stage.classList.toggle('is-zoomed', level > 0);
+        image.style.cursor = level === 0 ? 'zoom-in' : 'zoom-out';
+    };
+
+    triggers.forEach((trigger) => {
+        trigger.addEventListener('click', () => {
+            const source = trigger.querySelector('img');
+            if (!source) return;
+            if (!dialog) build(trigger.dataset.close);
+            image.src = source.currentSrc || source.src;
+            image.alt = source.alt;
+            zoom(0);
+            stage.scrollTo(0, 0);
+            document.documentElement.classList.add('lightbox-open');
+            dialog.showModal();
+        });
+    });
+})();
+
+// --- Home: the screens of the product ------------------------------------------------------------------
+document.querySelectorAll('[data-shots]').forEach((box) => {
+    const tabs = [...box.querySelectorAll('[data-shot-tab]')];
+    const panels = [...box.querySelectorAll('[data-shot-panel]')];
+    let current = 0;
+
+    const show = (index) => {
+        current = (index + tabs.length) % tabs.length;
+        tabs.forEach((tab, i) => tab.setAttribute('aria-selected', String(i === current)));
+        panels.forEach((panel, i) => { panel.hidden = i !== current; });
+    };
+
+    tabs.forEach((tab, i) => tab.addEventListener('click', () => show(i)));
+    box.querySelectorAll('[data-shot-step]').forEach((button) => {
+        button.addEventListener('click', () => show(current + Number(button.dataset.shotStep)));
+    });
+});
+
 // --- Home: record a sale and watch the book write itself ---------------------------------------------
 const sale = document.getElementById('sale-demo');
 

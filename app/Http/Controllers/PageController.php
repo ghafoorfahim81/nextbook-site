@@ -10,6 +10,7 @@ use App\Models\Industry;
 use App\Models\Post;
 use App\Models\PricingAddon;
 use App\Models\PricingPlan;
+use App\Models\Testimonial;
 use Illuminate\Http\Response;
 
 class PageController extends Controller
@@ -20,6 +21,7 @@ class PageController extends Controller
             'features' => Feature::published()->where('status', 'available')->get(),
             'industries' => Industry::published()->get(),
             'faqs' => Faq::published()->limit(5)->get(),
+            'testimonials' => config('site.show_testimonials') ? Testimonial::published()->get() : collect(),
             // Real figures from the content itself, so they cannot drift from the site.
             'stats' => [
                 'features' => Feature::published()->where('status', 'available')->count(),

@@ -30,10 +30,6 @@
     use App\Support\Digits;
     $s = __('site.story');
     $locale = app()->getLocale();
-    // Pashto readers use the Dari screenshot: same right-to-left layout.
-    $shotLocale = $locale === 'ps' ? 'fa' : $locale;
-    $shot = file_exists(public_path("images/screenshots/dashboard-{$shotLocale}.webp")) ? "dashboard-{$shotLocale}" : 'dashboard-en';
-    [$shotW, $shotH] = $shotLocale === 'fa' ? [1085, 799] : [1089, 810];
     $money = $s['sale']['money'];
 @endphp
 
@@ -264,7 +260,7 @@
         @include('partials.chapter', ['eyebrow' => $s['ask']['eyebrow'], 'title' => $s['ask']['title'], 'text' => $s['ask']['text']])
 
         <div id="ask" class="grid gap-6 lg:grid-cols-[1fr_1.2fr]">
-            <div class="reveal">
+            <div class="reveal min-w-0">
                 <p class="mb-3 text-sm font-bold text-slate-500">{{ $s['ask']['pick'] }}</p>
                 <div class="flex flex-col gap-2" role="tablist">
                     @foreach ($s['ask']['items'] as $i => $item)
@@ -327,28 +323,6 @@
     </div>
 </section>
 
-{{-- The product itself, in a browser window. --}}
-<section class="section">
-    <div class="container-page max-w-5xl">
-        <div class="relative">
-            <div aria-hidden="true" class="absolute inset-x-10 -bottom-6 top-1/3 -z-10 rounded-full bg-brand-400/30 blur-3xl"></div>
-            <div class="browser browser-tilt">
-                <div class="browser-bar" dir="ltr">
-                    <span class="h-3 w-3 rounded-full bg-red-400"></span>
-                    <span class="h-3 w-3 rounded-full bg-amber-400"></span>
-                    <span class="h-3 w-3 rounded-full bg-green-400"></span>
-                    <span class="mx-auto flex items-center gap-1.5 rounded-md bg-surface px-3 py-1 text-xs text-slate-500 ring-1 ring-slate-200">
-                        <x-lucide-shield-check class="h-3.5 w-3.5 text-green-600"/>your-company.nextbook.af
-                    </span>
-                    <span class="w-12"></span>
-                </div>
-                <img src="{{ asset("images/screenshots/{$shot}.webp") }}" width="{{ $shotW }}" height="{{ $shotH }}"
-                     alt="{{ __('site.hero.shot_alt') }}" loading="lazy" class="block w-full">
-            </div>
-        </div>
-    </div>
-</section>
-
 {{-- Chapter 6: the first page. --}}
 <section class="section">
     <div class="container-page">
@@ -366,6 +340,91 @@
     </div>
 </section>
 
+{{-- The real screens of the product, one at a time, with what each one does. --}}
+@php
+    $g = $s['shots'];
+    $dir = in_array($locale, ['fa', 'ps'], true) ? $locale : 'en';
+    $gallery = collect($g['items'])->map(function ($item) use ($dir) {
+        $path = public_path("images/screenshots/{$dir}/{$item['file']}.png");
+        if (! file_exists($path)) {
+            return null;
+        }
+        [$w, $h] = getimagesize($path);
+        $item['src'] = asset("images/screenshots/{$dir}/{$item['file']}.png");
+        $item['w'] = $w;
+        $item['h'] = $h;
+
+        return $item;
+    })->filter()->values();
+@endphp
+@if ($gallery->isNotEmpty())
+<section id="screens" class="section relative isolate scroll-mt-16 bg-slate-50">
+    <div aria-hidden="true" class="bg-dots fade-edges absolute inset-0 -z-10 opacity-50"></div>
+    <div class="container-page">
+        @include('partials.chapter', ['eyebrow' => $g['eyebrow'], 'title' => $g['title'], 'text' => $g['text']])
+
+        <div data-shots class="grid grid-cols-[minmax(0,1fr)] gap-8 lg:grid-cols-[17rem_minmax(0,1fr)]">
+            <div class="reveal min-w-0">
+                <div class="-mx-4 flex gap-2 overflow-x-auto px-4 pb-2 lg:mx-0 lg:flex-col lg:overflow-visible lg:px-0 lg:pb-0" role="tablist">
+                    @foreach ($gallery as $i => $item)
+                        <button type="button" role="tab" data-shot-tab="{{ $i }}" aria-selected="{{ $i === 0 ? 'true' : 'false' }}"
+                                class="flex shrink-0 items-center gap-3 rounded-2xl border border-slate-200 bg-surface px-4 py-3 text-start text-sm font-bold text-slate-800 transition hover:border-brand-300 aria-selected:border-brand-500 aria-selected:bg-brand-500 aria-selected:text-white aria-selected:shadow-lg aria-selected:shadow-brand-500/25">
+                            <span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand-50 text-xs text-brand-700">{{ Digits::localize($i + 1) }}</span>
+                            <span class="whitespace-nowrap lg:whitespace-normal">{{ $item['tab'] }}</span>
+                        </button>
+                    @endforeach
+                </div>
+            </div>
+
+            <div class="reveal min-w-0" style="--d: .1s">
+                @foreach ($gallery as $i => $item)
+                    <div data-shot-panel="{{ $i }}" role="tabpanel" @if ($i > 0) hidden @endif>
+                        <div class="grid grid-cols-[minmax(0,1fr)] gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.9fr)] xl:items-start">
+                            <div>
+                                <h3 class="text-2xl">{{ $item['title'] }}</h3>
+                                <p class="mt-3 text-slate-600">{{ $item['text'] }}</p>
+                                <ul class="mt-5 space-y-2.5">
+                                    @foreach ($item['points'] as $point)
+                                        <li class="flex items-start gap-2.5 text-sm font-medium text-slate-800">
+                                            <x-lucide-circle-check class="mt-0.5 h-5 w-5 shrink-0 text-brand-500"/>{{ $point }}
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            <div class="relative">
+                                <div aria-hidden="true" class="absolute inset-x-8 -bottom-4 top-1/3 -z-10 rounded-full bg-brand-400/25 blur-3xl"></div>
+                                <div class="browser">
+                                    <div class="browser-bar" dir="ltr">
+                                        <span class="h-3 w-3 rounded-full bg-red-400"></span>
+                                        <span class="h-3 w-3 rounded-full bg-amber-400"></span>
+                                        <span class="h-3 w-3 rounded-full bg-green-400"></span>
+                                        <span class="mx-auto flex items-center gap-1.5 rounded-md bg-surface px-3 py-1 text-xs text-slate-500 ring-1 ring-slate-200">
+                                            <x-lucide-shield-check class="h-3.5 w-3.5 text-green-600"/>your-company.nextbook.af
+                                        </span>
+                                        <span class="w-12"></span>
+                                    </div>
+                                    <button type="button" data-zoom data-close="{{ $g['close'] }}" aria-label="{{ $g['zoom'] }}: {{ $item['title'] }}" class="zoomable relative block w-full cursor-zoom-in">
+                                        <img src="{{ $item['src'] }}" width="{{ $item['w'] }}" height="{{ $item['h'] }}" alt="{{ $item['title'] }}" loading="lazy" class="block h-auto w-full">
+                                        <span aria-hidden="true" class="absolute bottom-3 end-3 inline-flex items-center gap-1.5 rounded-full bg-brand-900/85 px-3 py-1.5 text-xs font-bold text-white shadow-lg"><x-lucide-zoom-in class="h-4 w-4"/>{{ $g['zoom'] }}</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+
+                <div class="mt-8 flex items-center gap-3">
+                    <button type="button" data-shot-step="-1" aria-label="{{ $g['prev'] }}" class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-brand-200 bg-surface text-brand-600 transition hover:bg-brand-50"><x-lucide-chevron-right class="h-5 w-5 ltr:hidden"/><x-lucide-chevron-left class="h-5 w-5 rtl:hidden"/></button>
+                    <button type="button" data-shot-step="1" aria-label="{{ $g['next'] }}" class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-brand-200 bg-surface text-brand-600 transition hover:bg-brand-50"><x-lucide-chevron-left class="h-5 w-5 ltr:hidden"/><x-lucide-chevron-right class="h-5 w-5 rtl:hidden"/></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@endif
+
+@include('partials.testimonials')
+
 @if ($faqs->isNotEmpty())
 <section class="section bg-slate-50">
     <div class="container-page max-w-3xl">
@@ -374,6 +433,16 @@
     </div>
 </section>
 @endif
+
+{{-- An invitation to customers; what they send is checked in the admin before anything is shown. --}}
+<section class="pb-4">
+    <div class="container-page">
+        <div class="reveal flex flex-col items-start justify-between gap-4 rounded-2xl border border-brand-200 bg-brand-50/60 px-6 py-5 sm:flex-row sm:items-center">
+            <p class="flex items-center gap-3 font-medium text-slate-700"><x-lucide-message-square-heart class="h-6 w-6 shrink-0 text-brand-500"/>{{ __('site.testimonials.share_text') }}</p>
+            <a href="{{ route('testimonials.create') }}" class="btn btn-outline shrink-0">{{ __('site.testimonials.share') }}</a>
+        </div>
+    </div>
+</section>
 
 @include('partials.cta-band')
 @endsection

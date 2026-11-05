@@ -163,6 +163,7 @@
                     <li><a class="hover:text-accent-400" href="{{ route('faq') }}">{{ __('site.footer.faq') }}</a></li>
                     <li><a class="hover:text-accent-400" href="{{ route('contact') }}">{{ __('site.nav.contact') }}</a></li>
                     <li><a class="hover:text-accent-400" href="{{ route('about') }}">{{ __('site.footer.about') }}</a></li>
+                    <li><a class="hover:text-accent-400" href="{{ route('testimonials.create') }}">{{ __('site.testimonials.share') }}</a></li>
                 </ul>
             </div>
             <div class="col-span-2 border-t border-white/10 pt-8 lg:col-span-1 lg:border-0 lg:pt-0">

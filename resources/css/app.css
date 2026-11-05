@@ -592,3 +592,46 @@
         rgb(167 139 250 / 0.12) calc(2rem - 1px) 2rem
     );
 }
+
+/* A picture opened large and zoomable. */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100dvh;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: rgb(15 10 30 / 0.96);
+}
+.lightbox::backdrop { background: transparent; }
+.lightbox[open] { display: flex; flex-direction: column; }
+.lightbox-bar {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    padding: 0.75rem;
+}
+.lightbox-bar button {
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 9999px;
+    background: rgb(255 255 255 / 0.14);
+    color: #fff;
+    font-size: 1.5rem;
+    line-height: 1;
+}
+.lightbox-bar button:hover { background: rgb(255 255 255 / 0.28); }
+.lightbox-stage {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    overflow: auto;
+    padding: 0 0.75rem 0.75rem;
+    touch-action: pan-x pan-y pinch-zoom;
+}
+.lightbox-stage img { margin: auto; display: block; height: auto; border-radius: 0.5rem; background: #fff; }
+.lightbox-stage:not(.is-zoomed) img { object-fit: contain; }
+html.lightbox-open { overflow: hidden; }

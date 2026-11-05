@@ -42,6 +42,26 @@ class FaqSeeder extends Seeder
                 ['چطور شروع کنم؟', 'یک دیمو بخواهید. با شما تماس می‌گیریم، سیستم را مطابق نوع تجارت شما نشان می‌دهیم و در راه‌اندازی کمک می‌کنیم. راهنمای شروع هفته اول نیز در مرکز راهنما هست.'],
                 ['How do I get started?', 'Ask for a demo. We will call you, show the system for your type of business and help you set it up. There is also a first-week getting-started guide in the help center.'],
             ],
+            [
+                ['من تجربه کار با نرم‌افزار حسابداری را ندارم. آیا کار کردن با نرم‌افزار سخت است؟', 'نه. نکست‌بوک برای تاجرانی ساخته شده که با دفتر و کتابچه کار کرده‌اند و به دری، پشتو و انگلیسی است. با یک دیمو شروع می‌کنیم، سیستم را مطابق نوع تجارت شما تنظیم می‌کنیم و در روزهای اول کنار شما هستیم.'],
+                ['I have never used accounting software. Is it hard to use?', 'No. NextBook is made for traders who have kept their books in a notebook, and it works in Dari, Pashto and English. We start with a demo, set the system up for your type of business and stay with you in the first days.'],
+            ],
+            [
+                ['آیا نرم‌افزار آموزش و راهنمای استفاده دارد؟', 'بله. مرکز راهنما مقاله‌های گام‌به‌گام و راهنمای کاربر را به دری، پشتو و انگلیسی دارد. ویدیوهای آموزشی در همه بسته‌ها هست و آموزش حضوری یا آنلاین کارکنان به‌صورت خدمت جداگانه یا در بسته سازمانی داده می‌شود.'],
+                ['Does it come with training and a user guide?', 'Yes. The help center has step-by-step articles and the user manual in Dari, Pashto and English. Training videos are available on every plan, and in-person or online staff training is offered as an add-on or with the Enterprise plan.'],
+            ],
+            [
+                ['پشتیبانی نرم‌افزار تا چه مدت است؟ و آیا هزینه سالانه دارد؟', 'پشتیبانی با تلفن و واتساپ از بسته حرفه‌ای شروع می‌شود و برای بسته سازمانی پشتیبانی ویژه و مدیر حساب اختصاصی است. شرایط و هزینه دقیق هر بسته در صفحه قیمت‌ها آمده است؛ برای جزئیات بیشتر با ما تماس بگیرید.'],
+                ['How long does support last, and is there a yearly fee?', 'Phone and WhatsApp support starts with the Professional plan, and the Enterprise plan has priority support and a dedicated account manager. The terms and cost of each plan are on the pricing page; contact us for details.'],
+            ],
+            [
+                ['آیا نرم‌افزار پشتیبان‌گیری دارد؟', 'نسخه پشتیبان خودکار از معلومات در بسته سازمانی شامل است. برای بسته‌های دیگر با ما تماس بگیرید تا بهترین راه نگهداری معلومات شما را تنظیم کنیم.'],
+                ['Does it have backups?', 'Automatic backups of your data are part of the Enterprise plan. For the other plans, get in touch and we will set up the best way to keep your data safe.'],
+            ],
+            [
+                ['اگر نسخه پایه را خریداری کنم در آینده می‌توانم آن را به نسخه پیشرفته تبدیل کنم؟', 'بله. وقتی تجارت شما بزرگ شد می‌توانید از بسته پایه به حرفه‌ای یا سازمانی بروید. معلومات شما همان‌جا می‌ماند و تنها امکانات بیشتر برایتان باز می‌شود.'],
+                ['If I buy the basic plan, can I upgrade later?', 'Yes. When your business grows you can move from the Starter plan to Professional or Enterprise. Your data stays where it is and only the extra features are opened for you.'],
+            ],
         ];
 
         Faq::query()->delete();
