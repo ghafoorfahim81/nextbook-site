@@ -512,9 +512,12 @@
    Notes: feature, industry and blog cards as paper notes pinned to a board. Each one takes the
    next paper colour (yellow, lilac, white) and a slight tilt that straightens on hover.
    --------------------------------------------------------------------------------------- */
-.note-grid > :nth-child(3n+1) { --r: -1.1deg; --note: var(--color-amber-100); }
-.note-grid > :nth-child(3n+2) { --r: 0.9deg; --note: var(--color-brand-100); }
-.note-grid > :nth-child(3n) { --r: -0.5deg; --note: var(--color-surface); }
+/* Four brand papers in turn: the yellow accent, a soft lilac, a deeper orchid and a pale lilac.
+   Four (not three) so the colours drift diagonally instead of forming columns. */
+.note-grid > :nth-child(4n+1) { --r: -1.1deg; --note: var(--color-amber-100); }
+.note-grid > :nth-child(4n+2) { --r: 0.9deg; --note: var(--color-brand-100); }
+.note-grid > :nth-child(4n+3) { --r: -0.6deg; --note: color-mix(in oklab, var(--color-brand-200) 70%, var(--color-surface)); }
+.note-grid > :nth-child(4n) { --r: 1.2deg; --note: var(--color-brand-50); }
 .note-card {
     position: relative;
     display: block;
@@ -569,8 +572,9 @@
     transform: rotate(-2deg);
 }
 .note-card:nth-child(even)::before { transform: rotate(2.5deg); }
-.dark .note-grid > :nth-child(3n+2) { --note: #2d2150; }
-.dark .note-grid > :nth-child(3n) { --note: #1f1738; }
+.dark .note-grid > :nth-child(4n+2) { --note: #2d2150; }
+.dark .note-grid > :nth-child(4n+3) { --note: #3a2c66; }
+.dark .note-grid > :nth-child(4n) { --note: #1f1738; }
 .dark .note-card { box-shadow: 0 16px 26px -16px rgb(0 0 0 / 0.7); }
 @media (prefers-reduced-motion: reduce) {
     .note-card, .note-card:hover { transform: none; transition: none; }
