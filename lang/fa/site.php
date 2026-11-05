@@ -2,6 +2,8 @@
 
 return [
     'tagline' => 'سیستم مدیریت مالی و اداری برای تجارت‌های افغانستان',
+    // The title of the home page, written with the words a trader searches for.
+    'home_title' => 'نرم‌افزار حسابداری، انبار و مدیریت تجارت در افغانستان',
     'meta_description' => 'نکست‌بوک: انبار، خرید، فروش، حسابداری، مصارف و منابع بشری در یک سیستم. به دری، پشتو و انگلیسی با تقویم شمسی.',
 
     'nav' => [

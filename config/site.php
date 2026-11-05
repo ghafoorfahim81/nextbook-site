@@ -30,6 +30,12 @@ return [
         'domain' => env('SITE_ANALYTICS_DOMAIN', 'nextbook.af'),
     ],
 
+    // Search engine ownership tags: the content value Google Search Console and Bing Webmaster Tools give you.
+    'verification' => [
+        'google' => env('SITE_GOOGLE_VERIFICATION'),
+        'bing' => env('SITE_BING_VERIFICATION'),
+    ],
+
     // Digits only, country code first. Leave empty to hide the WhatsApp button.
     'whatsapp' => env('SITE_WHATSAPP', '93728507537'),
 

@@ -2,6 +2,8 @@
 
 return [
     'tagline' => 'Business management software for Afghan companies',
+    // The title of the home page, written with the words a trader searches for.
+    'home_title' => 'Accounting, inventory and business management software for Afghanistan',
     'meta_description' => 'NextBook: inventory, purchasing, sales, accounting, expenses and HR in one system. In Dari, Pashto and English, with the Jalali calendar.',
 
     'nav' => [

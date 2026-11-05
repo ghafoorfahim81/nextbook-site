@@ -2,6 +2,27 @@
 
 @push('jsonld')
     @include('partials.jsonld-faq', ['faqs' => $faqs])
+    {{-- The site and the product, in the words search engines use. No ratings or prices are claimed. --}}
+    <script type="application/ld+json">{!! json_encode([
+        '@context' => 'https://schema.org',
+        '@graph' => [
+            [
+                '@type' => 'WebSite',
+                'name' => config('site.name'),
+                'url' => url('/'),
+                'inLanguage' => array_keys(config('site.locales')),
+            ],
+            [
+                '@type' => 'SoftwareApplication',
+                'name' => config('site.name'),
+                'applicationCategory' => 'BusinessApplication',
+                'operatingSystem' => 'Web',
+                'description' => __('site.meta_description'),
+                'inLanguage' => array_keys(config('site.locales')),
+                'url' => url('/'.app()->getLocale()),
+            ],
+        ],
+    ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) !!}</script>
 @endpush
 
 @section('content')

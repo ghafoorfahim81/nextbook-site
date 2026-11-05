@@ -3,7 +3,8 @@
     $dir = config("site.locales.$locale.dir", 'rtl');
     $path = '/'.ltrim(request()->path(), '/');
     $rest = preg_replace('#^/[a-z]{2}(?=/|$)#', '', $path);
-    $title = isset($title) ? $title.' · '.config('site.name') : config('site.name').' · '.__('site.tagline');
+    // The home page has no title of its own: it gets a keyword title, the words people actually search for.
+    $title = isset($title) ? $title.' · '.config('site.name') : config('site.name').' · '.__('site.home_title');
     $description = $description ?? __('site.meta_description');
     $phones = config('site.phones');
     $emails = config('site.emails');
@@ -19,6 +20,9 @@
     <meta name="description" content="{{ $description }}">
     @isset($robots)<meta name="robots" content="{{ $robots }}">@endisset
     <meta name="theme-color" content="#9142e0">
+    {{-- Proof of ownership for Google Search Console and Bing Webmaster Tools; set in .env, never hard-coded. --}}
+    @if (config('site.verification.google'))<meta name="google-site-verification" content="{{ config('site.verification.google') }}">@endif
+    @if (config('site.verification.bing'))<meta name="msvalidate.01" content="{{ config('site.verification.bing') }}">@endif
     {{-- How a link looks when it is shared in WhatsApp, Facebook, Telegram and so on. --}}
     <meta property="og:site_name" content="{{ config('site.name') }}">
     <meta property="og:title" content="{{ $title }}">
@@ -36,6 +40,7 @@
     <link rel="canonical" href="{{ url($path) }}">    @foreach (config('site.locales') as $code => $meta)
         <link rel="alternate" hreflang="{{ $code }}" href="{{ url('/'.$code.$rest) }}">
     @endforeach
+    <link rel="alternate" hreflang="x-default" href="{{ url('/'.config('site.default_locale').$rest) }}">
     <link rel="icon" href="{{ asset('favicon.ico') }}" sizes="32x32">
     <link rel="icon" type="image/png" href="{{ asset('icon-192.png') }}" sizes="192x192">
     <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">

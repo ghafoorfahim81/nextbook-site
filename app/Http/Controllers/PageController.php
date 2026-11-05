@@ -64,31 +64,42 @@ class PageController extends Controller
     public function sitemap(): Response
     {
         $locales = array_keys(config('site.locales'));
-        $paths = ['', '/features', '/industries', '/pricing', '/faq', '/about', '/security', '/help', '/blog', '/contact', '/demo', '/login', '/terms', '/privacy'];
+
+        // path => when the page last changed (null for the pages that are only code), so a search
+        // engine knows what to fetch again.
+        $pages = [];
+        foreach (['', '/features', '/industries', '/pricing', '/faq', '/about', '/security', '/help', '/blog', '/contact', '/demo', '/login', '/terms', '/privacy'] as $path) {
+            $pages[$path] = null;
+        }
 
         foreach (Feature::published()->get() as $feature) {
-            $paths[] = '/features/'.$feature->slug;
+            $pages['/features/'.$feature->slug] = $feature->updated_at;
         }
         foreach (Industry::published()->get() as $industry) {
-            $paths[] = '/industries/'.$industry->slug;
+            $pages['/industries/'.$industry->slug] = $industry->updated_at;
         }
         foreach (Post::live()->get() as $post) {
-            $paths[] = '/blog/'.$post->slug;
+            $pages['/blog/'.$post->slug] = $post->updated_at;
         }
         foreach (HelpCategory::published()->get() as $category) {
-            $paths[] = '/help/'.$category->slug;
+            $pages['/help/'.$category->slug] = $category->updated_at;
         }
         foreach (HelpArticle::published()->with('category')->get() as $article) {
-            $paths[] = '/help/'.$article->category->slug.'/'.$article->slug;
+            $pages['/help/'.$article->category->slug.'/'.$article->slug] = $article->updated_at;
         }
 
+        $default = config('site.default_locale');
         $xml = '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">';
-        foreach ($paths as $path) {
+        foreach ($pages as $path => $changed) {
             foreach ($locales as $locale) {
                 $xml .= '<url><loc>'.e(url("/{$locale}{$path}")).'</loc>';
+                if ($changed) {
+                    $xml .= '<lastmod>'.$changed->toAtomString().'</lastmod>';
+                }
                 foreach ($locales as $alt) {
                     $xml .= '<xhtml:link rel="alternate" hreflang="'.$alt.'" href="'.e(url("/{$alt}{$path}")).'"/>';
                 }
+                $xml .= '<xhtml:link rel="alternate" hreflang="x-default" href="'.e(url("/{$default}{$path}")).'"/>';
                 $xml .= '</url>';
             }
         }
