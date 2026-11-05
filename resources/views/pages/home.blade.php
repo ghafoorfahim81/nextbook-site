@@ -204,12 +204,10 @@
                 @foreach ($s['details']['items'] as $item)
                     <div class="reveal {{ $loop->index < 3 ? 'lg:col-span-2' : 'lg:col-span-3' }}" style="--d: {{ $loop->index * 0.06 }}s">
                         <div class="note-card h-full">
-                            <span class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500 to-brand-700 text-white shadow-md shadow-brand-500/25">
-                                <x-dynamic-component :component="'lucide-'.$item['icon']" class="h-6 w-6"/>
-                            </span>
+                            @include('partials.note-mark', ['icon' => $item['icon']])
                             <h3 class="text-lg">{{ $item['title'] }}</h3>
-                            <p class="mt-2 text-sm text-slate-600">{{ $item['text'] }}</p>
-                            <p class="mt-4 inline-block rounded-full border border-dashed border-brand-400 px-3 py-1 text-xs font-bold text-brand-700">{{ $item['example'] }}</p>
+                            <p class="text-sm text-slate-600">{{ $item['text'] }}</p>
+                            <p class="row mt-8"><span class="inline-flex h-8 items-center rounded-full border border-dashed border-brand-400 px-3 text-xs font-bold leading-none text-brand-700">{{ $item['example'] }}</span></p>
                         </div>
                     </div>
                 @endforeach

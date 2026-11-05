@@ -519,16 +519,38 @@
     position: relative;
     display: block;
     border-radius: 0.4rem 0.4rem 0.9rem 0.4rem;
-    padding: 1.75rem 1.5rem 1.5rem;
+    /* Every line of text is exactly one ruled row (2rem) tall, so the writing sits on the lines. */
+    --pt: 2.5rem;
+    padding: var(--pt) 1.5rem 1rem;
     background-color: var(--note, var(--color-surface));
-    background-image: repeating-linear-gradient(
-        to bottom, transparent 0 calc(2rem - 1px),
-        color-mix(in oklab, var(--color-slate-500) 12%, transparent) calc(2rem - 1px) 2rem
+    background-image: linear-gradient(
+        to bottom, transparent calc(2rem - 1px),
+        color-mix(in oklab, var(--color-slate-500) 16%, transparent) calc(2rem - 1px)
     );
-    background-position: 0 1.6rem;
+    background-size: 100% 2rem;
+    background-position: 0 var(--pt);
     box-shadow: 0 16px 26px -16px rgb(60 30 110 / 0.45), 0 1px 0 rgb(0 0 0 / 0.04);
     transform: rotate(var(--r, 0deg));
     transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.note-card :is(h2, h3, p, li, .row) {
+    margin: 0;
+    line-height: 2rem !important;
+}
+/* The small badge pinned to the top corner of a note. */
+.note-badge {
+    position: absolute;
+    top: -0.85rem;
+    inset-inline-end: 1rem;
+    display: inline-flex;
+    height: 2.25rem;
+    width: 2.25rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.75rem;
+    color: #fff;
+    background: linear-gradient(135deg, var(--color-brand-500), var(--color-brand-700));
+    box-shadow: 0 8px 14px -6px rgb(92 40 161 / 0.55);
 }
 .note-card:hover {
     transform: rotate(0deg) translateY(-6px);

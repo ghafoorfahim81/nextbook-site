@@ -1,25 +1,23 @@
 @extends('layouts.app', ['title' => __('site.help.search')])
 
 @section('content')
-<div class="border-b border-slate-200 bg-gradient-to-b from-brand-50 to-surface">
-    <div class="container-page py-10 text-center">
-        <h1 class="text-2xl sm:text-3xl">{{ __('site.help.search') }}</h1>
-        @include('help.search-form', ['q' => $q])
-    </div>
-</div>
+@php($searchForm = view('help.search-form', ['q' => $q, 'class' => 'w-full max-w-xl'])->render())
+@include('partials.page-head', ['heading' => __('site.help.search'), 'actions' => $searchForm])
 
 <section class="section">
-    <div class="container-page max-w-3xl">
+    <div class="container-page">
         @if ($q !== '')
-            <p class="mb-6 text-sm text-slate-500">{{ __('site.help.results_for') }} «{{ $q }}»</p>
+            <p class="mb-8 text-sm text-slate-500">{{ __('site.help.results_for') }} «{{ $q }}»</p>
         @endif
 
         @forelse ($results as $article)
-            <a href="{{ route('help.article', [$article->category, $article]) }}" class="card mb-3 block transition hover:border-brand-300">
-                <p class="text-xs font-bold text-brand-600">{{ $article->category->title }}</p>
-                <h2 class="mt-1 text-lg">{{ $article->title }}</h2>
-                <p class="mt-1 text-sm text-slate-600">{{ $article->summary }}</p>
+            @if ($loop->first)<div class="note-grid grid gap-8 sm:grid-cols-2 lg:grid-cols-3">@endif
+            <a href="{{ route('help.article', [$article->category, $article]) }}" class="note-card group h-full">
+                <p class="row text-xs font-bold text-brand-600">{{ $article->category->title }}</p>
+                <h2 class="text-lg">{{ $article->title }}</h2>
+                <p class="text-sm text-slate-600">{{ $article->summary }}</p>
             </a>
+            @if ($loop->last)</div>@endif
         @empty
             @if ($q !== '')
                 <div class="card text-center text-slate-600">{{ __('site.help.no_results') }}</div>
