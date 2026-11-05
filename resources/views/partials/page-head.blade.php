@@ -15,7 +15,7 @@
                         <x-dynamic-component :component="'lucide-'.$icon" class="h-8 w-8"/>
                     </span>
                 @endisset
-                <div>
+                <div class="min-w-0 flex-1">
                     <h1 class="text-3xl sm:text-5xl"><span class="mark">{{ $heading }}</span></h1>
                     @isset($intro)
                         <p class="mt-5 max-w-3xl text-lg text-slate-600">{{ $intro }}</p>
