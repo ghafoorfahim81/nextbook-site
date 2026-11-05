@@ -8,7 +8,7 @@ class DatabaseSeeder extends Seeder
 {
     /**
      * Seeds the public content. Safe to run again: features and industries are
-     * matched by slug, and FAQs are rebuilt. The admin user is created with
+     * matched by slug, and FAQs are rebuilt. PashtoContentSeeder runs last because the seeders before it replace each translation list. The admin user is created with
      * `php artisan make:filament-user`, never seeded.
      */
     public function run(): void
@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             FaqSeeder::class,
             PostSeeder::class,
             BlogArticlesSeeder::class,
+            PashtoContentSeeder::class,
         ]);
     }
 }

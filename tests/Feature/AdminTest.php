@@ -88,7 +88,7 @@ class AdminTest extends TestCase
         Livewire::test(ManageFeatures::class)
             ->mountAction(TestAction::make('edit')->table($feature))
             ->assertSchemaStateSet([
-                'title' => ['fa' => 'فروش', 'en' => 'Sales', 'ps' => null],
+                'title' => ['fa' => 'فروش', 'en' => 'Sales', 'ps' => 'پلور'],
             ])
             ->fillForm(['title.en' => 'Selling'])
             ->callMountedAction()
