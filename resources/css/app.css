@@ -544,7 +544,7 @@
 .note-badge {
     position: absolute;
     top: -0.85rem;
-    inset-inline-end: 1rem;
+    inset-inline-start: 1rem;
     display: inline-flex;
     height: 2.25rem;
     width: 2.25rem;
